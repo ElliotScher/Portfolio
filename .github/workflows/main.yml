@@ -23,13 +23,10 @@ jobs:
       - name: Build website
         run: npm run build
 
-      - name: ls
-        run: cd / && ls -lR > lists.txt
-
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: build
+          path: dist
 
   deploy:
     name: Deploy to GitHub Pages
