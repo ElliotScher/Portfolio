@@ -1,0 +1,285 @@
+#gompei-vision-process-diagram {
+    position: relative;
+    width: 100%;
+    margin: var(--space-4) 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Redesigned Stepper Container */
+.process-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.process-stepper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    position: relative;
+    padding: var(--space-2) 0;
+}
+
+/* Step Nodes */
+.step-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    z-index: 2;
+    width: 100px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.step-node:focus {
+    outline: none;
+}
+
+.step-badge {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--panel);
+    border: 2px solid var(--border);
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: var(--space-1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.step-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--muted);
+    line-height: 1.3;
+    transition: color 0.3s ease, font-weight 0.3s ease;
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+/* Hover & Active States */
+.step-node:hover .step-badge {
+    border-color: var(--accent);
+    color: var(--text);
+    transform: scale(1.1);
+    box-shadow: 0 0 12px rgba(46, 204, 113, 0.3);
+}
+
+.step-node:hover .step-label {
+    color: var(--text);
+}
+
+.step-node.active .step-badge {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #07130c; /* High contrast text */
+    transform: scale(1.15);
+    box-shadow: 0 0 15px rgba(46, 204, 113, 0.5);
+}
+
+.step-node.active .step-label {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* Connectors (Desktop) */
+.step-connector {
+    flex-grow: 1;
+    align-self: flex-start;
+    height: 38px; /* Match height of badge to center line */
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    margin: 0 -10px; /* Slight overlap to prevent gaps */
+}
+
+.connector-svg {
+    width: 100%;
+    height: 8px;
+    overflow: visible;
+}
+
+.connector-path {
+    stroke: var(--border);
+    stroke-width: 2px;
+    fill: none;
+    transition: stroke 0.3s ease, stroke-width 0.3s ease;
+}
+
+.step-connector.active .connector-path {
+    stroke: var(--accent);
+    stroke-width: 2px;
+    stroke-dasharray: 6 4;
+    animation: flow-line 1s linear infinite;
+}
+
+@keyframes flow-line {
+    to {
+        stroke-dashoffset: -10;
+    }
+}
+
+/* Detailed Content Card */
+.process-detail-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-3) var(--space-4);
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.process-detail-card:hover {
+    border-color: rgba(46, 204, 113, 0.35);
+    box-shadow: 0 6px 24px rgba(46, 204, 113, 0.05);
+}
+
+/* Transition Area */
+.process-detail-content-wrapper {
+    position: relative;
+    flex-grow: 1;
+}
+
+.process-detail-content {
+    line-height: 1.6;
+    color: var(--muted);
+    font-size: 0.95rem;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.process-detail-content h1,
+.process-detail-content h2,
+.process-detail-content h3 {
+    color: var(--text);
+    margin-top: 0;
+    margin-bottom: var(--space-2);
+}
+
+.process-detail-content h1 {
+    font-size: 1.4rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: var(--space-1);
+}
+
+.process-detail-content.transition-out {
+    opacity: 0;
+    transform: translateY(5px);
+}
+
+/* Navigation Buttons inside Card */
+.process-nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--space-3);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--border);
+}
+
+.btn-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--muted);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+    background: transparent;
+}
+
+.btn-nav:hover {
+    color: var(--text);
+    border-color: var(--accent);
+    background: var(--panel-2);
+}
+
+.btn-nav:disabled {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* Responsive Rules (Mobile) */
+@media (max-width: 768px) {
+    .process-stepper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        padding-left: var(--space-2);
+    }
+
+    .step-node {
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+        width: 100%;
+        padding: var(--space-1) 0;
+    }
+
+    .step-badge {
+        margin-bottom: 0;
+        margin-right: var(--space-2);
+        width: 34px;
+        height: 34px;
+        font-size: 0.85rem;
+        flex-shrink: 0;
+    }
+
+    .step-label {
+        font-size: 0.9rem;
+    }
+
+    .step-node.active .step-badge {
+        transform: scale(1.1);
+    }
+
+    /* Transform connectors into vertical lines */
+    .step-connector {
+        width: 2px;
+        height: 24px;
+        margin: -4px 0 -4px 16px; /* Centered relative to 34px badge */
+        align-self: flex-start;
+        display: block;
+        background: var(--border);
+        border: none;
+    }
+
+    .step-connector.active {
+        background: var(--accent);
+        box-shadow: 0 0 8px rgba(46, 204, 113, 0.4);
+    }
+
+    /* Hide the SVG arrows inside vertical connectors since we use solid lines */
+    .connector-svg {
+        display: none;
+    }
+
+    .process-detail-card {
+        padding: var(--space-2) var(--space-3);
+    }
+}
+

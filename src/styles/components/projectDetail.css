@@ -1,0 +1,46 @@
+.project-detail-layout {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    overflow: hidden;
+}
+
+.project-detail {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+#project-nav-menu {
+    width: 250px;
+    padding: 2rem;
+    border-left: 1px solid #ccc;
+    overflow-y: auto;
+}
+
+.project-nav-menu-wrapper h4 {
+    margin-top: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.project-nav-menu-wrapper ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.project-nav-menu-wrapper li {
+    margin-bottom: 0.5rem;
+}
+
+.project-nav-menu-wrapper a {
+    text-decoration: none;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.project-nav-menu-wrapper a:hover {
+    color: #000;
+}
