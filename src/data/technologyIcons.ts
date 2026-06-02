@@ -20,5 +20,5 @@ export const technologyIcons: Record<string, string> = {
     "LabVIEW": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/labview/labview-original.svg",
     "Junit": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/junit/junit-original.svg",
     "Pytest": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pytest/pytest-original.svg",
-    "WPILib": "/wpilib.svg"
+    "WPILib": "wpilib.svg"
 };

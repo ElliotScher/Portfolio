@@ -13,7 +13,7 @@ export function createSidebar(): HTMLElement {
     sidebar.innerHTML = `
         <div class="sidebar-top">
             <div class="sidebar-header">
-                <img class="profile-photo" src="public/favicon.svg" alt="Elliot Scher" />
+                <img class="profile-photo" src="favicon.svg" alt="Elliot Scher" />
                 <h1 class="logo">Elliot Scher</h1>
             </div>
 

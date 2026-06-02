@@ -2,7 +2,7 @@
 
 In the FIRST Robotics Competition (FRC), robots often need an understanding of their position on the field to automate scoring tasks. To accommodate this requirement, fiducial markers known as AprilTags are placed around the field for the robots to see. By detecting these markers with onboard cameras, robots can apply computer vision and pose estimation algorithms to calculate the precise position and orientation of each camera relative to the field.
 
-<img src="/2026-playing-field-page.webp" alt="playing field">
+<img src="2026-playing-field-page.webp" alt="playing field">
 
 While established localization solutions can simplify deployment and reduce development effort, they often limit a team's ability to customize or extend the underlying system. In contrast, having control over the full perception stack, including hardware, software, and localization algorithms allows teams to tailor the system to their specific requirements, experiment with new approaches, and diagnose issues more effectively. This level of control also enables teams to develop and deploy fixes independently when bugs are discovered, reducing dependence on external development cycles and allowing problems to be resolved more quickly.
 
