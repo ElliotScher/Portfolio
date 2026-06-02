@@ -41,21 +41,31 @@ export function createSidebar(): HTMLElement {
         footer.appendChild(createContactLinks());
     }
 
+    const closeMobileSidebar = () => {
+        const layout = document.querySelector(".layout");
+        if (layout) {
+            layout.classList.remove("sidebar-open");
+        }
+    };
+
     sidebar
         .querySelector("#home-button")
         ?.addEventListener("click", () => {
             navigate(renderHome());
+            closeMobileSidebar();
         });
 
     sidebar
         .querySelector("#projects-button")
         ?.addEventListener("click", () => {
             navigate(renderProjects());
+            closeMobileSidebar();
         });
 
     sidebar.querySelector("#about-me-button")
         ?.addEventListener("click", () => {
             navigate(renderAboutMe());
+            closeMobileSidebar();
         })
 
     return sidebar;

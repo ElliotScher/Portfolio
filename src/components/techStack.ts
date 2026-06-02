@@ -102,6 +102,39 @@ export function createTechStack(technologies: string[], projectId?: string, mark
 
     const detailContent = container.querySelector(".tech-stack-detail-content") as HTMLElement;
     const centerLabel = container.querySelector(".center-tech-name") as HTMLElement;
+
+    function adjustLayout() {
+        const parent = container.parentElement;
+        const availableWidth = parent ? parent.getBoundingClientRect().width : window.innerWidth;
+
+        // If screen is mobile or parent container width is under 720px, always stack vertically
+        if (window.innerWidth <= 768 || availableWidth < 720) {
+            container.classList.add("stacked-layout");
+            return;
+        }
+
+        container.classList.remove("stacked-layout");
+
+        requestAnimationFrame(() => {
+            const detailPane = container.querySelector(".tech-stack-detail-pane") as HTMLElement;
+            if (detailPane) {
+                // If scrollHeight is strictly greater than clientHeight, it overflows
+                const hasOverflow = detailPane.scrollHeight > detailPane.clientHeight;
+                if (hasOverflow) {
+                    container.classList.add("stacked-layout");
+                }
+            }
+        });
+    }
+
+    const resizeHandler = () => {
+        if (!document.body.contains(container)) {
+            window.removeEventListener("resize", resizeHandler);
+            return;
+        }
+        adjustLayout();
+    };
+    window.addEventListener("resize", resizeHandler);
     
     // Apply styling programmatically to avoid HTML template string CSS parser warnings
     const wheelContainer = container.querySelector(".tech-stack-wheel-container") as HTMLElement;
@@ -171,6 +204,9 @@ export function createTechStack(technologies: string[], projectId?: string, mark
             `;
             console.warn(`Could not load markdown for ${techName} at ${mdPath}:`, error);
         }
+
+        // Adjust layout based on content sizing
+        adjustLayout();
     }
 
     // Attach click listeners to circles

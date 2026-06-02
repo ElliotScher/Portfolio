@@ -39,6 +39,13 @@ async function render(container: HTMLElement, project: Project) {
     container.innerHTML = `
         <div class="project-detail-layout">
             <div class="project-detail">
+                <button class="back-to-projects-btn" aria-label="Back to projects">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to Projects
+                </button>
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                     <h1>${project.title}</h1>
                 </div>
@@ -50,6 +57,15 @@ async function render(container: HTMLElement, project: Project) {
             <div id="project-nav-menu"></div>
         </div>
     `;
+
+    const backBtn = container.querySelector(".back-to-projects-btn");
+    backBtn?.addEventListener("click", () => {
+        const layoutElement = container.closest(".projects-page-layout");
+        if (layoutElement) {
+            layoutElement.classList.remove("show-detail");
+            layoutElement.classList.add("show-list");
+        }
+    });
 
     const contentContainer = container.querySelector("#project-markdown-content");
     const navMenuContainer = container.querySelector("#project-nav-menu");

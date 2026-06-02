@@ -189,4 +189,26 @@ export function createProcessDiagram(container: HTMLElement) {
 
     // Initialize first step
     setActiveStep(0);
+
+    function adjustLayout() {
+        const parent = container.parentElement;
+        const availableWidth = parent ? parent.getBoundingClientRect().width : window.innerWidth;
+
+        if (window.innerWidth <= 768 || availableWidth < 720) {
+            container.classList.add('stacked-layout');
+        } else {
+            container.classList.remove('stacked-layout');
+        }
+    }
+
+    const resizeHandler = () => {
+        if (!document.body.contains(container)) {
+            window.removeEventListener('resize', resizeHandler);
+            return;
+        }
+        adjustLayout();
+    };
+    window.addEventListener('resize', resizeHandler);
+
+    adjustLayout();
 }

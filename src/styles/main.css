@@ -340,10 +340,18 @@ p {
     color: var(--accent);
 }
 
-.project-list {
-    min-width: 300px;
-    max-width: 350px;
+.collapsible-project-list-container {
+    width: 320px;
+    flex-shrink: 0;
+    overflow: hidden;
     border-right: 1px solid var(--border);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, border-color 0.3s ease;
+    opacity: 1;
+    height: 100%;
+}
+
+.project-list {
+    width: 320px;
     padding-right: var(--space-3);
     overflow-y: auto; /* Independent scroll for project list */
     display: flex;
@@ -351,6 +359,58 @@ p {
     gap: var(--space-2);
     height: 100%; /* Take full height of container */
     padding-bottom: var(--space-4);
+}
+
+/* Sidebar collapsed states */
+.projects-page-layout.sidebar-collapsed .collapsible-project-list-container {
+    width: 0;
+    opacity: 0;
+    border-right-color: transparent;
+    pointer-events: none;
+}
+
+/* Floating Sidebar Toggle Button */
+.project-sidebar-toggle {
+    position: absolute;
+    top: 24px;
+    left: calc(320px - 16px);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.project-sidebar-toggle:hover {
+    background: var(--panel-2);
+    border-color: var(--accent);
+    transform: scale(1.08);
+    box-shadow: 0 4px 16px rgba(46, 204, 113, 0.25);
+}
+
+.project-sidebar-toggle svg {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--muted);
+}
+
+.project-sidebar-toggle:hover svg {
+    color: var(--text);
+}
+
+.projects-page-layout.sidebar-collapsed .project-sidebar-toggle {
+    left: 16px;
+}
+
+.projects-page-layout.sidebar-collapsed .project-sidebar-toggle svg {
+    transform: rotate(180deg);
 }
 
 /* Custom Scrollbars */
@@ -674,4 +734,290 @@ p {
 .tech-text-item {
     display: flex;
     align-items: center;
+}
+
+/* Mobile Header and Drawer styles */
+.mobile-header {
+    display: none;
+}
+
+.sidebar-backdrop {
+    display: none;
+}
+
+.back-to-projects-btn {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    body {
+        overflow: hidden; /* Prevent body scrolling so layout is controlled */
+    }
+
+    .layout {
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
+        padding: 0 var(--space-3);
+        background: linear-gradient(135deg, var(--panel), #202b23);
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        color: var(--text);
+        background: var(--panel-2);
+        transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    .mobile-menu-toggle:hover {
+        background: var(--panel);
+        border-color: var(--accent);
+    }
+
+    .mobile-logo-wrapper {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+    }
+
+    .profile-photo-small {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid var(--border);
+    }
+
+    .mobile-logo-text {
+        font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: -0.5px;
+        color: var(--text);
+    }
+
+    /* Sidebar Drawer Slide-in Effect */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 280px;
+        z-index: 1000;
+        transform: translateX(-100%);
+        visibility: hidden;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s ease;
+        box-shadow: none;
+        border-right: 1px solid var(--border);
+    }
+
+    .layout.sidebar-open .sidebar {
+        transform: translateX(0);
+        visibility: visible;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.6);
+    }
+
+    .sidebar-backdrop {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .layout.sidebar-open .sidebar-backdrop {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    #content {
+        padding: var(--space-3);
+    }
+
+    /* Home Page Mobile Adjustments */
+    .home {
+        padding: var(--space-3) var(--space-2);
+        gap: var(--space-3);
+    }
+
+    .hero {
+        min-height: auto;
+        padding: var(--space-3) 0 var(--space-2) 0;
+    }
+
+    .hero h1 {
+        font-size: 28px;
+        margin-bottom: var(--space-2);
+    }
+
+    .subtitle {
+        font-size: 16px;
+    }
+
+    .quick-info {
+        grid-template-columns: 1fr;
+        gap: var(--space-2);
+    }
+
+    .card {
+        padding: var(--space-2) var(--space-3);
+    }
+
+    /* Job Card and Experience Spacing */
+    .job-header {
+        flex-direction: column;
+        gap: var(--space-1);
+    }
+
+    .job-meta {
+        text-align: left;
+        font-size: 13px;
+    }
+
+    .timeline {
+        margin-top: var(--space-2);
+        gap: var(--space-2);
+    }
+
+    .timeline::before {
+        left: 6px;
+    }
+
+    .timeline-item {
+        gap: var(--space-2);
+    }
+
+    .timeline-dot {
+        margin-left: 1px;
+        width: 10px;
+        height: 10px;
+        margin-top: 8px;
+    }
+
+    .timeline-header {
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .timeline-period {
+        font-size: 12px;
+    }
+
+    .timeline-content {
+        padding: 12px;
+    }
+
+    .resume-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-2);
+    }
+}
+
+/* Projects Layout Responsiveness (< 1024px) */
+@media (max-width: 1024px) {
+    .projects-page-layout {
+        flex-direction: column !important;
+    }
+
+    .project-sidebar-toggle {
+        display: none !important;
+    }
+
+    /* show-list state: show project list, hide details */
+    .projects-page-layout.show-list .collapsible-project-list-container {
+        width: 100% !important;
+        opacity: 1 !important;
+        border-right: none !important;
+        display: block !important;
+        height: 100%;
+        pointer-events: auto !important; /* Force clicks & touch on mobile, overriding desktop-collapsed pointer-events: none */
+    }
+
+    .projects-page-layout.show-list .project-detail-wrapper {
+        display: none !important;
+    }
+
+    /* show-detail state: hide project list, show details */
+    .projects-page-layout.show-detail .collapsible-project-list-container {
+        display: none !important;
+        width: 0 !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+
+    .projects-page-layout.show-detail .project-detail-wrapper {
+        display: flex !important;
+        width: 100% !important;
+        height: 100%;
+    }
+
+    .project-list {
+        width: 100% !important;
+        padding-right: 0 !important;
+        padding-bottom: var(--space-5) !important;
+        pointer-events: auto !important; /* Ensure child lists accept touch and mouse gestures */
+    }
+
+    .project-card {
+        padding: var(--space-3);
+    }
+
+    .project-detail {
+        padding: var(--space-3) !important;
+    }
+
+    .back-to-projects-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-1);
+        margin-bottom: var(--space-3);
+        color: var(--accent);
+        font-weight: 600;
+        font-size: 0.9rem;
+        border: 1px solid var(--border);
+        padding: var(--space-1) var(--space-2);
+        border-radius: var(--radius);
+        background: var(--panel);
+        transition: all 0.2s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .back-to-projects-btn:hover {
+        background: var(--panel-2);
+        border-color: var(--accent);
+        color: var(--text);
+    }
+}
+
+/* Table of Contents Right Sidebar Collapsing */
+@media (max-width: 1024px) {
+    #project-nav-menu {
+        display: none !important;
+    }
 }

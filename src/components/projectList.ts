@@ -67,6 +67,13 @@ export function createProjectList(projects: Project[], activeProject?: Project):
             // Highlight the active card
             document.querySelectorAll(".project-card").forEach(c => c.classList.remove("active"));
             card.classList.add("active");
+
+            // Transition layout view on mobile
+            const layoutElement = card.closest(".projects-page-layout");
+            if (layoutElement) {
+                layoutElement.classList.remove("show-list");
+                layoutElement.classList.add("show-detail");
+            }
         });
 
         // Set the active project card initially
