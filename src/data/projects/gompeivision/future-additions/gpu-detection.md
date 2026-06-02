@@ -3,7 +3,9 @@
 Many coprocessors specialize in graphically intensive tasks and feature built-in GPU processors. In future implementations of GompeiVision, I would like to implement an AprilTag detector capable of using GPU hardware rather than CPU hardware.
 
 #### Goals
-- **Minimize Detection Latency:** Offloading compute-heavy tasks like image thresholding, quad extraction, and tag identification to the GPU to achieve near-instantaneous pose estimation.
-- **Support High-Framerate & High-Resolution Streams:** Enable processing of 1080p camera streams or high-framerate configurations (60+ FPS) without dropping frames or stalling.
-- **Free CPU Overhead:** Relieve CPU congestion on the coprocessor, ensuring that other vital processes (such as network communications, OS tasks, and logging) have ample resources to execute reliably.
-- **Enable Multi-Camera Scaling:** Scale the vision pipeline to run multiple camera streams concurrently on a single coprocessor by distributing the parallel processing workload across the GPU cores.
+- **Reduced CPU Overhead:** Offload the computationally expensive parts of the image pipeline—such as thresholding, decimation, and candidate quad detection—to the GPU. This frees up vital CPU cycles for high-rate network communication, pose filtering, and general robot control tasks.
+- **Higher Resolution & Framerates:** Process high-resolution camera feeds (e.g., 1080p) at elevated framerates (>55 FPS) without requiring high decimation rates, resulting in increased detection range and precision.
+
+#### Planned Tech Stack
+- **CUDA & Nvidia Isaac ROS:** Leverage CUDA-based acceleration for teams utilizing Nvidia Jetson platforms (such as the Jetson Orin Nano). Utilizing Nvidia's official optimized AprilTag packages can yield sub-millisecond detection latency.
+- **Zero-Copy Memory Architectures:** Utilize DMA-BUF or unified memory mapping (such as CUDA Unified Memory) to feed captured camera frames directly into GPU memory, eliminating expensive CPU-to-GPU memory copies.

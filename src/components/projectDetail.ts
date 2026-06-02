@@ -107,6 +107,14 @@ async function render(container: HTMLElement, project: Project) {
                     const htmlContent = converter.makeHtml(mdContent);
                     contentContainer.innerHTML = htmlContent;
 
+                    // Prepend dynamic base URL to relative image paths
+                    contentContainer.querySelectorAll("img").forEach(img => {
+                        const src = img.getAttribute("src");
+                        if (src && !src.startsWith("http://") && !src.startsWith("https://") && !src.startsWith("/")) {
+                            img.src = `${import.meta.env.BASE_URL}${src}`;
+                        }
+                    });
+
                     // Extract headers and generate nav menu
                     const headers = extractHeaders(htmlContent);
                     if (navMenuContainer) {

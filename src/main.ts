@@ -25,7 +25,7 @@ mobileHeader.innerHTML = `
         </svg>
     </button>
     <div class="mobile-logo-wrapper">
-        <img class="profile-photo-small" src="favicon.svg" alt="Elliot Scher" />
+        <img class="profile-photo-small" src="${import.meta.env.BASE_URL}favicon.svg" alt="Elliot Scher" />
         <span class="mobile-logo-text">Elliot Scher</span>
     </div>
     <div style="width: 40px;"></div> <!-- Spacer to visually balance menu button -->
