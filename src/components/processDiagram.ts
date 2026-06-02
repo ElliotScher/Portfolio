@@ -1,4 +1,4 @@
-import { gompeiVisionProcessData } from '../data/gompeiVisionProcess';
+import { gompeiVisionProcessData } from '../data/projects/gompeivision/gompeiVisionProcess.ts';
 import showdown from 'showdown';
 
 const converter = new showdown.Converter({
@@ -6,8 +6,8 @@ const converter = new showdown.Converter({
     simpleLineBreaks: true,
 });
 
-// Map of markdown modules
-const markdownFiles = import.meta.glob('../data/markdown/**/*.md', { query: '?raw', import: 'default' });
+// Map of projects modules
+const markdownFiles = import.meta.glob('../data/projects/**/*.md', { query: '?raw', import: 'default' });
 
 export function createProcessDiagram(container: HTMLElement) {
     // Clear container
@@ -146,7 +146,7 @@ export function createProcessDiagram(container: HTMLElement) {
         btnPrev.disabled = currentStepIndex === 0;
         btnNext.disabled = currentStepIndex === gompeiVisionProcessData.length - 1;
 
-        // Fetch and load markdown content with animation transition
+        // Fetch and load projects content with animation transition
         const nodeData = gompeiVisionProcessData[currentStepIndex];
 
         // Trigger fade out
@@ -179,7 +179,7 @@ export function createProcessDiagram(container: HTMLElement) {
             }, 200);
 
         } catch (error) {
-            console.error('Failed to load markdown:', error);
+            console.error('Failed to load projects:', error);
             setTimeout(() => {
                 detailContent.innerHTML = '<p>Error loading description.</p>';
                 detailContent.classList.remove('transition-out');

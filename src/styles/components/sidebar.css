@@ -1,0 +1,86 @@
+.sidebar {
+    width: 260px;
+    background: linear-gradient(180deg, var(--panel), #202b23);
+    border-right: 1px solid var(--border);
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebar-top {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.sidebar-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+}
+
+.profile-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border);
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.sidebar button {
+    color: var(--muted);
+}
+
+.sidebar button:hover {
+    background: var(--panel-2);
+}
+
+.sidebar button.active {
+    background: var(--panel-2);
+    color: var(--text);
+    border: 1px solid rgba(46, 204, 113, 0.25);
+}
+
+.sidebar-footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: auto;
+    padding-top: var(--space-3);
+}
+
+.sidebar-footer .contact-links {
+    justify-content: center;
+}
+
+@media (max-width: 1024px) {
+    /* Sidebar Drawer Slide-in Effect */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 280px;
+        z-index: 1000;
+        transform: translateX(-100%);
+        visibility: hidden;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s ease;
+        box-shadow: none;
+        border-right: 1px solid var(--border);
+    }
+
+    .layout.sidebar-open .sidebar {
+        transform: translateX(0);
+        visibility: visible;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.6);
+    }
+}

@@ -35,3 +35,9 @@ Within each camera process, the pipeline is further decomposed into multiple thr
 Each pipeline has 4 distinct parts, and come together with a sensor fusion operation on the RoboRIO:
 
 <div id="gompei-vision-process-diagram"></div>
+
+# Future Additions
+
+Below are some of the planned improvements, architectural updates, and research initiatives for the next iterations of GompeiVision:
+
+<div id="gompei-vision-future-additions"></div>

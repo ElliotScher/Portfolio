@@ -2,20 +2,6 @@ import type {Project} from "../data/projects";
 import { setActiveProject } from "./projectDetail";
 import { technologyIcons } from "../data/technologyIcons";
 
-// Helper function to get an icon based on category
-export function getCategoryIcon(category: string, className: string = "project-card-icon"): string {
-    switch (category) {
-        case "WPI":
-            return `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>`;
-        case "FRC":
-            return `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><rect x="6" y="2" width="12" height="8" rx="2" ry="2"></rect><line x1="12" y1="14" x2="12" y2="10"></line></svg>`;
-        case "Personal":
-            return `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
-        default:
-            return `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`;
-    }
-}
-
 export function createProjectList(projects: Project[], activeProject?: Project): HTMLElement {
     const container = document.createElement("div");
     container.className = "project-list";

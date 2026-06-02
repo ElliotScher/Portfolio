@@ -1,0 +1,361 @@
+.project-button {
+    width: 100%;
+    padding: var(--space-2);
+    color: var(--muted);
+}
+
+/* Category Headers */
+.project-category-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: var(--space-2) 0;
+    margin-top: var(--space-2);
+    border-bottom: 1px solid var(--border);
+}
+
+.project-category-header:first-child {
+    margin-top: 0;
+}
+
+.project-category-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.project-category-title {
+    margin: 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+}
+
+/* Project Cards */
+.project-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.project-card:hover {
+    background: var(--panel-2);
+    transform: translateY(-2px);
+}
+
+.project-card.active {
+    border-color: var(--accent);
+    background: var(--panel-2);
+}
+
+.project-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.project-card-text {
+    flex: 1;
+}
+
+.project-card-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    margin-top: 0; /* Remove top margin so it centers properly */
+}
+
+.project-card-title {
+    margin: 0;
+    font-size: 16px;
+    color: var(--text);
+}
+
+.project-card-summary {
+    margin: var(--space-1) 0 0 0;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+/* Projects page layout */
+.project-detail-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Prevent detail wrapper from overflowing */
+    height: 100%;
+}
+
+.project-detail-layout {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    overflow: hidden;
+}
+
+.project-detail {
+    flex: 1;
+    padding: var(--space-4);
+    overflow-y: auto;
+}
+
+#project-nav-menu {
+    width: 250px;
+    padding: var(--space-4) var(--space-3);
+    border-left: 1px solid var(--border);
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.project-nav-menu-wrapper h4 {
+    margin-top: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: var(--space-2);
+}
+
+.project-nav-menu-wrapper ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.project-nav-menu-wrapper li {
+    margin-bottom: var(--space-2);
+}
+
+.project-nav-menu-wrapper a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.project-nav-menu-wrapper a:hover {
+    color: var(--accent);
+}
+
+.collapsible-project-list-container {
+    width: 320px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-right: 1px solid var(--border);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, border-color 0.3s ease;
+    opacity: 1;
+    height: 100%;
+}
+
+.project-list {
+    width: 320px;
+    padding-right: var(--space-3);
+    overflow-y: auto; /* Independent scroll for project list */
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    height: 100%; /* Take full height of container */
+    padding-bottom: var(--space-4);
+}
+
+/* Sidebar collapsed states */
+.projects-page-layout.sidebar-collapsed .collapsible-project-list-container {
+    width: 0;
+    opacity: 0;
+    border-right-color: transparent;
+    pointer-events: none;
+}
+
+/* Floating Sidebar Toggle Button */
+.project-sidebar-toggle {
+    position: absolute;
+    top: 24px;
+    left: calc(320px - 16px);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.project-sidebar-toggle:hover {
+    background: var(--panel-2);
+    border-color: var(--accent);
+    transform: scale(1.08);
+    box-shadow: 0 4px 16px rgba(46, 204, 113, 0.25);
+}
+
+.project-sidebar-toggle svg {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--muted);
+}
+
+.project-sidebar-toggle:hover svg {
+    color: var(--text);
+}
+
+.projects-page-layout.sidebar-collapsed .project-sidebar-toggle {
+    left: 16px;
+}
+
+.projects-page-layout.sidebar-collapsed .project-sidebar-toggle svg {
+    transform: rotate(180deg);
+}
+
+/* Technologies List Styles */
+.tech-list {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-2);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.tech-icon-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+}
+
+.tech-icon-item .tech-icon-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: -35px; /* Position below the icon */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--panel-2);
+    color: var(--text);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    border: 1px solid var(--border);
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    z-index: 10;
+}
+
+/* Tooltip arrow */
+.tech-icon-item .tech-icon-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: 100%; /* Arrow points up */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent var(--border) transparent;
+}
+
+.tech-icon-item:hover .tech-icon-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tech-text-item {
+    display: flex;
+    align-items: center;
+}
+
+.back-to-projects-btn {
+    display: none;
+}
+
+/* Projects Layout Responsiveness (< 1024px) */
+@media (max-width: 1024px) {
+    .projects-page-layout {
+        flex-direction: column !important;
+    }
+
+    .project-sidebar-toggle {
+        display: none !important;
+    }
+
+    /* show-list state: show project list, hide details */
+    .projects-page-layout.show-list .collapsible-project-list-container {
+        width: 100% !important;
+        opacity: 1 !important;
+        border-right: none !important;
+        display: block !important;
+        height: 100%;
+        pointer-events: auto !important; /* Force clicks & touch on mobile, overriding desktop-collapsed pointer-events: none */
+    }
+
+    .projects-page-layout.show-list .project-detail-wrapper {
+        display: none !important;
+    }
+
+    /* show-detail state: hide project list, show details */
+    .projects-page-layout.show-detail .collapsible-project-list-container {
+        display: none !important;
+        width: 0 !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+
+    .projects-page-layout.show-detail .project-detail-wrapper {
+        display: flex !important;
+        width: 100% !important;
+        height: 100%;
+    }
+
+    .project-list {
+        width: 100% !important;
+        padding-right: 0 !important;
+        padding-bottom: var(--space-5) !important;
+        pointer-events: auto !important; /* Ensure child lists accept touch and mouse gestures */
+    }
+
+    .project-card {
+        padding: var(--space-3);
+    }
+
+    .project-detail {
+        padding: var(--space-3) !important;
+    }
+
+    .back-to-projects-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-1);
+        margin-bottom: var(--space-3);
+        color: var(--accent);
+        font-weight: 600;
+        font-size: 0.9rem;
+        border: 1px solid var(--border);
+        padding: var(--space-1) var(--space-2);
+        border-radius: var(--radius);
+        background: var(--panel);
+        transition: all 0.2s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .back-to-projects-btn:hover {
+        background: var(--panel-2);
+        border-color: var(--accent);
+        color: var(--text);
+    }
+}
+
+/* Table of Contents Right Sidebar Collapsing */
+@media (max-width: 1024px) {
+    #project-nav-menu {
+        display: none !important;
+    }
+}

@@ -6,8 +6,8 @@ const converter = new showdown.Converter({
     simpleLineBreaks: true,
 });
 
-// Import markdown files dynamically
-const markdownFiles = import.meta.glob('../data/markdown/**/*.md', { query: '?raw', import: 'default' });
+// Import projects files dynamically
+const markdownFiles = import.meta.glob('../data/projects/**/*.md', { query: '?raw', import: 'default' });
 
 /**
  * Utility to sanitize technology names into valid file names
@@ -103,25 +103,61 @@ export function createTechStack(technologies: string[], projectId?: string, mark
     const detailContent = container.querySelector(".tech-stack-detail-content") as HTMLElement;
     const centerLabel = container.querySelector(".center-tech-name") as HTMLElement;
 
-    function adjustLayout() {
+    let lastWidth = 0;
+    let lastWindowWidth = 0;
+
+    function adjustLayout(force = false) {
         const parent = container.parentElement;
         const availableWidth = parent ? parent.getBoundingClientRect().width : window.innerWidth;
+        const currentWindowWidth = window.innerWidth;
 
-        // If screen is mobile or parent container width is under 720px, always stack vertically
-        if (window.innerWidth <= 768 || availableWidth < 720) {
-            container.classList.add("stacked-layout");
+        // Skip calculations if width hasn't changed (e.g. mobile height-only resize on scroll)
+        if (!force && availableWidth === lastWidth && currentWindowWidth === lastWindowWidth) {
             return;
         }
 
-        container.classList.remove("stacked-layout");
+        lastWidth = availableWidth;
+        lastWindowWidth = currentWindowWidth;
 
-        requestAnimationFrame(() => {
+        let shouldStack = currentWindowWidth <= 768 || availableWidth < 720;
+
+        if (!shouldStack) {
+            container.classList.remove("stacked-layout");
             const detailPane = container.querySelector(".tech-stack-detail-pane") as HTMLElement;
             if (detailPane) {
                 // If scrollHeight is strictly greater than clientHeight, it overflows
                 const hasOverflow = detailPane.scrollHeight > detailPane.clientHeight;
                 if (hasOverflow) {
-                    container.classList.add("stacked-layout");
+                    shouldStack = true;
+                }
+            }
+        }
+
+        if (shouldStack) {
+            container.classList.add("stacked-layout");
+        } else {
+            container.classList.remove("stacked-layout");
+        }
+
+        // Dynamically scale the wheel container to fit the available space
+        requestAnimationFrame(() => {
+            const wheelPane = container.querySelector(".tech-stack-wheel-pane") as HTMLElement;
+            const wheelContainer = container.querySelector(".tech-stack-wheel-container") as HTMLElement;
+            if (wheelPane && wheelContainer) {
+                const paneWidth = wheelPane.getBoundingClientRect().width;
+                const marginFactor = 32; // 16px safety margin on each side
+                const targetWidth = paneWidth - marginFactor;
+
+                if (targetWidth < size) { // size is 360
+                    const scale = targetWidth / size;
+                    wheelContainer.style.transform = `scale(${scale.toFixed(3)}) translate3d(0, 0, 0)`;
+                    wheelContainer.style.transformOrigin = "center center";
+                    // Apply negative vertical margin to avoid empty spaces due to scale transform bounding box
+                    const verticalMargin = Math.round((size * (scale - 1)) / 2);
+                    wheelContainer.style.margin = `${verticalMargin}px auto`;
+                } else {
+                    wheelContainer.style.transform = "translate3d(0, 0, 0)";
+                    wheelContainer.style.margin = "0 auto";
                 }
             }
         });
@@ -132,7 +168,7 @@ export function createTechStack(technologies: string[], projectId?: string, mark
             window.removeEventListener("resize", resizeHandler);
             return;
         }
-        adjustLayout();
+        adjustLayout(false);
     };
     window.addEventListener("resize", resizeHandler);
     
@@ -156,7 +192,7 @@ export function createTechStack(technologies: string[], projectId?: string, mark
         centerLabelContainer.style.top = `${cy - 20}px`;
     }
     
-    // Function to load and render tech reason markdown
+    // Function to load and render tech reason projects
     async function selectTech(techName: string, element: HTMLElement) {
         // Update active class on circles
         circles.forEach(c => c.classList.remove("active"));
@@ -172,16 +208,16 @@ export function createTechStack(technologies: string[], projectId?: string, mark
         let mdPath = "";
 
         if (markdownFile) {
-            // Resolve path relative to the project's markdown file directory
+            // Resolve path relative to the project's projects file directory
             const lastSlash = markdownFile.lastIndexOf("/");
             const dir = lastSlash !== -1 ? markdownFile.substring(0, lastSlash) : "..";
             mdPath = `${dir}/tech-choices/${techFileName}.md`;
         } else if (projectId) {
             // Fallback project-specific choice
-            mdPath = `../data/markdown/tech-choices/${projectId}/${techFileName}.md`;
+            mdPath = `../data/projects/tech-choices/${projectId}/${techFileName}.md`;
         } else {
             // Global skill details (About Me)
-            mdPath = `../data/markdown/technologies/${techFileName}.md`;
+            mdPath = `../data/projects/technologies/${techFileName}.md`;
         }
 
         detailContent.innerHTML = `<div class="tech-loading">Loading details for ${techName}...</div>`;
@@ -194,7 +230,7 @@ export function createTechStack(technologies: string[], projectId?: string, mark
             } else {
                 detailContent.innerHTML = `
                     <h3>${techName}</h3>
-                    <p class="tech-no-info">No project-specific technology reasoning markdown file found at <code>${mdPath.replace("../data/markdown/", "src/data/markdown/")}</code>.</p>
+                    <p class="tech-no-info">No project-specific technology reasoning markdown file found at <code>${mdPath.replace("../data/projects/", "src/data/projects/")}</code>.</p>
                 `;
             }
         } catch (error) {
@@ -206,7 +242,7 @@ export function createTechStack(technologies: string[], projectId?: string, mark
         }
 
         // Adjust layout based on content sizing
-        adjustLayout();
+        adjustLayout(true);
     }
 
     // Attach click listeners to circles

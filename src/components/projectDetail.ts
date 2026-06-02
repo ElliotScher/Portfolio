@@ -2,6 +2,20 @@ import type {Project} from "../data/projects";
 import showdown from "showdown";
 import { createProcessDiagram } from "./processDiagram";
 import { createTechStack } from "./techStack";
+import { createFutureAdditions } from "./futureAdditions";
+
+const githubIcon = `
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    class="github-btn-icon"
+    width="16"
+    height="16"
+>
+    <path d="M12 .5C5.73.5.75 5.48.75 11.75c0 5.02 3.25 9.27 7.76 10.77.57.1.78-.25.78-.55v-2.02c-3.15.68-3.81-1.34-3.81-1.34-.52-1.3-1.26-1.65-1.26-1.65-1.03-.7.08-.69.08-.69 1.13.08 1.73 1.17 1.73 1.17 1.01 1.73 2.64 1.23 3.28.94.1-.73.4-1.23.72-1.52-2.52-.29-5.17-1.26-5.17-5.62 0-1.24.44-2.25 1.16-3.05-.12-.29-.5-1.46.11-3.04 0 0 .95-.3 3.11 1.16a10.8 10.8 0 0 1 5.66 0c2.16-1.46 3.1-1.16 3.1-1.16.62 1.58.24 2.75.12 3.04.72.8 1.15 1.81 1.15 3.05 0 4.37-2.66 5.32-5.2 5.6.41.36.77 1.08.77 2.18v3.23c0 .3.2.66.79.55 4.5-1.5 7.75-5.75 7.75-10.77C23.25 5.48 18.27.5 12 .5Z"/>
+</svg>
+`;
 
 let currentDetail: HTMLElement | null = null;
 let renderId = 0;
@@ -30,8 +44,8 @@ export function setActiveProject(project: Project) {
     render(currentDetail, project);
 }
 
-// Map of markdown modules
-const markdownFiles = import.meta.glob('../data/markdown/**/*.md', { query: '?raw', import: 'default' });
+// Map of projects modules
+const markdownFiles = import.meta.glob('../data/projects/**/*.md', { query: '?raw', import: 'default' });
 
 async function render(container: HTMLElement, project: Project) {
     const currentRenderId = ++renderId;
@@ -46,13 +60,24 @@ async function render(container: HTMLElement, project: Project) {
                     </svg>
                     Back to Projects
                 </button>
-                <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div class="project-detail-title-row">
                     <h1>${project.title}</h1>
+                    ${project.githubUrl
+                        ? `<a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="project-github-btn" aria-label="View source code on GitHub">
+                            ${githubIcon}
+                            <span>View Source</span>
+                           </a>`
+                        : `<div class="project-github-btn disabled" aria-label="Source code is not available for this project">
+                            ${githubIcon}
+                            <span>View Source</span>
+                            <span class="project-github-tooltip">Source code isn't available for this project</span>
+                           </div>`
+                    }
                 </div>
 
                 <p>${project.summary}</p>
 
-                <div id="project-markdown-content">Loading...</div>
+                <div id="project-projects-content">Loading...</div>
             </div>
             <div id="project-nav-menu"></div>
         </div>
@@ -67,7 +92,7 @@ async function render(container: HTMLElement, project: Project) {
         }
     });
 
-    const contentContainer = container.querySelector("#project-markdown-content");
+    const contentContainer = container.querySelector("#project-projects-content");
     const navMenuContainer = container.querySelector("#project-nav-menu");
 
     if (project.markdownFile) {
@@ -103,7 +128,7 @@ async function render(container: HTMLElement, project: Project) {
             if (currentRenderId !== renderId) return;
             if (contentContainer) {
                 contentContainer.innerHTML = "<p>Error loading project details.</p>";
-                console.error("Failed to load markdown:", error);
+                console.error("Failed to load projects:", error);
             }
         }
     }
@@ -157,5 +182,10 @@ function mountInteractiveComponents(container: HTMLElement, project: Project) {
         const techWidget = createTechStack(project.technologies, project.id, project.markdownFile);
         techStackPlaceholder.innerHTML = "";
         techStackPlaceholder.appendChild(techWidget);
+    }
+
+    const futureAdditionsPlaceholder = container.querySelector('#gompei-vision-future-additions');
+    if (futureAdditionsPlaceholder instanceof HTMLElement) {
+        createFutureAdditions(futureAdditionsPlaceholder);
     }
 }

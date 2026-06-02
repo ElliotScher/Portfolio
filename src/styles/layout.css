@@ -1,0 +1,113 @@
+#app {
+    height: 100%;
+}
+
+.layout {
+    display: flex;
+    height: 100%;
+}
+
+#content {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-4);
+    height: 100%;
+}
+
+/* Mobile Header and Drawer layout placeholders */
+.mobile-header {
+    display: none;
+}
+
+.sidebar-backdrop {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    body {
+        overflow: hidden; /* Prevent body scrolling so layout is controlled */
+    }
+
+    .layout {
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
+        padding: 0 var(--space-3);
+        background: linear-gradient(135deg, var(--panel), #202b23);
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        color: var(--text);
+        background: var(--panel-2);
+        transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    .mobile-menu-toggle:hover {
+        background: var(--panel);
+        border-color: var(--accent);
+    }
+
+    .mobile-logo-wrapper {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+    }
+
+    .profile-photo-small {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid var(--border);
+    }
+
+    .mobile-logo-text {
+        font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: -0.5px;
+        color: var(--text);
+    }
+
+    .sidebar-backdrop {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .layout.sidebar-open .sidebar-backdrop {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    #content {
+        padding: var(--space-3);
+    }
+}

@@ -1,0 +1,20 @@
+:root {
+    --bg: #1c261f;        /* lighter near-black green tint */
+    --panel: #243028;     /* elevated surface */
+    --panel-2: #2d3b31;   /* hover / secondary */
+
+    --text: #e6eee8;      /* slightly greener white */
+    --muted: #a3b8aa;     /* lighter muted */
+
+    --accent: #2ecc71;    /* main green accent */
+
+    --border: rgba(46, 204, 113, 0.2); /* slightly more visible border */
+
+    --radius: 10px;
+
+    --space-1: 6px;
+    --space-2: 12px;
+    --space-3: 20px;
+    --space-4: 40px;
+    --space-5: 60px;
+}

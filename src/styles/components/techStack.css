@@ -9,6 +9,8 @@
     margin: var(--space-3) 0;
     min-height: 400px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .tech-stack-wheel-pane {
@@ -24,6 +26,9 @@
 
 .tech-stack-wheel-container {
     position: relative;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 /* SVG Geometric styling */
@@ -33,6 +38,8 @@
     left: 0;
     pointer-events: none;
     z-index: 1;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .tech-stack-ref-circle {
@@ -75,7 +82,7 @@
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    background: rgba(36, 48, 40, 0.85);
+    background: rgba(36, 48, 40, 0.9);
     border: 1px solid var(--border);
     display: flex;
     align-items: center;
@@ -86,8 +93,8 @@
                 border-color 0.3s ease, 
                 box-shadow 0.3s ease, 
                 background-color 0.3s ease;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .tech-circle-icon {
@@ -290,19 +297,4 @@
     overflow-x: visible;
 }
 
-/* Scaling the geometric wheel on narrow mobile screens to avoid clipping/overflow */
-@media (max-width: 400px) {
-    .tech-stack-wheel-container {
-        transform: scale(0.82);
-        transform-origin: center center;
-        margin: -25px 0; /* Tighten layout vertical gap during down-scaling */
-    }
-}
 
-@media (max-width: 350px) {
-    .tech-stack-wheel-container {
-        transform: scale(0.70);
-        transform-origin: center center;
-        margin: -45px 0;
-    }
-}

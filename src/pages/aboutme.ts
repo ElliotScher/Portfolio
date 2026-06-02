@@ -35,7 +35,7 @@ export function renderAboutMe(): HTMLElement {
 
     const skillsContainer = page.querySelector("#global-skills-tech-stack-container");
     if (skillsContainer) {
-        const coreSkills = ["C++", "Java", "Python", "OpenCV", "ROS 2", "Linux", "Docker", "CMake"];
+        const coreSkills = ["C++", "Java", "Python", "OpenCV", "ROS 2", "Linux", "Docker", "CMake", "Gradle", "Typescript", "HTML", "CSS"];
         // Passing no project ID indicates a global, profile-wide description should be loaded
         const techStackWidget = createTechStack(coreSkills);
         skillsContainer.appendChild(techStackWidget);
