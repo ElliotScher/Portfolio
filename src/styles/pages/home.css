@@ -30,7 +30,7 @@
 }
 
 .subtitle {
-    font-size: 18px;
+    font-size: 21px;
     color: var(--muted);
     max-width: 600px;
 }
@@ -77,7 +77,7 @@
 .job-meta {
     text-align: right;
     color: var(--muted);
-    font-size: 14px;
+    font-size: 16px;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -153,7 +153,7 @@
 
 .timeline-period {
     color: var(--muted);
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .timeline-subheader {
@@ -213,12 +213,12 @@
     }
 
     .hero h1 {
-        font-size: 28px;
+        font-size: 32px;
         margin-bottom: var(--space-2);
     }
 
     .subtitle {
-        font-size: 16px;
+        font-size: 18px;
     }
 
     .quick-info {
@@ -238,7 +238,7 @@
 
     .job-meta {
         text-align: left;
-        font-size: 13px;
+        font-size: 15px;
     }
 
     .timeline {
@@ -267,7 +267,7 @@
     }
 
     .timeline-period {
-        font-size: 12px;
+        font-size: 14px;
     }
 
     .timeline-content {

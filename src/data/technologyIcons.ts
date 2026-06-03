@@ -21,5 +21,9 @@ export const technologyIcons: Record<string, string> = {
     "Junit": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/junit/junit-original.svg",
     "Pytest": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pytest/pytest-original.svg",
     "WPILib": `${import.meta.env.BASE_URL}wpilib.svg`,
-    "Nvidia": `${import.meta.env.BASE_URL}nvidia-logo-vert.svg`
+    "Nvidia": `${import.meta.env.BASE_URL}nvidia-logo-vert.svg`,
+    "Ubuntu": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ubuntu/ubuntu-original.svg",
+    "Nixos": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nixos/nixos-original.svg",
+    "Tensorflow": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tensorflow/tensorflow-original.svg"
 };
+

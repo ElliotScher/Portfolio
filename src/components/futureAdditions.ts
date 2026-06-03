@@ -80,6 +80,22 @@ export function createFutureAdditions(container: HTMLElement) {
                     if (loadMarkdown) {
                         const rawMd = await loadMarkdown();
                         htmlContent = converter.makeHtml(rawMd);
+
+                        // Parse HTML and replace <pre><code class="mermaid"> with <div class="mermaid">
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(htmlContent, "text/html");
+                        const codeBlocks = doc.querySelectorAll("pre code.mermaid");
+                        codeBlocks.forEach((codeEl) => {
+                            const preEl = codeEl.parentElement;
+                            if (preEl) {
+                                const div = doc.createElement("div");
+                                div.className = "mermaid";
+                                div.textContent = codeEl.textContent;
+                                preEl.replaceWith(div);
+                            }
+                        });
+                        htmlContent = doc.body.innerHTML;
+
                         mdCache[addition.markdownFile] = htmlContent;
                     } else {
                         htmlContent = `<p>Details file not found: <code>${addition.markdownFile}</code></p>`;
