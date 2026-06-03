@@ -49,6 +49,17 @@ p {
     line-height: 1.6;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+#project-projects-content img {
+    border-radius: var(--radius);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    margin: var(--space-3) 0;
+}
+
 /* Components & Buttons */
 .btn,
 .sidebar button,
