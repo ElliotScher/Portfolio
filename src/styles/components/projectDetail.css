@@ -3,12 +3,14 @@
     flex-direction: row;
     height: 100%;
     overflow: hidden;
+    min-width: 0;
 }
 
 .project-detail {
     flex: 1;
     padding: 2rem;
     overflow-y: auto;
+    min-width: 0;
 }
 
 #project-nav-menu {
