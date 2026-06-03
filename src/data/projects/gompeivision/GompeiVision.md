@@ -73,7 +73,7 @@ Each pipeline has 4 distinct parts, and come together with a sensor fusion opera
 
 ## Results and Testing
 
-Here are demonstrations of the system in action, showcasing the robot autonomously aligning and scoring game pieces on the field using the localization data.
+Here are demonstrations of the system in action, showcasing the robot autonomously aligning and scoring game pieces on the field using the localization data. When the rainbow lights scroll on the robot it denotes that the robot is using the vision data to autonomously align and score game pieces.
 
 <div id="gompei-vision-media-gallery"></div>
 
