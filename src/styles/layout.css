@@ -25,7 +25,7 @@
 
 @media (max-width: 1024px) {
     body {
-        overflow: hidden; /* Prevent body scrolling so layout is controlled */
+        overflow: auto; /* Allow body scrolling so pull-to-refresh gesture works */
     }
 
     .layout {
