@@ -148,15 +148,18 @@ export function createTechStack(technologies: string[], projectId?: string, mark
                 const marginFactor = 32; // 16px safety margin on each side
                 const targetWidth = paneWidth - marginFactor;
 
+                wheelContainer.style.transformOrigin = "center center";
+
                 if (targetWidth < size) { // size is 360
                     const scale = targetWidth / size;
                     wheelContainer.style.transform = `scale(${scale.toFixed(3)}) translate3d(0, 0, 0)`;
-                    wheelContainer.style.transformOrigin = "center center";
+                    wheelContainer.style.left = `${((paneWidth - size) / 2).toFixed(1)}px`;
                     // Apply negative vertical margin to avoid empty spaces due to scale transform bounding box
                     const verticalMargin = Math.round((size * (scale - 1)) / 2);
-                    wheelContainer.style.margin = `${verticalMargin}px auto`;
+                    wheelContainer.style.margin = `${verticalMargin}px 0`;
                 } else {
                     wheelContainer.style.transform = "translate3d(0, 0, 0)";
+                    wheelContainer.style.left = "0px";
                     wheelContainer.style.margin = "0 auto";
                 }
             }
