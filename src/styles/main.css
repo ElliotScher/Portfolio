@@ -7,6 +7,7 @@
 @import "./pages/aboutme.css";
 
 /* Components */
+@import "./components/contactLinks.css";
 @import "./components/sidebar.css";
 @import "./components/projectList.css";
 @import "./components/projectDetail.css";

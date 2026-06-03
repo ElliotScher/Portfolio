@@ -1,0 +1,29 @@
+.contact-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.contact-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    text-decoration: none;
+    background: var(--panel);
+    transition: 0.2s ease;
+}
+
+.contact-link:hover {
+    background: var(--panel-2);
+    border-color: var(--accent);
+}
+
+.contact-icon {
+    width: 20px;
+    height: 20px;
+}
