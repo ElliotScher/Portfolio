@@ -73,7 +73,7 @@ Each pipeline has 4 distinct parts, and come together with a sensor fusion opera
 
 ## Results and Testing
 
-Here is a demonstration of the system working in real-time, showcasing both the camera feed target tracking overlays and the resulting 3D field-relative coordinate localization map.
+Here are demonstrations of the system in action, showcasing the robot autonomously aligning and scoring game pieces on the field using the localization data.
 
 <div id="gompei-vision-media-gallery"></div>
 
