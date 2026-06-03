@@ -58,6 +58,13 @@ export const gompeiVisionAdditionsData: FutureAddition[] = [
         icon: 'ROS 2'
     },
     {
+        id: 'match-recording',
+        title: 'Match Video Recording',
+        summary: 'Automatically record, compress, and archive video streams from all active cameras, synchronized with FRC field state and indexed with match numbers.',
+        markdownFile: '../data/projects/gompeivision/future-additions/match-recording.md',
+        icon: 'WPILib'
+    },
+    {
         id: 'apple-silicon',
         title: 'Apple Silicon Compilation',
         summary: 'Enable native compilation and target-specific optimizations for Apple Silicon to leverage high-bandwidth USB controllers, unified memory, and efficient hardware acceleration.',

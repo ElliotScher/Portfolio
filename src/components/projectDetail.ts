@@ -3,6 +3,9 @@ import showdown from "showdown";
 import { createProcessDiagram } from "./processDiagram";
 import { createTechStack } from "./techStack";
 import { createFutureAdditions } from "./futureAdditions";
+import { createMediaGallery } from "./mediaGallery";
+import { gompeiVisionMedia } from "../data/projects/gompeivision/gompeiVisionMedia";
+
 
 const githubIcon = `
 <svg
@@ -74,8 +77,6 @@ async function render(container: HTMLElement, project: Project) {
                            </div>`
                     }
                 </div>
-
-                <p>${project.summary}</p>
 
                 <div id="project-projects-content">Loading...</div>
             </div>
@@ -195,5 +196,10 @@ function mountInteractiveComponents(container: HTMLElement, project: Project) {
     const futureAdditionsPlaceholder = container.querySelector('#gompei-vision-future-additions');
     if (futureAdditionsPlaceholder instanceof HTMLElement) {
         createFutureAdditions(futureAdditionsPlaceholder);
+    }
+
+    const mediaGalleryPlaceholder = container.querySelector('#gompei-vision-media-gallery');
+    if (mediaGalleryPlaceholder instanceof HTMLElement) {
+        createMediaGallery(mediaGalleryPlaceholder, gompeiVisionMedia);
     }
 }

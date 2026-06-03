@@ -1,5 +1,5 @@
 import showdown from "showdown";
-import { technologyIcons } from "../data/technologyIcons";
+import { technologyIcons } from "../assets/logos/technologyIcons.ts";
 
 const converter = new showdown.Converter({
     ghCompatibleHeaderId: true,

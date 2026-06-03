@@ -1,6 +1,6 @@
 import type {Project} from "../data/projects";
 import { setActiveProject } from "./projectDetail";
-import { technologyIcons } from "../data/technologyIcons";
+import { technologyIcons } from "../assets/logos/technologyIcons.ts";
 
 export function createProjectList(projects: Project[], activeProject?: Project): HTMLElement {
     const container = document.createElement("div");

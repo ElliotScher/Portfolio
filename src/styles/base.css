@@ -60,6 +60,30 @@ img {
     margin: var(--space-3) 0;
 }
 
+/* Hardware Images inside Project Content */
+.project-hardware-image-wrapper {
+    max-width: 480px;
+    margin: var(--space-3) 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#project-projects-content img.project-hardware-image {
+    max-width: 100%;
+    height: auto;
+    margin: 0; /* Reset global markdown image margins */
+}
+
+.project-image-caption {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.45;
+    margin: 0;
+    border-left: 2px solid var(--accent);
+    padding-left: 8px;
+}
+
 /* Prevent technology icons and logos from having rounded corners, box shadows, or default margins */
 .tech-circle-icon,
 .menu-btn-logo,

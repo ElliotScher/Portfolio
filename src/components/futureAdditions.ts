@@ -1,6 +1,6 @@
 import showdown from "showdown";
 import { gompeiVisionAdditionsData } from "../data/projects/gompeivision/gompeiVisionAdditions.ts";
-import { technologyIcons } from "../data/technologyIcons";
+import { technologyIcons } from "../assets/logos/technologyIcons.ts";
 
 const converter = new showdown.Converter({
     ghCompatibleHeaderId: true,
