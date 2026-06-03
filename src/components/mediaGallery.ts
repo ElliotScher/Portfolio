@@ -62,6 +62,9 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
             video.muted = true;
             video.playsInline = true;
             video.loop = true;
+            video.setAttribute('muted', '');
+            video.setAttribute('playsinline', '');
+            video.setAttribute('loop', '');
             video.preload = 'metadata';
 
             imgContainer.appendChild(video);
@@ -254,6 +257,9 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
                     activeVideo.autoplay = true;
                     activeVideo.playsInline = true;
                     activeVideo.muted = true;
+                    activeVideo.setAttribute('muted', '');
+                    activeVideo.setAttribute('playsinline', '');
+                    activeVideo.setAttribute('autoplay', '');
                     activeVideo.src = srcPath;
                     
                     activeVideo.style.opacity = '0';
