@@ -56,5 +56,12 @@ export const gompeiVisionAdditionsData: FutureAddition[] = [
         summary: 'Implement independent estimation systems including TagSLAM, vSLAM, and Monte Carlo Localization (MCL) using stereo camera streams and persistent geometric mapping.',
         markdownFile: '../data/projects/gompeivision/future-additions/slam-localization.md',
         icon: 'ROS 2'
+    },
+    {
+        id: 'apple-silicon',
+        title: 'Apple Silicon Compilation',
+        summary: 'Enable native compilation and target-specific optimizations for Apple Silicon to leverage high-bandwidth USB controllers, unified memory, and efficient hardware acceleration.',
+        markdownFile: '../data/projects/gompeivision/future-additions/apple-silicon.md',
+        icon: 'Apple'
     }
 ];

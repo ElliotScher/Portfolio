@@ -9,4 +9,4 @@ To expand GompeiVision beyond CPU-bound 2D fiducial markers, we plan to implemen
 
 #### Planned Tech Stack
 - **Google Coral USB Accelerator / Hailo M.2 Card:** Offloads machine learning inference to dedicated edge hardware, ensuring high framerates without taxing the coprocessor's CPU.
-- **Ultralytics YOLO & PyTorch:** Train custom, quantized object detection models tailored for FRC game pieces and robot chassis datasets.
+- **Custom Machine Learning Models:** Train custom, quantized object detection models tailored for FRC game pieces and robot chassis datasets.

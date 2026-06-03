@@ -52,6 +52,23 @@ export function createFutureAdditions(container: HTMLElement) {
     detailContent.className = "future-additions-detail-content";
     cardPane.appendChild(detailContent);
 
+    // Intercept clicks on links pointing to other future additions
+    detailContent.addEventListener("click", (e) => {
+        const target = e.target as HTMLElement;
+        const link = target.closest("a");
+        if (link) {
+            const href = link.getAttribute("href");
+            if (href && href.startsWith("#")) {
+                const targetId = href.substring(1);
+                const btn = menuPane.querySelector(`.menu-btn[data-id="${targetId}"]`) as HTMLElement;
+                if (btn) {
+                    e.preventDefault();
+                    selectFeature(targetId, btn);
+                }
+            }
+        }
+    });
+
     splitContainer.appendChild(menuPane);
     splitContainer.appendChild(cardPane);
     container.appendChild(splitContainer);
