@@ -60,6 +60,15 @@ img {
     margin: var(--space-3) 0;
 }
 
+/* Prevent technology icons and logos from having rounded corners, box shadows, or default margins */
+.tech-circle-icon,
+.menu-btn-logo,
+.tech-icon-item img {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+}
+
 /* Components & Buttons */
 .btn,
 .sidebar button,
