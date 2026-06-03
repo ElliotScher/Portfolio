@@ -249,16 +249,12 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
             setTimeout(() => {
                 if (isVideo(currentItem.src)) {
                     const activeVideo = document.createElement('video');
-                    activeVideo.className = 'lightbox-image'; // Share core styling and sizing with image
+                    activeVideo.className = 'lightbox-image';
                     activeVideo.controls = true;
                     activeVideo.autoplay = true;
                     activeVideo.playsInline = true;
+                    activeVideo.muted = true;
                     activeVideo.src = srcPath;
-                    
-                    // Force the video to start at 0
-                    activeVideo.addEventListener('loadedmetadata', () => {
-                        activeVideo.currentTime = 0;
-                    });
                     
                     activeVideo.style.opacity = '0';
                     activeVideo.style.transform = 'scale(0.97)';

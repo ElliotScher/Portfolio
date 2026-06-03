@@ -45,7 +45,7 @@ export const gompeiVisionAdditionsData: FutureAddition[] = [
     },
     {
         id: 'object-detection',
-        title: 'Deep Learning & NPU/TPU Acceleration',
+        title: 'NPU/TPU Acceleration',
         summary: 'Deploy real-time deep learning models on M.2/USB NPU/TPU accelerators to recognize robots, track game pieces, and crop image frames to speed up AprilTag detection.',
         markdownFile: '../data/projects/gompeivision/future-additions/object-detection.md',
         icon: 'Tensorflow'
