@@ -5,6 +5,8 @@ import type { MediaItem } from "../components/mediaGallery";
 import { gompeiVisionProcessData } from "./projects/gompeivision/gompeiVisionProcess";
 import { gompeiVisionAdditionsData } from "./projects/gompeivision/gompeiVisionAdditions";
 import { gompeiVisionMedia } from "./projects/gompeivision/gompeiVisionMedia";
+import { wpiCalAdditionsData } from "./projects/wpical/wpiCalAdditions";
+import { wpiCalProcessData } from "./projects/wpical/wpiCalProcess";
 
 export interface Project {
     id: string;
@@ -42,8 +44,11 @@ export const projects: Project[] = [
         id: "WPICal",
         title: "WPICal",
         summary: "Camera and field calibration tool for generating AprilTag maps via least squares optimization",
-        technologies: ["C++", "CMake", "OpenCV"],
-        markdownFile: "../data/projects/WPICal.md",
+        technologies: ["C++", "CMake", "OpenCV", "WPILib"],
+        markdownFile: "../data/projects/wpical/WPICal.md",
+        githubUrl: "https://github.com/ElliotScher/WPICal-wpical",
+        processData: wpiCalProcessData,
+        futureAdditionsData: wpiCalAdditionsData,
     },
     {
         id: "KnowledgeBase",

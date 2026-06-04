@@ -1,4 +1,4 @@
-import showdown from 'showdown';
+import { markdownConverter } from '../utils/markdown';
 
 export interface ProcessNode {
     id: string;
@@ -6,10 +6,7 @@ export interface ProcessNode {
     markdownFile: string;
 }
 
-const converter = new showdown.Converter({
-    ghCompatibleHeaderId: true,
-    simpleLineBreaks: true,
-});
+
 
 // Map of projects modules
 const markdownFiles = import.meta.glob('../data/projects/**/*.md', { query: '?raw', import: 'default' });
@@ -168,7 +165,7 @@ export function createProcessDiagram(container: HTMLElement, data: ProcessNode[]
                     const loadMarkdown = markdownFiles[nodeData.markdownFile] as () => Promise<string>;
                     if (loadMarkdown) {
                         const mdContent = await loadMarkdown();
-                        htmlContent = converter.makeHtml(mdContent);
+                        htmlContent = markdownConverter.makeHtml(mdContent);
                         mdCache[nodeData.markdownFile] = htmlContent;
                     } else {
                         htmlContent = '<p>Description file not found.</p>';
@@ -181,8 +178,15 @@ export function createProcessDiagram(container: HTMLElement, data: ProcessNode[]
             // Wait briefly for the fade-out animation to complete (200ms matches CSS transition)
             setTimeout(() => {
                 detailContent.innerHTML = htmlContent;
+                // Render LaTeX formulas
+                if ((window as any).MathJax) {
+                    (window as any).MathJax.typesetClear([detailContent]);
+                    (window as any).MathJax.typesetPromise([detailContent]);
+                }
                 // Fade back in
                 detailContent.classList.remove('transition-out');
+
+
             }, 200);
 
         } catch (error) {

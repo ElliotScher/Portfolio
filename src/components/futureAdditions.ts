@@ -1,4 +1,4 @@
-import showdown from "showdown";
+import { markdownConverter } from "../utils/markdown";
 import { technologyIcons } from "../assets/logos/technologyIcons.ts";
 
 export interface FutureAddition {
@@ -9,10 +9,7 @@ export interface FutureAddition {
     icon: string; // Technology key used to look up the SVG logo in technologyIcons
 }
 
-const converter = new showdown.Converter({
-    ghCompatibleHeaderId: true,
-    simpleLineBreaks: true,
-});
+
 
 // Import projects files dynamically
 const markdownFiles = import.meta.glob('../data/projects/**/*.md', { query: '?raw', import: 'default' });
@@ -105,7 +102,7 @@ export function createFutureAdditions(container: HTMLElement, data: FutureAdditi
                     const loadMarkdown = markdownFiles[addition.markdownFile] as () => Promise<string>;
                     if (loadMarkdown) {
                         const rawMd = await loadMarkdown();
-                        htmlContent = converter.makeHtml(rawMd);
+                        htmlContent = markdownConverter.makeHtml(rawMd);
 
                         // Parse HTML and replace <pre><code class="mermaid"> with <div class="mermaid">
                         const parser = new DOMParser();
@@ -138,6 +135,12 @@ export function createFutureAdditions(container: HTMLElement, data: FutureAdditi
                 
                 // Adjust layout height if needed
                 adjustLayout();
+
+                // Render LaTeX formulas
+                if ((window as any).MathJax) {
+                    (window as any).MathJax.typesetClear([detailContent]);
+                    (window as any).MathJax.typesetPromise([detailContent]);
+                }
             }, 200);
 
         } catch (error) {

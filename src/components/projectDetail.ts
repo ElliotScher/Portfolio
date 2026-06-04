@@ -1,5 +1,5 @@
-import type {Project} from "../data/projects";
-import showdown from "showdown";
+import type { Project } from "../data/projects";
+import { markdownConverter } from "../utils/markdown";
 import { createProcessDiagram } from "./processDiagram";
 import { createTechStack } from "./techStack";
 import { createFutureAdditions } from "./futureAdditions";
@@ -23,10 +23,7 @@ let currentDetail: HTMLElement | null = null;
 let renderId = 0;
 
 // Configure Showdown to generate header IDs
-const converter = new showdown.Converter({
-    ghCompatibleHeaderId: true,
-    simpleLineBreaks: true,
-});
+
 
 export function createProjectDetail(initial: Project): HTMLElement {
     const container = document.createElement("div");
@@ -104,7 +101,7 @@ async function render(container: HTMLElement, project: Project) {
                 if (currentRenderId !== renderId) return;
 
                 if (contentContainer) {
-                    const htmlContent = converter.makeHtml(mdContent);
+                    const htmlContent = markdownConverter.makeHtml(mdContent);
                     contentContainer.innerHTML = htmlContent;
 
                     // Prepend dynamic base URL to relative image paths
@@ -124,6 +121,12 @@ async function render(container: HTMLElement, project: Project) {
                     // Mount interactive components
                     if (contentContainer instanceof HTMLElement) {
                         mountInteractiveComponents(contentContainer, project);
+                    }
+
+                    // Render LaTeX formulas
+                    if ((window as any).MathJax) {
+                        (window as any).MathJax.typesetClear([contentContainer]);
+                        (window as any).MathJax.typesetPromise([contentContainer]);
                     }
                 }
             } else {

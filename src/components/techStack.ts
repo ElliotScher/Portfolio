@@ -1,10 +1,7 @@
-import showdown from "showdown";
+import { markdownConverter } from "../utils/markdown";
 import { technologyIcons } from "../assets/logos/technologyIcons.ts";
 
-const converter = new showdown.Converter({
-    ghCompatibleHeaderId: true,
-    simpleLineBreaks: true,
-});
+
 
 // Import projects files dynamically
 const markdownFiles = import.meta.glob('../data/projects/**/*.md', { query: '?raw', import: 'default' });
@@ -229,7 +226,7 @@ export function createTechStack(technologies: string[], projectId?: string, mark
             const loadMarkdown = markdownFiles[mdPath] as () => Promise<string>;
             if (loadMarkdown) {
                 const rawMd = await loadMarkdown();
-                detailContent.innerHTML = converter.makeHtml(rawMd);
+                detailContent.innerHTML = markdownConverter.makeHtml(rawMd);
             } else {
                 detailContent.innerHTML = `
                     <h3>${techName}</h3>
@@ -242,6 +239,12 @@ export function createTechStack(technologies: string[], projectId?: string, mark
                 <p class="tech-no-info">No custom explanation has been written for <strong>${techName}</strong> in this context.</p>
             `;
             console.warn(`Could not load markdown for ${techName} at ${mdPath}:`, error);
+        }
+
+        // Render LaTeX formulas
+        if ((window as any).MathJax) {
+            (window as any).MathJax.typesetClear([detailContent]);
+            (window as any).MathJax.typesetPromise([detailContent]);
         }
 
         // Adjust layout based on content sizing

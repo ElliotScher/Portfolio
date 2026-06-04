@@ -29,7 +29,17 @@ Click on any of the technology circles below to see why it was chosen for this p
 
 <div class="project-tech-stack" data-project-id="GompeiLib"></div>
 
-## Library Structure
+***
 
-GompeiLib is organized into a modular package hierarchy to separate core hardware abstractions and configuration logic from physical subsystem templates. 
+## Development & Synchronization Workflow
 
+To streamline development and avoid the friction of packaging and releasing local test builds of **GompeiLib**, a bidirectional synchronization system is established between the standalone `GompeiLib` repository and the main robot repository. This allows developers to edit the library source files directly within the robot project's `lib/` directory and keep both repositories synchronized.
+
+### Reusable CI Pipeline
+
+A reusable GitHub Actions workflow ([syncgompeilib.yaml](https://github.com/Team-190/CI-Workflows/blob/main/.github/workflows/syncgompeilib.yaml)) handles the synchronization. The pipeline supports two sync directions:
+
+* **Pull Sync (Upstream → Downstream)**: Pulls the latest stable changes from `Team-190/GompeiLib` into the main robot project's `lib/` folder. It creates a temporary branch and automatically opens a Pull Request on the robot project repository.
+* **Push Sync (Downstream → Upstream)**: Push updates/bugfixes made directly in the robot project's `lib/` directory back to `Team-190/GompeiLib`. It copies the local `lib/` content over the library's root directories and automatically opens a Pull Request on the `GompeiLib` repository.
+
+This bidirectional sync ensures that developers can easily write and debug library changes directly within a functional robot project workspace while keeping the core library's version history clean, peer-reviewed, and verified by CI tests before merge.
