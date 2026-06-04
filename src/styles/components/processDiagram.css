@@ -1,3 +1,4 @@
+.project-process-diagram,
 #gompei-vision-process-diagram {
     position: relative;
     width: 100%;
@@ -284,6 +285,7 @@
 }
 
 /* Stacked Layout Class overrides (applied dynamically via JS when container is narrow) */
+.project-process-diagram.stacked-layout .process-stepper,
 #gompei-vision-process-diagram.stacked-layout .process-stepper {
     flex-direction: column;
     align-items: flex-start;
@@ -291,6 +293,7 @@
     padding-left: var(--space-2);
 }
 
+.project-process-diagram.stacked-layout .step-node,
 #gompei-vision-process-diagram.stacked-layout .step-node {
     flex-direction: row;
     align-items: center;
@@ -299,6 +302,7 @@
     padding: var(--space-1) 0;
 }
 
+.project-process-diagram.stacked-layout .step-badge,
 #gompei-vision-process-diagram.stacked-layout .step-badge {
     margin-bottom: 0;
     margin-right: var(--space-2);
@@ -308,15 +312,18 @@
     flex-shrink: 0;
 }
 
+.project-process-diagram.stacked-layout .step-label,
 #gompei-vision-process-diagram.stacked-layout .step-label {
     font-size: 0.9rem;
 }
 
+.project-process-diagram.stacked-layout .step-node.active .step-badge,
 #gompei-vision-process-diagram.stacked-layout .step-node.active .step-badge {
     transform: scale(1.1);
 }
 
 /* Transform connectors into vertical lines */
+.project-process-diagram.stacked-layout .step-connector,
 #gompei-vision-process-diagram.stacked-layout .step-connector {
     width: 2px;
     height: 24px;
@@ -327,16 +334,19 @@
     border: none;
 }
 
+.project-process-diagram.stacked-layout .step-connector.active,
 #gompei-vision-process-diagram.stacked-layout .step-connector.active {
     background: var(--accent);
     box-shadow: 0 0 8px rgba(46, 204, 113, 0.4);
 }
 
 /* Hide the SVG arrows inside vertical connectors since we use solid lines */
+.project-process-diagram.stacked-layout .connector-svg,
 #gompei-vision-process-diagram.stacked-layout .connector-svg {
     display: none;
 }
 
+.project-process-diagram.stacked-layout .process-detail-card,
 #gompei-vision-process-diagram.stacked-layout .process-detail-card {
     padding: var(--space-2) var(--space-3);
 }

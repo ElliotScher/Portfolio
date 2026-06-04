@@ -1,3 +1,11 @@
+import type { ProcessNode } from "../components/processDiagram";
+import type { FutureAddition } from "../components/futureAdditions";
+import type { MediaItem } from "../components/mediaGallery";
+
+import { gompeiVisionProcessData } from "./projects/gompeivision/gompeiVisionProcess";
+import { gompeiVisionAdditionsData } from "./projects/gompeivision/gompeiVisionAdditions";
+import { gompeiVisionMedia } from "./projects/gompeivision/gompeiVisionMedia";
+
 export interface Project {
     id: string;
     title: string;
@@ -5,6 +13,9 @@ export interface Project {
     technologies: string[];
     markdownFile: string;
     githubUrl?: string;
+    processData?: ProcessNode[];
+    futureAdditionsData?: FutureAddition[];
+    mediaData?: MediaItem[];
 }
 
 export const projects: Project[] = [
@@ -15,13 +26,17 @@ export const projects: Project[] = [
         technologies: ["OpenCV", "C++", "CMake", "Docker", "Linux", "WPILib"],
         markdownFile: "../data/projects/gompeivision/GompeiVision.md",
         githubUrl: "https://github.com/Team-190/GompeiVision",
+        processData: gompeiVisionProcessData,
+        futureAdditionsData: gompeiVisionAdditionsData,
+        mediaData: gompeiVisionMedia,
     },
     {
         id: "GompeiLib",
         title: "GompeiLib",
-        summary: "Modular robotics software framework for autonomous control and subsystem management",
+        summary: "A library of reusable components, subsystems, IO, and utilities for use on FRC teams",
         technologies: ["Java", "Gradle", "Junit", "WPILib"],
-        markdownFile: "../data/projects/GompeiLib.md",
+        markdownFile: "../data/projects/gompeilib/GompeiLib.md",
+        githubUrl: "https://github.com/Team-190/GompeiLib",
     },
     {
         id: "WPICal",

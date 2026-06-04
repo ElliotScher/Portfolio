@@ -69,16 +69,16 @@ Within each camera process, the pipeline is further decomposed into multiple thr
 
 Each pipeline has 4 distinct parts, and come together with a sensor fusion operation on the RoboRIO:
 
-<div id="gompei-vision-process-diagram"></div>
+<div class="project-process-diagram"></div>
 
 ## Results and Testing
 
 Here are demonstrations of the system in action, showcasing the robot autonomously aligning and scoring game pieces on the field using the localization data. When the rainbow lights scroll on the robot it denotes that the robot is using the vision data to autonomously align and score game pieces.
 
-<div id="gompei-vision-media-gallery"></div>
+<div class="project-media-gallery"></div>
 
 ## Future Additions
 
 Below are some of the planned improvements, architectural updates, and research initiatives for the next iterations of GompeiVision:
 
-<div id="gompei-vision-future-additions"></div>
+<div class="project-future-additions"></div>

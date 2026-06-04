@@ -1,5 +1,10 @@
-import { gompeiVisionProcessData } from '../data/projects/gompeivision/gompeiVisionProcess.ts';
 import showdown from 'showdown';
+
+export interface ProcessNode {
+    id: string;
+    label: string;
+    markdownFile: string;
+}
 
 const converter = new showdown.Converter({
     ghCompatibleHeaderId: true,
@@ -9,9 +14,11 @@ const converter = new showdown.Converter({
 // Map of projects modules
 const markdownFiles = import.meta.glob('../data/projects/**/*.md', { query: '?raw', import: 'default' });
 
-export function createProcessDiagram(container: HTMLElement) {
+export function createProcessDiagram(container: HTMLElement, data: ProcessNode[]) {
     // Clear container
     container.innerHTML = '';
+
+    if (!data || data.length === 0) return;
 
     const processContainer = document.createElement('div');
     processContainer.className = 'process-container';
@@ -23,7 +30,7 @@ export function createProcessDiagram(container: HTMLElement) {
     const stepNodes: HTMLButtonElement[] = [];
     const stepConnectors: HTMLDivElement[] = [];
 
-    gompeiVisionProcessData.forEach((nodeData, index) => {
+    data.forEach((nodeData, index) => {
         // Create Step Button Node
         const stepNode = document.createElement('button');
         stepNode.className = 'step-node';
@@ -49,7 +56,7 @@ export function createProcessDiagram(container: HTMLElement) {
         stepNodes.push(stepNode);
 
         // Create Connector (if not the last step)
-        if (index < gompeiVisionProcessData.length - 1) {
+        if (index < data.length - 1) {
             const connector = document.createElement('div');
             connector.className = 'step-connector';
             
@@ -113,14 +120,14 @@ export function createProcessDiagram(container: HTMLElement) {
     });
 
     btnNext.addEventListener('click', () => {
-        if (currentStepIndex < gompeiVisionProcessData.length - 1) {
+        if (currentStepIndex < data.length - 1) {
             setActiveStep(currentStepIndex + 1);
         }
     });
 
     // Main step navigation function
     async function setActiveStep(targetIndex: number) {
-        if (targetIndex < 0 || targetIndex >= gompeiVisionProcessData.length) return;
+        if (targetIndex < 0 || targetIndex >= data.length) return;
 
         currentStepIndex = targetIndex;
 
@@ -144,10 +151,10 @@ export function createProcessDiagram(container: HTMLElement) {
 
         // Disable/enable navigation buttons at bounds
         btnPrev.disabled = currentStepIndex === 0;
-        btnNext.disabled = currentStepIndex === gompeiVisionProcessData.length - 1;
+        btnNext.disabled = currentStepIndex === data.length - 1;
 
         // Fetch and load projects content with animation transition
-        const nodeData = gompeiVisionProcessData[currentStepIndex];
+        const nodeData = data[currentStepIndex];
 
         // Trigger fade out
         detailContent.classList.add('transition-out');

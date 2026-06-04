@@ -1,6 +1,13 @@
 import showdown from "showdown";
-import { gompeiVisionAdditionsData } from "../data/projects/gompeivision/gompeiVisionAdditions.ts";
 import { technologyIcons } from "../assets/logos/technologyIcons.ts";
+
+export interface FutureAddition {
+    id: string;
+    title: string;
+    summary: string;
+    markdownFile: string;
+    icon: string; // Technology key used to look up the SVG logo in technologyIcons
+}
 
 const converter = new showdown.Converter({
     ghCompatibleHeaderId: true,
@@ -10,8 +17,10 @@ const converter = new showdown.Converter({
 // Import projects files dynamically
 const markdownFiles = import.meta.glob('../data/projects/**/*.md', { query: '?raw', import: 'default' });
 
-export function createFutureAdditions(container: HTMLElement) {
+export function createFutureAdditions(container: HTMLElement, data: FutureAddition[]) {
     container.innerHTML = "";
+
+    if (!data || data.length === 0) return;
 
     const splitContainer = document.createElement("div");
     splitContainer.className = "future-additions-split-layout";
@@ -20,7 +29,7 @@ export function createFutureAdditions(container: HTMLElement) {
     const menuPane = document.createElement("div");
     menuPane.className = "future-additions-menu";
 
-    gompeiVisionAdditionsData.forEach((addition) => {
+    data.forEach((addition) => {
         const btn = document.createElement("button");
         btn.className = "menu-btn";
         btn.setAttribute("type", "button");
@@ -81,7 +90,7 @@ export function createFutureAdditions(container: HTMLElement) {
         menuBtns.forEach(b => b.classList.remove("active"));
         activeBtn.classList.add("active");
 
-        const addition = gompeiVisionAdditionsData.find(a => a.id === id);
+        const addition = data.find(a => a.id === id);
         if (!addition) return;
 
         // Transition fade out

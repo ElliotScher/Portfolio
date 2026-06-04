@@ -1,0 +1,210 @@
+/* Project Tree Component Container */
+.project-tree-container {
+    display: flex;
+    flex-direction: row;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin: var(--space-3) 0;
+    min-height: 400px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* 1. Left Sidebar for Directory Tree */
+.tree-sidebar {
+    width: 35%;
+    min-width: 250px;
+    border-right: 1px solid var(--border);
+    padding: var(--space-2);
+    background: rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+.tree-sidebar-title {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin-bottom: var(--space-2);
+    padding-left: var(--space-1);
+    border-left: 3px solid var(--accent);
+}
+
+/* Tree List reset */
+.tree-list, .tree-child-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tree-child-list {
+    margin-left: 0px;
+}
+
+/* Tree Node Row */
+.tree-node-row {
+    display: flex;
+    align-items: center;
+    padding: 6px var(--space-1);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+    user-select: none;
+    margin-bottom: 2px;
+}
+
+.tree-node-row:hover {
+    background: var(--panel-2);
+    color: var(--text);
+}
+
+.tree-node-row.active {
+    background: rgba(46, 204, 113, 0.15);
+    border-left: 2px solid var(--accent);
+    color: var(--accent);
+    padding-left: calc(var(--space-1) - 2px);
+}
+
+/* Toggle chevron button */
+.tree-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-right: 6px;
+    color: var(--muted);
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.tree-toggle-btn:hover:not(.disabled) {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+}
+
+.tree-toggle-btn.disabled {
+    opacity: 0.2;
+    cursor: default;
+}
+
+.tree-toggle-btn .icon-chevron {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.2s ease;
+}
+
+.tree-toggle-btn.expanded .icon-chevron {
+    transform: rotate(90deg);
+}
+
+/* Icons */
+.tree-icon-span {
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+    color: var(--muted);
+}
+
+.tree-node-row.active .tree-icon-span {
+    color: var(--accent);
+}
+
+.icon-folder, .icon-folder-open {
+    width: 16px;
+    height: 16px;
+}
+
+/* Labels */
+.tree-label {
+    font-family: 'Fira Code', 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 2. Right Detail Card */
+.tree-detail {
+    flex: 1;
+    padding: var(--space-3);
+    background: transparent;
+    overflow-y: auto;
+    max-height: 500px;
+    position: relative;
+}
+
+.tree-detail-content-wrapper {
+    position: relative;
+    height: 100%;
+}
+
+.tree-detail-content {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.tree-detail-content.transition-out {
+    opacity: 0;
+    transform: translateY(4px);
+}
+
+.tree-detail-content h3 {
+    margin-top: 0;
+    font-size: 1.3rem;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: var(--space-1);
+    margin-bottom: var(--space-2);
+}
+
+.tree-detail-content p {
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: var(--space-2);
+}
+
+.tree-detail-content ul {
+    padding-left: var(--space-2);
+    margin-bottom: var(--space-2);
+}
+
+.tree-detail-content li {
+    color: var(--text);
+    margin-bottom: var(--space-1);
+    line-height: 1.5;
+}
+
+.tree-detail-content code {
+    font-family: 'Fira Code', 'Courier New', Courier, monospace;
+    background: var(--panel-2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* 3. Stacked Layout for Mobile/Small Screens */
+.project-tree-container.stacked-layout {
+    flex-direction: column;
+    min-height: auto;
+}
+
+.project-tree-container.stacked-layout .tree-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    max-height: 250px;
+}
+
+.project-tree-container.stacked-layout .tree-detail {
+    max-height: none;
+}

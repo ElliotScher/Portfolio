@@ -1,10 +1,4 @@
-export interface FutureAddition {
-    id: string;
-    title: string;
-    summary: string;
-    markdownFile: string;
-    icon: string; // Technology key used to look up the SVG logo in technologyIcons
-}
+import type { FutureAddition } from "../../../components/futureAdditions";
 
 export const gompeiVisionAdditionsData: FutureAddition[] = [
     {
@@ -62,7 +56,7 @@ export const gompeiVisionAdditionsData: FutureAddition[] = [
         title: 'Match Video Recording',
         summary: 'Automatically record, compress, and archive video streams from all active cameras, synchronized with FRC field state and indexed with match numbers.',
         markdownFile: '../data/projects/gompeivision/future-additions/match-recording.md',
-        icon: 'WPILib'
+        icon: 'Ffmpeg'
     },
     {
         id: 'apple-silicon',

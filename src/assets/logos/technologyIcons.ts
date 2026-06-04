@@ -1,5 +1,6 @@
 import wpilibLogo from "./wpilib.svg";
 import nvidiaLogo from "./nvidia-logo-vert.svg";
+import ffmpegLogo from "./ffmpeg.svg";
 
 export const technologyIcons: Record<string, string> = {
     "C++": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg",
@@ -25,6 +26,7 @@ export const technologyIcons: Record<string, string> = {
     "Pytest": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pytest/pytest-original.svg",
     "WPILib": wpilibLogo,
     "Nvidia": nvidiaLogo,
+    "Ffmpeg": ffmpegLogo,
     "Ubuntu": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ubuntu/ubuntu-original.svg",
     "Nixos": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nixos/nixos-original.svg",
     "Tensorflow": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tensorflow/tensorflow-original.svg",

@@ -1,8 +1,4 @@
-export interface ProcessNode {
-    id: string;
-    label: string;
-    markdownFile: string;
-}
+import type { ProcessNode } from "../../../components/processDiagram";
 
 export const gompeiVisionProcessData: ProcessNode[] = [
     {

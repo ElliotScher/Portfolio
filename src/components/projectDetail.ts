@@ -4,7 +4,6 @@ import { createProcessDiagram } from "./processDiagram";
 import { createTechStack } from "./techStack";
 import { createFutureAdditions } from "./futureAdditions";
 import { createMediaGallery } from "./mediaGallery";
-import { gompeiVisionMedia } from "../data/projects/gompeivision/gompeiVisionMedia";
 
 
 const githubIcon = `
@@ -181,9 +180,9 @@ function createNavMenu(headers: {level: number, text: string, id: string}[]): st
 }
 
 function mountInteractiveComponents(container: HTMLElement, project: Project) {
-    const processDiagramPlaceholder = container.querySelector('#gompei-vision-process-diagram');
-    if (processDiagramPlaceholder instanceof HTMLElement) {
-        createProcessDiagram(processDiagramPlaceholder);
+    const processDiagramPlaceholder = container.querySelector('.project-process-diagram') || container.querySelector('#gompei-vision-process-diagram');
+    if (processDiagramPlaceholder instanceof HTMLElement && project.processData) {
+        createProcessDiagram(processDiagramPlaceholder, project.processData);
     }
 
     const techStackPlaceholder = container.querySelector('.project-tech-stack') || container.querySelector('[id$="-tech-stack"]');
@@ -193,13 +192,13 @@ function mountInteractiveComponents(container: HTMLElement, project: Project) {
         techStackPlaceholder.appendChild(techWidget);
     }
 
-    const futureAdditionsPlaceholder = container.querySelector('#gompei-vision-future-additions');
-    if (futureAdditionsPlaceholder instanceof HTMLElement) {
-        createFutureAdditions(futureAdditionsPlaceholder);
+    const futureAdditionsPlaceholder = container.querySelector('.project-future-additions') || container.querySelector('#gompei-vision-future-additions');
+    if (futureAdditionsPlaceholder instanceof HTMLElement && project.futureAdditionsData) {
+        createFutureAdditions(futureAdditionsPlaceholder, project.futureAdditionsData);
     }
 
-    const mediaGalleryPlaceholder = container.querySelector('#gompei-vision-media-gallery');
-    if (mediaGalleryPlaceholder instanceof HTMLElement) {
-        createMediaGallery(mediaGalleryPlaceholder, gompeiVisionMedia);
+    const mediaGalleryPlaceholder = container.querySelector('.project-media-gallery') || container.querySelector('#gompei-vision-media-gallery');
+    if (mediaGalleryPlaceholder instanceof HTMLElement && project.mediaData) {
+        createMediaGallery(mediaGalleryPlaceholder, project.mediaData);
     }
 }
