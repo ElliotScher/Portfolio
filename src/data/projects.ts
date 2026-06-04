@@ -71,7 +71,7 @@ export const projects: Project[] = [
         title: "Generic Robotic Systems Framework",
         summary: "ROS 2-inspired publish-subscribe architecture for distributed robotic software systems",
         technologies: ["Python", "Anaconda", "Pytest"],
-        markdownFile: "../data/projects/RBE300X.md",
+        markdownFile: "../data/projects/rbe300x/RBE300X.md",
     },
     {
         id: "RotaryODSampler",
