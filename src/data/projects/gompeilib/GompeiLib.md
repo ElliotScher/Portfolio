@@ -29,8 +29,6 @@ Click on any of the technology circles below to see why it was chosen for this p
 
 <div class="project-tech-stack" data-project-id="GompeiLib"></div>
 
-***
-
 ## Development & Synchronization Workflow
 
 To streamline development and avoid the friction of packaging and releasing local test builds of **GompeiLib**, a bidirectional synchronization system is established between the standalone `GompeiLib` repository and the main robot repository. This allows developers to edit the library source files directly within the robot project's `lib/` directory and keep both repositories synchronized.

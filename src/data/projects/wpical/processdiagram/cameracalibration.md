@@ -18,8 +18,10 @@ Regardless of the engine, the user must input the exact board configuration:
 After running the calibration, WPICal automatically saves the computed parameters to a file named `cameracalibration.json` in the video directory. This file contains the core intrinsic parameters required for the field solver:
 
 * `avg_reprojection_error`: The average pixel error of the projected corners. Values under `0.5` pixels indicate a successful calibration.
-* `camera_matrix`: The $3 \times 3$ intrinsic camera matrix containing the focal lengths the principal point coordinates.
-* `distortion_coefficients`: The lens distortion parameters for radial and tangential alignment.
+* `camera_matrix`: The $3 \times 3$ intrinsic camera matrix containing the focal lengths and the principal point coordinates:
+  $$K = \begin{bmatrix} f_x & 0 & c_x \\ 0 & f_y & c_y \\ 0 & 0 & 1 \end{bmatrix}$$
+* `distortion_coefficients`: The lens distortion parameters for radial and tangential alignment, represented as a coefficient vector:
+  $$D = \begin{bmatrix} k_1 & k_2 & p_1 & p_2 & k_3 \end{bmatrix}$$
 
 ## Importing Pre-Computed Calibrations
 

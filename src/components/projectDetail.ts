@@ -30,12 +30,43 @@ export function createProjectDetail(initial: Project): HTMLElement {
     container.className = "project-detail-wrapper";
     container.id = "project-detail-wrapper";
 
+    // Auto-expand details and smooth-scroll when clicking hash links pointing inside them
+    container.addEventListener("click", (e) => {
+        const link = (e.target as HTMLElement).closest("a");
+        if (link) {
+            const href = link.getAttribute("href");
+            if (href && href.startsWith("#")) {
+                const targetId = decodeURIComponent(href.substring(1));
+                const targetElem = container.querySelector(`[id="${targetId}"]`);
+                if (targetElem) {
+                    let parent = targetElem.parentElement;
+                    let openedDetails = false;
+                    while (parent && parent !== container) {
+                        if (parent.tagName === "DETAILS" && !(parent as HTMLDetailsElement).open) {
+                            (parent as HTMLDetailsElement).open = true;
+                            openedDetails = true;
+                        }
+                        parent = parent.parentElement;
+                    }
+                    if (openedDetails) {
+                        e.preventDefault();
+                        setTimeout(() => {
+                            targetElem.scrollIntoView({ behavior: "smooth" });
+                            history.pushState(null, "", href);
+                        }, 50);
+                    }
+                }
+            }
+        }
+    });
+
     render(container, initial);
 
     currentDetail = container;
 
     return container;
 }
+
 
 export function setActiveProject(project: Project) {
     if (!currentDetail) return;
@@ -104,11 +135,21 @@ async function render(container: HTMLElement, project: Project) {
                     const htmlContent = markdownConverter.makeHtml(mdContent);
                     contentContainer.innerHTML = htmlContent;
 
-                    // Prepend dynamic base URL to relative image paths
-                    contentContainer.querySelectorAll("img").forEach(img => {
-                        const src = img.getAttribute("src");
-                        if (src && !src.startsWith("http://") && !src.startsWith("https://") && !src.startsWith("/")) {
-                            img.src = `${import.meta.env.BASE_URL}${src}`;
+                    // Prepend dynamic base URL to relative image, iframe, embed paths and pdf links
+                    contentContainer.querySelectorAll("img, iframe, embed, a").forEach(el => {
+                        const attr = el.tagName.toLowerCase() === "a" ? "href" : "src";
+                        const url = el.getAttribute(attr);
+                        if (url && !url.startsWith("http://") && !url.startsWith("https://") && !url.startsWith("/") && !url.startsWith("#")) {
+                            const targetUrl = `${import.meta.env.BASE_URL}${url}`;
+                            if (el.tagName.toLowerCase() === "a") {
+                                if (url.toLowerCase().endsWith(".pdf")) {
+                                    el.setAttribute("href", targetUrl);
+                                }
+                            } else if (el instanceof HTMLImageElement) {
+                                el.src = targetUrl;
+                            } else {
+                                el.setAttribute(attr, targetUrl);
+                            }
                         }
                     });
 

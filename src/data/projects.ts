@@ -7,6 +7,7 @@ import { gompeiVisionAdditionsData } from "./projects/gompeivision/gompeiVisionA
 import { gompeiVisionMedia } from "./projects/gompeivision/gompeiVisionMedia";
 import { wpiCalAdditionsData } from "./projects/wpical/wpiCalAdditions";
 import { wpiCalProcessData } from "./projects/wpical/wpiCalProcess";
+import { rbe3001Media } from "./projects/rbe3001/rbe3001Media";
 
 export interface Project {
     id: string;
@@ -51,25 +52,19 @@ export const projects: Project[] = [
         futureAdditionsData: wpiCalAdditionsData,
     },
     {
-        id: "KnowledgeBase",
-        title: "Knowledge Base",
-        summary: "Central robotics knowledge base for software, vision, and controls documentation",
-        technologies: ["Typescript", "HTML", "CSS", "Markdown"],
-        markdownFile: "../data/projects/KnowledgeBase.md",
-    },
-    {
         id: "RBE3001",
         title: "Robotic Arm",
         summary: "4-dof robotic arm and vision system implemented in MATLAB",
         technologies: ["MATLAB", "Linux"],
-        markdownFile: "../data/projects/RBE3001.md",
+        markdownFile: "../data/projects/rbe3001/RBE3001.md",
+        mediaData: rbe3001Media,
     },
     {
         id: "RBE3002",
         title: "Robotic Navigation",
         summary: "ROS-based SLAM, monte-carlo localization, and frontier exploration, and path planning for autonomous maze solving",
         technologies: ["Python", "ROS 2"],
-        markdownFile: "../data/projects/RBE3002.md",
+        markdownFile: "../data/projects/rbe3002/RBE3002.md",
     },
     {
         id: "RBE300X",
@@ -112,5 +107,12 @@ export const projects: Project[] = [
         summary: "Robot Codebase for FRC 190 2026 competition season",
         technologies: ["Java", "Gradle", "Linux", "WPILib"],
         markdownFile: "../data/projects/FRC2026.md",
+    },
+    {
+        id: "KnowledgeBase",
+        title: "Knowledge Base",
+        summary: "Central robotics knowledge base for software, vision, and controls documentation",
+        technologies: ["Typescript", "HTML", "CSS", "Markdown"],
+        markdownFile: "../data/projects/KnowledgeBase.md",
     }
 ];
