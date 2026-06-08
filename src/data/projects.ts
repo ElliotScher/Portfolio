@@ -74,11 +74,11 @@ export const projects: Project[] = [
         markdownFile: "../data/projects/rbe300x/RBE300X.md",
     },
     {
-        id: "RotaryODSampler",
-        title: "Rotary Optical Density Instrument",
-        summary: "Distributed optical density monitoring system with embedded device communication",
+        id: "Incubator",
+        title: "Automated Laboratory Incubator",
+        summary: "Distributed laboratory incubator control suite with real-time optical density tracking",
         technologies: ["Python", "C++", "Raspberry Pi", "Arduino"],
-        markdownFile: "../data/projects/RotaryODSampler.md",
+        markdownFile: "../data/projects/incubator/Incubator_until_cam_looks.md",
     },
     {
         id: "FRC2025KitBot",
@@ -113,6 +113,7 @@ export const projects: Project[] = [
         title: "Knowledge Base",
         summary: "Central robotics knowledge base for software, vision, and controls documentation",
         technologies: ["Typescript", "HTML", "CSS", "Markdown"],
-        markdownFile: "../data/projects/KnowledgeBase.md",
+        markdownFile: ".." +
+            "/data/projects/KnowledgeBase.md",
     }
 ];

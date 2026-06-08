@@ -5,4 +5,4 @@ I use Python for rapid prototyping, data processing, autonomous path planning, a
 #### Project Portfolio:
 - **[Robotic Navigation](#project-RBE3002)** — Maze-solving robot using Monte-Carlo localization, SLAM, and path planning.
 - **[Generic Robotic Systems Framework](#project-RBE300X)** — Publish-subscribe messaging framework designed in Python.
-- **[Rotary Optical Density Instrument](#project-RotaryODSampler)** — Distributed communication scripts for device sampling.
+- **[Automated Laboratory Incubator](#project-Incubator)** — Distributed communication scripts for device sampling.
