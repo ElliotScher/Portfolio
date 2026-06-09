@@ -85,20 +85,13 @@ export const projects: Project[] = [
         technologies: ["Python", "Anaconda", "Pytest"],
         markdownFile: "../data/projects/rbe300x/RBE300X.md",
     },
-    {
-        id: "RBE1001",
-        title: "Simulated Fruit Picking Robot",
-        summary: "VEX V5 robot base programmed in python to autonomously collect \"fruit\" off trees",
-        technologies: ["VEX", "Python"],
-        markdownFile: "../data/projects/rbe3002/RBE3002.md",
-    },
-    {
-        id: "Incubator",
-        title: "Automated Laboratory Incubator",
-        summary: "Distributed laboratory incubator control suite with real-time optical density tracking",
-        technologies: ["Python", "C++", "Raspberry Pi", "Arduino"],
-        markdownFile: "../data/projects/incubator/Incubator_until_cam_looks.md",
-    },
+    // {
+    //     id: "Incubator",
+    //     title: "Automated Laboratory Incubator",
+    //     summary: "Distributed laboratory incubator control suite with real-time optical density tracking",
+    //     technologies: ["Python", "C++", "Raspberry Pi", "Arduino"],
+    //     markdownFile: "../data/projects/incubator/Incubator.md",
+    // },
     {
         id: "FRCSharedCodebase",
         title: "FRC Shared Codebase Design & Execution",

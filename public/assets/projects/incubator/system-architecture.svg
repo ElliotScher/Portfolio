@@ -29,14 +29,14 @@
   <text x="300" y="212" fill="#e6eee8" font-size="14" font-weight="bold" text-anchor="middle">Arduino Firmware Microcontroller</text>
   
   <rect x="100" y="226" width="400" height="34" rx="4" fill="#243028" stroke="rgba(46, 204, 113, 0.4)" />
-  <text x="300" y="247" fill="#e6eee8" font-size="12" text-anchor="middle">Non-blocking FSM (StepperHomer and ChannelStepper)</text>
+  <text x="300" y="247" fill="#e6eee8" font-size="12" text-anchor="middle">Non-blocking FSM (Homing &amp; Carousel Positioning)</text>
 
   <!-- IO Connection lines -->
   <path d="M 190 270 L 190 310" stroke="#a3b8aa" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrow-muted)" />
   <text x="180" y="295" fill="#a3b8aa" font-size="10" text-anchor="end">Step/Dir Commands</text>
 
   <path d="M 410 310 L 410 270" stroke="#a3b8aa" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrow-muted)" />
-  <text x="420" y="295" fill="#a3b8aa" font-size="10" text-anchor="start">Analog Read (A1)</text>
+  <text x="420" y="295" fill="#a3b8aa" font-size="10" text-anchor="start">Analog Read</text>
 
   <!-- Hardware components -->
   <rect x="40" y="310" width="240" height="40" rx="6" fill="#2d3b31" stroke="#a3b8aa" stroke-width="1.5" />

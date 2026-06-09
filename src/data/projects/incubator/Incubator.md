@@ -25,19 +25,7 @@ The Automated Laboratory Incubator relies on a hardware-software co-design consi
 
 ![System Architecture](assets/projects/incubator/system-architecture.svg)
 
-### 1. Hardware Integration & Pinout
-
-The microcontroller firmware controls the stepper motor driver, reads the limit switch for homing, monitors a physical pause button, and samples the analog photodetector.
-
-| Pin Name    | Pin Number | Type             | Description                                                           |
-|:------------|:-----------|:-----------------|:----------------------------------------------------------------------|
-| `pausePin`  | `4`        | `INPUT_PULLUP`   | Physical pause button (active low) for emergency interruption.        |
-| `stepPin`   | `5`        | `OUTPUT`         | Stepper driver step command pin.                                      |
-| `dirPin`    | `6`        | `OUTPUT`         | Stepper driver direction command pin.                                 |
-| `homingPin` | `7`        | `INPUT`          | Limit switch to locate the physical reference zero position.          |
-| `ODPin`     | `A1`       | `INPUT (Analog)` | Photodetector analog input for measuring transmitted light intensity. |
-
-### 2. Non-Blocking Firmware Architecture
+### 1. Non-Blocking Firmware Architecture
 
 To ensure the serial interface remains responsive and safety checks (like the physical pause button) are polled instantly, the Arduino firmware ([arduino.ino](file:///home/elliotscher/Downloads/Incubator-main/arduino/arduino.ino)) runs a non-blocking Finite State Machine (FSM). It utilizes two custom C++ hardware abstraction helper classes:
 
@@ -46,7 +34,7 @@ To ensure the serial interface remains responsive and safety checks (like the ph
 
 ![Firmware Finite State Machine](assets/projects/incubator/firmware-fsm.svg)
 
-### 3. Serial Communication Protocol
+### 2. Serial Communication Protocol
 
 The desktop GUI and Arduino communicate over a 9600 Baud UART serial connection using structured, newline-delimited command strings.
 
