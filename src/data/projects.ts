@@ -111,13 +111,5 @@ export const projects: Project[] = [
         technologies: ["Java", "Gradle", "Linux", "WPILib"],
         markdownFile: "../data/projects/frc2026/FRC2026.md",
         githubUrl: "https://github.com/Team-190/2k26-Robot-Code",
-    },
-    {
-        id: "KnowledgeBase",
-        title: "Knowledge Base",
-        summary: "Central robotics knowledge base for software, vision, and controls documentation",
-        technologies: ["Typescript", "HTML", "CSS", "Markdown"],
-        markdownFile: ".." +
-            "/data/projects/KnowledgeBase.md",
     }
 ];
