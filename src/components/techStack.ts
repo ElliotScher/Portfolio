@@ -208,7 +208,10 @@ export function createTechStack(technologies: string[], projectId?: string, mark
         const techFileName = getTechFileName(techName);
         let mdPath = "";
 
-        if (markdownFile) {
+        if (projectId && (projectId === "FRC1902024Codebase" || projectId === "FRC1902025Codebase" || projectId === "FRC1902026Codebase")) {
+            // Shared FRC 190 codebase technical choices
+            mdPath = `../data/projects/frc190-common/tech-choices/${techFileName}.md`;
+        } else if (markdownFile) {
             // Resolve path relative to the project's projects file directory
             const lastSlash = markdownFile.lastIndexOf("/");
             const dir = lastSlash !== -1 ? markdownFile.substring(0, lastSlash) : "..";
