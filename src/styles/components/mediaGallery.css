@@ -322,3 +322,185 @@ video.media-card-image {
     opacity: 1;
     box-shadow: 0 0 20px rgba(46, 204, 113, 0.4);
 }
+
+/* Custom Video Player styles */
+.custom-video-player {
+    position: relative;
+    overflow: hidden;
+    background: #0d120f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transform: scale(0.97);
+    transition: opacity 0.2s cubic-bezier(0.25, 0.8, 0.25, 1),
+                transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.custom-video-player .lightbox-image {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    opacity: 1;
+    transform: none;
+    box-shadow: none;
+    transition: none;
+}
+
+.custom-video-controls {
+    position: absolute;
+    bottom: var(--space-3);
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    width: 90%;
+    max-width: 600px;
+    background: rgba(12, 18, 14, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+                transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 10005;
+}
+
+.custom-video-player:hover .custom-video-controls,
+.custom-video-player:focus-within .custom-video-controls,
+.custom-video-player.is-paused .custom-video-controls {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    outline: none;
+}
+
+.control-btn:hover,
+.control-btn:focus-visible {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--accent);
+}
+
+.progress-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 4px 0;
+}
+
+.progress-bar {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    background: linear-gradient(to right, var(--accent) 0%, var(--accent) 0%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.15) 100%);
+    height: 5px;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+    transition: height 0.15s ease;
+}
+
+.progress-bar:hover {
+    height: 7px;
+}
+
+.progress-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.progress-bar:hover::-webkit-slider-thumb {
+    transform: scale(1.25);
+}
+
+.progress-bar::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: none;
+    transition: transform 0.15s ease;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.progress-bar:hover::-moz-range-thumb {
+    transform: scale(1.25);
+}
+
+.time-display {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.76rem;
+    color: var(--text);
+    min-width: 85px;
+    text-align: center;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+/* Portrait Layout adjustments to prevent overlapping with description card */
+@media (min-width: 768px) {
+    .media-lightbox-overlay.is-portrait .lightbox-content-wrapper {
+        flex-direction: row;
+        max-width: 1000px;
+        gap: var(--space-4);
+        padding: 0 var(--space-4);
+    }
+
+    .media-lightbox-overlay.is-portrait .lightbox-media-container {
+        flex: 1;
+        padding: 0;
+        height: 70vh;
+    }
+
+    .media-lightbox-overlay.is-portrait .custom-video-player,
+    .media-lightbox-overlay.is-portrait .lightbox-image {
+        max-height: 70vh;
+        max-width: 100%;
+    }
+
+    .media-lightbox-overlay.is-portrait .lightbox-info-overlay {
+        flex: 0 0 320px;
+        margin-bottom: 0;
+        text-align: left;
+        align-self: center;
+    }
+}
+
+@media (max-width: 767px) {
+    .media-lightbox-overlay.is-portrait .custom-video-player,
+    .media-lightbox-overlay.is-portrait .lightbox-image {
+        max-height: 48vh;
+    }
+}
