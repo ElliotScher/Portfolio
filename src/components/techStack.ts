@@ -1,5 +1,6 @@
 import { markdownConverter } from "../utils/markdown";
 import { technologyIcons } from "../assets/logos/technologyIcons.ts";
+import hljs from "highlight.js";
 
 
 
@@ -227,6 +228,11 @@ export function createTechStack(technologies: string[], projectId?: string, mark
             if (loadMarkdown) {
                 const rawMd = await loadMarkdown();
                 detailContent.innerHTML = markdownConverter.makeHtml(rawMd);
+
+                // Apply syntax highlighting to code blocks
+                detailContent.querySelectorAll("pre code").forEach((block) => {
+                    hljs.highlightElement(block as HTMLElement);
+                });
             } else {
                 detailContent.innerHTML = `
                     <h3>${techName}</h3>

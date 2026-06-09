@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 420" width="100%" style="max-width: 700px; height: auto; display: block; margin: 20px auto; background: #243028; border-radius: 8px; border: 1px solid rgba(46, 204, 113, 0.2); font-family: system-ui, -apple-system, sans-serif;">
+  <defs>
+    <marker id="fsm-arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#2ecc71" />
+    </marker>
+    <marker id="fsm-cancel-arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#e74c3c" />
+    </marker>
+  </defs>
+
+  <!-- Section Title Headers -->
+  <text x="170" y="30" fill="#2ecc71" font-size="12" font-weight="bold" letter-spacing="0.5" text-anchor="middle">COMPILE-TIME DEPLOYMENT (build.gradle)</text>
+  <text x="520" y="30" fill="#2ecc71" font-size="12" font-weight="bold" letter-spacing="0.5" text-anchor="middle">RUNTIME ROBOT EXECUTION (Robot.java)</text>
+
+  <!-- Center Separator -->
+  <line x1="350" y1="15" x2="350" y2="405" stroke="rgba(46, 204, 113, 0.15)" stroke-dasharray="4,4" stroke-width="1.5" />
+
+  <!-- Left Column: Compile-Time Deployment -->
+  <!-- Block 1: Deploy Start -->
+  <rect x="50" y="55" width="240" height="40" rx="6" fill="#1c261f" stroke="#2ecc71" stroke-width="1.5" />
+  <text x="170" y="79" fill="#e6eee8" font-size="11" font-weight="bold" text-anchor="middle">Start Deploy (./gradlew deploy)</text>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 170 95 L 170 120" fill="none" stroke="#2ecc71" stroke-width="1.2" marker-end="url(#fsm-arrow)" />
+
+  <!-- Block 2: SSH Read -->
+  <rect x="50" y="120" width="240" height="45" rx="6" fill="#1c261f" stroke="#2ecc71" stroke-width="1.5" />
+  <text x="170" y="138" fill="#e6eee8" font-size="11" font-weight="bold" text-anchor="middle">SSH via JSch (admin@roboRIO)</text>
+  <text x="170" y="153" fill="#a3b8aa" font-size="9" text-anchor="middle">Read /etc/machine-info (PRETTY_HOSTNAME)</text>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 170 165 L 170 190" fill="none" stroke="#2ecc71" stroke-width="1.2" marker-end="url(#fsm-arrow)" />
+
+  <!-- Block 3: Reflective Load -->
+  <rect x="50" y="190" width="240" height="45" rx="6" fill="#1c261f" stroke="#2ecc71" stroke-width="1.5" />
+  <text x="170" y="208" fill="#e6eee8" font-size="11" font-weight="bold" text-anchor="middle">Reflective Class Loading</text>
+  <text x="170" y="223" fill="#a3b8aa" font-size="9" text-anchor="middle">Inspect compiled config (ROBOT enum)</text>
+
+  <!-- Arrow 3 -> 4 -->
+  <path d="M 170 235 L 170 260" fill="none" stroke="#2ecc71" stroke-width="1.2" marker-end="url(#fsm-arrow)" />
+
+  <!-- Block 4: Verify Switch -->
+  <rect x="40" y="260" width="260" height="45" rx="6" fill="#1c261f" stroke="#2ecc71" stroke-width="1.5" />
+  <text x="170" y="286" fill="#e6eee8" font-size="11" font-weight="bold" text-anchor="middle">Do Hardware and Code target match?</text>
+
+  <!-- Arrow 4 -> Fail -->
+  <path d="M 120 305 C 120 318, 90 318, 90 335" fill="none" stroke="#e74c3c" stroke-width="1.2" marker-end="url(#fsm-cancel-arrow)" />
+  <text x="100" y="323" fill="#e74c3c" font-size="8" font-weight="bold" text-anchor="end">Mismatch</text>
+
+  <!-- Block Fail -->
+  <rect x="35" y="335" width="110" height="45" rx="6" fill="#291a18" stroke="#e74c3c" stroke-width="1.5" />
+  <text x="90" y="353" fill="#f5d6d3" font-size="10" font-weight="bold" text-anchor="middle">Abort Deploy</text>
+  <text x="90" y="366" fill="#e74c3c" font-size="8" text-anchor="middle">GradleException</text>
+
+  <!-- Arrow 4 -> Success -->
+  <path d="M 220 305 C 220 318, 250 318, 250 335" fill="none" stroke="#2ecc71" stroke-width="1.2" marker-end="url(#fsm-arrow)" />
+  <text x="240" y="323" fill="#2ecc71" font-size="8" font-weight="bold" text-anchor="start">Match</text>
+
+  <!-- Block Success -->
+  <rect x="195" y="335" width="110" height="45" rx="6" fill="#1b2d20" stroke="#2ecc71" stroke-width="1.5" />
+  <text x="250" y="353" fill="#d2ebd8" font-size="10" font-weight="bold" text-anchor="middle">Deploy compiled JAR</text>
+  <text x="250" y="366" fill="#2ecc71" font-size="8" text-anchor="middle">Copy to /home/lvuser</text>
+
+
+  <!-- Right Column: Runtime Robot Execution -->
+  <!-- Block 5: Boot -->
+  <rect x="400" y="55" width="240" height="40" rx="6" fill="#1c261f" stroke="#2ecc71" stroke-width="1.5" />
+  <text x="520" y="79" fill="#e6eee8" font-size="11" font-weight="bold" text-anchor="middle">Robot Boot (Robot.java)</text>
+
+  <!-- Arrow 5 -> 6 -->
+  <path d="M 520 95 L 520 120" fill="none" stroke="#2ecc71" stroke-width="1.2" marker-end="url(#fsm-arrow)" />
+
+  <!-- Block 6: Read Target -->
+  <rect x="400" y="120" width="240" height="45" rx="6" fill="#1c261f" stroke="#2ecc71" stroke-width="1.5" />
+  <text x="520" y="138" fill="#e6eee8" font-size="11" font-weight="bold" text-anchor="middle">Read RobotType Config</text>
+  <text x="520" y="153" fill="#a3b8aa" font-size="9" text-anchor="middle">Fetch RobotConfig.ROBOT enum value</text>
+
+  <!-- Arrow 6 -> 7 -->
+  <path d="M 520 165 L 520 190" fill="none" stroke="#2ecc71" stroke-width="1.2" marker-end="url(#fsm-arrow)" />
+
+  <!-- Block 7: Switch Router -->
+  <rect x="400" y="190" width="240" height="45" rx="6" fill="#1c261f" stroke="#2ecc71" stroke-width="1.5" />
+  <text x="520" y="208" fill="#e6eee8" font-size="11" font-weight="bold" text-anchor="middle">Runtime Switch Statement</text>
+  <text x="520" y="223" fill="#a3b8aa" font-size="9" text-anchor="middle">Route instantiation based on enum value</text>
+
+  <!-- Branch Arrows -->
+  <path d="M 440 235 C 440 244, 410 244, 410 260" fill="none" stroke="#2ecc71" stroke-width="1.2" marker-end="url(#fsm-arrow)" />
+  <path d="M 520 235 L 520 260" fill="none" stroke="#2ecc71" stroke-width="1.2" marker-end="url(#fsm-arrow)" />
+  <path d="M 600 235 C 600 244, 630 244, 630 260" fill="none" stroke="#2ecc71" stroke-width="1.2" marker-end="url(#fsm-arrow)" />
+
+  <!-- Block Containers (V0, V1, V2) -->
+  <rect x="375" y="260" width="70" height="40" rx="4" fill="#1c261f" stroke="#2ecc71" stroke-width="1.2" />
+  <text x="410" y="284" fill="#e6eee8" font-size="9" font-weight="bold" text-anchor="middle">V0 Container</text>
+
+  <rect x="485" y="260" width="70" height="40" rx="4" fill="#1c261f" stroke="#2ecc71" stroke-width="1.2" />
+  <text x="520" y="284" fill="#e6eee8" font-size="9" font-weight="bold" text-anchor="middle">V1 Container</text>
+
+  <rect x="595" y="260" width="70" height="40" rx="4" fill="#1c261f" stroke="#2ecc71" stroke-width="1.2" />
+  <text x="630" y="284" fill="#e6eee8" font-size="9" font-weight="bold" text-anchor="middle">V2 Container</text>
+
+  <!-- Flow lines merging -->
+  <path d="M 410 300 C 410 315, 500 315, 500 335" fill="none" stroke="#2ecc71" stroke-width="1.2" marker-end="url(#fsm-arrow)" />
+  <path d="M 520 300 L 520 335" fill="none" stroke="#2ecc71" stroke-width="1.2" marker-end="url(#fsm-arrow)" />
+  <path d="M 630 300 C 630 315, 540 315, 540 335" fill="none" stroke="#2ecc71" stroke-width="1.2" marker-end="url(#fsm-arrow)" />
+
+  <!-- Block 8: Initialize bindings -->
+  <rect x="400" y="335" width="240" height="45" rx="6" fill="#1c261f" stroke="#2ecc71" stroke-width="1.5" />
+  <text x="520" y="353" fill="#e6eee8" font-size="11" font-weight="bold" text-anchor="middle">Initialize Hardware &amp; Ports</text>
+  <text x="520" y="366" fill="#a3b8aa" font-size="9" text-anchor="middle">Load container bindings for selected build</text>
+
+  <!-- Cross Dotted Line (Deploy -> Boot) -->
+  <path d="M 305 357 C 350 357, 335 75, 394 75" fill="none" stroke="#a3b8aa" stroke-dasharray="3,3" stroke-dashoffset="2" stroke-width="1.2" marker-end="url(#fsm-arrow)" />
+  <text x="350" y="180" fill="#a3b8aa" font-size="9" font-weight="bold" text-anchor="middle">Deploy</text>
+</svg>

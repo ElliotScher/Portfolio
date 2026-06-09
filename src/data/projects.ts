@@ -81,6 +81,14 @@ export const projects: Project[] = [
         markdownFile: "../data/projects/incubator/Incubator_until_cam_looks.md",
     },
     {
+        id: "FRCSharedCodebase",
+        title: "FRC Shared Codebase Design & Execution",
+        summary: "Single-codebase multi-robot architecture for FRC teams",
+        technologies: ["Java", "Gradle", "Linux", "WPILib"],
+        markdownFile: "../data/projects/frcsharedcodebase/FRCSharedCodebase.md",
+        githubUrl: "https://github.com/Team-190/2k26-Robot-Code"
+    },
+    {
         id: "FRC1902024Codebase",
         title: "FRC 190 2024 Codebase",
         summary: "Robot Codebase for FRC 190 2024 competition season",

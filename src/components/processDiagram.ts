@@ -1,4 +1,5 @@
 import { markdownConverter } from '../utils/markdown';
+import hljs from 'highlight.js';
 
 export interface ProcessNode {
     id: string;
@@ -178,6 +179,12 @@ export function createProcessDiagram(container: HTMLElement, data: ProcessNode[]
             // Wait briefly for the fade-out animation to complete (200ms matches CSS transition)
             setTimeout(() => {
                 detailContent.innerHTML = htmlContent;
+
+                // Apply syntax highlighting to code blocks
+                detailContent.querySelectorAll("pre code").forEach((block) => {
+                    hljs.highlightElement(block as HTMLElement);
+                });
+
                 // Render LaTeX formulas
                 if ((window as any).MathJax) {
                     (window as any).MathJax.typesetClear([detailContent]);

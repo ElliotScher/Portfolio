@@ -1,4 +1,5 @@
 import "./styles/main.css";
+import "highlight.js/styles/github-dark.css";
 
 import { createSidebar } from "./components/sidebar";
 import { initRouter } from "./router";

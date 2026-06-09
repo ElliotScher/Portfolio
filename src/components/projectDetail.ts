@@ -5,6 +5,7 @@ import { createTechStack } from "./techStack";
 import { createFutureAdditions } from "./futureAdditions";
 import { createMediaGallery } from "./mediaGallery";
 import { parseHash, scrollToAnchor } from "../utils/hash";
+import hljs from "highlight.js";
 
 
 const githubIcon = `
@@ -129,6 +130,11 @@ async function render(container: HTMLElement, project: Project) {
                 if (contentContainer) {
                     const htmlContent = markdownConverter.makeHtml(mdContent);
                     contentContainer.innerHTML = htmlContent;
+
+                    // Apply syntax highlighting to code blocks
+                    contentContainer.querySelectorAll("pre code").forEach((block) => {
+                        hljs.highlightElement(block as HTMLElement);
+                    });
 
                     // Prepend dynamic base URL to relative image, iframe, embed paths and pdf links
                     contentContainer.querySelectorAll("img, iframe, embed, a").forEach(el => {

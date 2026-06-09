@@ -1,5 +1,6 @@
 import { markdownConverter } from "../utils/markdown";
 import { technologyIcons } from "../assets/logos/technologyIcons.ts";
+import hljs from "highlight.js";
 
 export interface FutureAddition {
     id: string;
@@ -131,6 +132,12 @@ export function createFutureAdditions(container: HTMLElement, data: FutureAdditi
             // Wait briefly for transition (200ms matching CSS transition-out)
             setTimeout(() => {
                 detailContent.innerHTML = htmlContent;
+
+                // Apply syntax highlighting to code blocks
+                detailContent.querySelectorAll("pre code").forEach((block) => {
+                    hljs.highlightElement(block as HTMLElement);
+                });
+
                 detailContent.classList.remove("transition-out");
                 
                 // Adjust layout height if needed
