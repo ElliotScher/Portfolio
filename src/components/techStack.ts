@@ -224,7 +224,15 @@ export function createTechStack(technologies: string[], projectId?: string, mark
             mdPath = `../data/projects/technologies/${techFileName}.md`;
         }
 
-        detailContent.innerHTML = `<div class="tech-loading">Loading details for ${techName}...</div>`;
+        detailContent.innerHTML = `
+            <div class="loading-container">
+                <div class="loading-spinner-wrapper">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-spinner-inner"></div>
+                </div>
+                <div class="loading-text">Loading Details</div>
+            </div>
+        `;
 
         try {
             const loadMarkdown = markdownFiles[mdPath] as () => Promise<string>;

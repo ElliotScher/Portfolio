@@ -477,6 +477,18 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
                     const player = createCustomVideoPlayer(activeVideo, currentItem);
                     player.style.opacity = '0';
                     player.style.transform = 'scale(0.97)';
+                    player.style.transition = 'opacity 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1)';
+                    
+                    const loader = document.createElement('div');
+                    loader.className = 'loading-container lightbox-loader';
+                    loader.innerHTML = `
+                        <div class="loading-spinner-wrapper">
+                            <div class="loading-spinner"></div>
+                            <div class="loading-spinner-inner"></div>
+                        </div>
+                        <div class="loading-text">Loading Video</div>
+                    `;
+                    mediaContainer.appendChild(loader);
                     mediaContainer.appendChild(player);
 
                     activeVideo.addEventListener('loadedmetadata', () => {
@@ -489,6 +501,10 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
                     });
 
                     activeVideo.addEventListener('loadeddata', () => {
+                        loader.style.transition = 'opacity 0.2s ease';
+                        loader.style.opacity = '0';
+                        setTimeout(() => loader.remove(), 200);
+
                         player.style.opacity = '1';
                         player.style.transform = 'scale(1)';
                     });
@@ -500,9 +516,24 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
                     
                     activeImg.style.opacity = '0';
                     activeImg.style.transform = 'scale(0.97)';
+                    
+                    const loader = document.createElement('div');
+                    loader.className = 'loading-container lightbox-loader';
+                    loader.innerHTML = `
+                        <div class="loading-spinner-wrapper">
+                            <div class="loading-spinner"></div>
+                            <div class="loading-spinner-inner"></div>
+                        </div>
+                        <div class="loading-text">Loading Image</div>
+                    `;
+                    mediaContainer.appendChild(loader);
                     mediaContainer.appendChild(activeImg);
                     
                     activeImg.onload = () => {
+                        loader.style.transition = 'opacity 0.2s ease';
+                        loader.style.opacity = '0';
+                        setTimeout(() => loader.remove(), 200);
+
                         activeImg.style.opacity = '1';
                         activeImg.style.transform = 'scale(1)';
                         const aspect = activeImg.naturalWidth / activeImg.naturalHeight;

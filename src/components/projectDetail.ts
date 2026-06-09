@@ -105,7 +105,15 @@ async function render(container: HTMLElement, project: Project) {
                     }
                 </div>
 
-                <div id="project-projects-content">Loading...</div>
+                <div id="project-projects-content">
+                    <div class="loading-container">
+                        <div class="loading-spinner-wrapper">
+                            <div class="loading-spinner"></div>
+                            <div class="loading-spinner-inner"></div>
+                        </div>
+                        <div class="loading-text">Loading Project Details</div>
+                    </div>
+                </div>
             </div>
             <div id="project-nav-menu"></div>
         </div>
