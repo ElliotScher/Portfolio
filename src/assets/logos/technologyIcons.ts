@@ -1,6 +1,7 @@
 import wpilibLogo from "./wpilib.svg";
 import nvidiaLogo from "./nvidia-logo-vert.svg";
 import ffmpegLogo from "./ffmpeg.svg";
+import vexLogo from "./vex.svg";
 
 export const technologyIcons: Record<string, string> = {
     "C++": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg",
@@ -27,6 +28,8 @@ export const technologyIcons: Record<string, string> = {
     "WPILib": wpilibLogo,
     "Nvidia": nvidiaLogo,
     "Ffmpeg": ffmpegLogo,
+    "VEX": vexLogo,
+    "VEX V5 Brain": vexLogo,
     "Ubuntu": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ubuntu/ubuntu-original.svg",
     "Nixos": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nixos/nixos-original.svg",
     "Tensorflow": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tensorflow/tensorflow-original.svg",
