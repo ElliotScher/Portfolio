@@ -15,6 +15,34 @@ function isVideo(src: string): boolean {
            cleanSrc.toLowerCase().endsWith('.mov');
 }
 
+let lazyVideoObserver: IntersectionObserver | null = null;
+
+function getLazyVideoObserver(): IntersectionObserver {
+    if (!lazyVideoObserver) {
+        lazyVideoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target as HTMLVideoElement;
+                if (entry.isIntersecting) {
+                    if (!video.src && video.dataset.src) {
+                        video.src = video.dataset.src;
+                        video.load();
+                    }
+                } else {
+                    if (video.src) {
+                        video.pause();
+                        video.removeAttribute('src');
+                        video.load();
+                    }
+                }
+            });
+        }, {
+            rootMargin: '200px 0px',
+            threshold: 0.01
+        });
+    }
+    return lazyVideoObserver;
+}
+
 function applyVideoCrop(video: HTMLVideoElement, item: MediaItem) {
     if (item.startTime === undefined && item.endTime === undefined) {
         return;
@@ -133,11 +161,56 @@ function createCustomVideoPlayer(video: HTMLVideoElement, item: MediaItem): HTML
         progressBar.max = logicalDuration.toString();
     };
     
-    video.addEventListener('loadedmetadata', updateDuration);
-    video.addEventListener('durationchange', updateDuration);
+    const updateProgressAndBuffer = () => {
+        const currentRelative = Math.max(0, video.currentTime - logicalStart);
+        progressBar.value = currentRelative.toString();
+        
+        const playedPercent = logicalDuration > 0 ? (currentRelative / logicalDuration) * 100 : 0;
+        
+        // Find how much of the video is buffered around the current time
+        let bufferedPercent = 0;
+        if (video.buffered && video.buffered.length > 0 && logicalDuration > 0) {
+            const current = video.currentTime;
+            let bufferedEnd = current;
+            for (let i = 0; i < video.buffered.length; i++) {
+                const start = video.buffered.start(i);
+                const end = video.buffered.end(i);
+                if (start <= current && current <= end) {
+                    bufferedEnd = end;
+                    break;
+                }
+            }
+            const relativeBuffered = Math.max(0, bufferedEnd - logicalStart);
+            bufferedPercent = (relativeBuffered / logicalDuration) * 100;
+        }
+        
+        const maxBuffered = Math.max(playedPercent, Math.min(100, bufferedPercent));
+        progressBar.style.background = `linear-gradient(to right, ` +
+            `var(--accent) 0%, ` +
+            `var(--accent) ${playedPercent}%, ` +
+            `rgba(255, 255, 255, 0.4) ${playedPercent}%, ` +
+            `rgba(255, 255, 255, 0.4) ${maxBuffered}%, ` +
+            `rgba(255, 255, 255, 0.15) ${maxBuffered}%, ` +
+            `rgba(255, 255, 255, 0.15) 100%` +
+        `)`;
+        
+        timeDisplay.textContent = `${formatTime(currentRelative)} / ${formatTime(logicalDuration)}`;
+    };
+    
+    video.addEventListener('loadedmetadata', () => {
+        updateDuration();
+        updateProgressAndBuffer();
+    });
+    video.addEventListener('durationchange', () => {
+        updateDuration();
+        updateProgressAndBuffer();
+    });
+    video.addEventListener('timeupdate', updateProgressAndBuffer);
+    video.addEventListener('progress', updateProgressAndBuffer);
     
     if (video.duration) {
         updateDuration();
+        updateProgressAndBuffer();
     }
     
     const setPlayState = (playing: boolean) => {
@@ -167,6 +240,7 @@ function createCustomVideoPlayer(video: HTMLVideoElement, item: MediaItem): HTML
     progressBar.addEventListener('input', () => {
         const val = parseFloat(progressBar.value);
         video.currentTime = logicalStart + val;
+        updateProgressAndBuffer();
     });
     
     progressBar.addEventListener('click', (e) => {
@@ -181,16 +255,6 @@ function createCustomVideoPlayer(video: HTMLVideoElement, item: MediaItem): HTML
     
     controls.addEventListener('click', (e) => {
         e.stopPropagation();
-    });
-    
-    video.addEventListener('timeupdate', () => {
-        const currentRelative = Math.max(0, video.currentTime - logicalStart);
-        progressBar.value = currentRelative.toString();
-        
-        const percent = logicalDuration > 0 ? (currentRelative / logicalDuration) * 100 : 0;
-        progressBar.style.background = `linear-gradient(to right, var(--accent) 0%, var(--accent) ${percent}%, rgba(255, 255, 255, 0.15) ${percent}%, rgba(255, 255, 255, 0.15) 100%)`;
-        
-        timeDisplay.textContent = `${formatTime(currentRelative)} / ${formatTime(logicalDuration)}`;
     });
     
     video.addEventListener('click', (e) => {
@@ -258,26 +322,33 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
         if (isVideo(item.src)) {
             const video = document.createElement('video');
             video.className = 'media-card-image';
-            video.src = srcPath;
+            video.dataset.src = srcPath;
             video.muted = true;
             video.playsInline = true;
             video.loop = true;
             video.setAttribute('muted', '');
             video.setAttribute('playsinline', '');
             video.setAttribute('loop', '');
-            video.preload = 'metadata';
+            video.preload = 'none';
 
             applyVideoCrop(video, item);
 
             imgContainer.appendChild(video);
+            getLazyVideoObserver().observe(video);
 
             // Play video on hover for rich, premium feedback
             card.addEventListener('mouseenter', () => {
+                if (!video.src && video.dataset.src) {
+                    video.src = video.dataset.src;
+                    video.load();
+                }
                 video.play().catch(err => console.log("Video autoplay blocked on hover:", err));
             });
             card.addEventListener('mouseleave', () => {
                 video.pause();
-                video.currentTime = item.startTime !== undefined ? item.startTime : 0;
+                if (video.src && video.readyState > 0) {
+                    video.currentTime = item.startTime !== undefined ? item.startTime : 0;
+                }
             });
 
             // Standard overlay play button
@@ -348,7 +419,9 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
         const gridVideos = container.querySelectorAll('video');
         gridVideos.forEach(v => {
             v.pause();
-            v.currentTime = 0;
+            if (v.src && v.readyState > 0) {
+                v.currentTime = 0;
+            }
         });
 
         // Overlay element
@@ -458,7 +531,35 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
             const srcPath = baseSrcPath + fragment;
 
             // Clear previous media to avoid background audio or overlapping elements
+            const oldVideo = mediaContainer.querySelector('video');
+            if (oldVideo) {
+                oldVideo.pause();
+                oldVideo.removeAttribute('src');
+                oldVideo.load();
+            }
             mediaContainer.innerHTML = '';
+
+            // Prefetch next media (especially videos) to warm up the browser cache
+            if (mediaItems.length > 1) {
+                const nextIndex = (currentIndex + 1) % mediaItems.length;
+                const nextItem = mediaItems[nextIndex];
+                if (nextItem) {
+                    const nextBaseSrcPath = nextItem.src.startsWith('http://') || nextItem.src.startsWith('https://') || nextItem.src.startsWith('/')
+                        ? nextItem.src
+                        : `${import.meta.env.BASE_URL}${nextItem.src}`;
+                    
+                    if (isVideo(nextItem.src)) {
+                        // Prefetch the first 1MB of the video
+                        fetch(nextBaseSrcPath, {
+                            headers: { 'Range': 'bytes=0-1048575' }
+                        }).catch(() => {});
+                    } else {
+                        // Prefetch image
+                        const img = new Image();
+                        img.src = nextBaseSrcPath;
+                    }
+                }
+            }
 
             setTimeout(() => {
                 if (isVideo(currentItem.src)) {
@@ -575,6 +676,13 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
         }
 
         function closeLightbox() {
+            const activeVideo = mediaContainer.querySelector('video');
+            if (activeVideo) {
+                activeVideo.pause();
+                activeVideo.removeAttribute('src');
+                activeVideo.load();
+            }
+
             lightbox.classList.add('closing');
             document.body.style.overflow = originalOverflow;
             
