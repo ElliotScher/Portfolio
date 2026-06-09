@@ -270,17 +270,7 @@ export function createTechStack(technologies: string[], projectId?: string, mark
             if (href && href.startsWith("#project-")) {
                 e.preventDefault();
                 const projId = href.replace("#project-", "");
-                // Dynamically import project list & router
-                import("../data/projects").then(({ projects }) => {
-                    const targetProj = projects.find(p => p.id === projId);
-                    if (targetProj) {
-                        import("../router").then(({ navigate }) => {
-                            import("../pages/projects").then(({ renderProjects }) => {
-                                navigate(renderProjects(targetProj));
-                            });
-                        });
-                    }
-                });
+                window.location.hash = `#/projects/${projId}`;
             }
         }
     });

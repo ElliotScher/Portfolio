@@ -1,8 +1,7 @@
 import "./styles/main.css";
 
 import { createSidebar } from "./components/sidebar";
-import { navigate } from "./router";
-import { renderHome } from "./pages/home";
+import { initRouter } from "./router";
 
 const app = document.getElementById("app");
 
@@ -54,4 +53,4 @@ backdrop.addEventListener("click", () => {
     layout.classList.remove("sidebar-open");
 });
 
-navigate(renderHome());
+initRouter();

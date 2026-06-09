@@ -1,5 +1,4 @@
 import type {Project} from "../data/projects";
-import { setActiveProject } from "./projectDetail";
 import { technologyIcons } from "../assets/logos/technologyIcons.ts";
 
 export function createProjectList(projects: Project[], activeProject?: Project): HTMLElement {
@@ -11,6 +10,7 @@ export function createProjectList(projects: Project[], activeProject?: Project):
     for (const project of projects) {
         const card = document.createElement("div");
         card.className = "project-card";
+        card.setAttribute("data-project-id", project.id);
         
         const cardContent = document.createElement("div");
         cardContent.className = "project-card-content";
@@ -48,18 +48,7 @@ export function createProjectList(projects: Project[], activeProject?: Project):
         card.appendChild(cardContent);
 
         card.addEventListener("click", () => {
-            setActiveProject(project);
-            
-            // Highlight the active card
-            document.querySelectorAll(".project-card").forEach(c => c.classList.remove("active"));
-            card.classList.add("active");
-
-            // Transition layout view on mobile
-            const layoutElement = card.closest(".projects-page-layout");
-            if (layoutElement) {
-                layoutElement.classList.remove("show-list");
-                layoutElement.classList.add("show-detail");
-            }
+            window.location.hash = `#/projects/${project.id}`;
         });
 
         // Set the active project card initially

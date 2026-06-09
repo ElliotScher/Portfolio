@@ -1,9 +1,4 @@
-import { navigate } from "../router.ts";
-
-import { renderHome } from "../pages/home.ts";
-import { renderProjects } from "../pages/projects.ts";
 import { createContactLinks } from "./contactLinks.ts";
-import {renderAboutMe} from "../pages/aboutme.ts";
 
 export function createSidebar(): HTMLElement {
     const sidebar = document.createElement("aside");
@@ -51,22 +46,22 @@ export function createSidebar(): HTMLElement {
     sidebar
         .querySelector("#home-button")
         ?.addEventListener("click", () => {
-            navigate(renderHome());
+            window.location.hash = "#/home";
             closeMobileSidebar();
         });
 
     sidebar
         .querySelector("#projects-button")
         ?.addEventListener("click", () => {
-            navigate(renderProjects());
+            window.location.hash = "#/projects";
             closeMobileSidebar();
         });
 
     sidebar.querySelector("#about-me-button")
         ?.addEventListener("click", () => {
-            navigate(renderAboutMe());
+            window.location.hash = "#/about-me";
             closeMobileSidebar();
-        })
+        });
 
     return sidebar;
 }

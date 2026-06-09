@@ -1,6 +1,6 @@
 ## Summary
 
-**Generic Robotic Systems Framework** (`mini_ros`) is a lightweight, ROS 2-inspired publish-subscribe software framework written in **Python**. Designed for WPI's RBE 300X (Software Design for Robotics) curriculum, the framework enables distributed, multithreaded robotic control. It features custom node registries, thread-safe message queues, a request-reply service model, and a custom Behavior Tree and Finite State Machine execution engine. The framework interfaces with the **CoppeliaSim** robotics simulator via a ZeroMQ-based bridge, allowing students to implement complex autonomous behaviors—such as Trémaux's maze-solving algorithm—on simulated differential-drive platforms.
+**Generic Robotic Systems Framework** (`mini_ros`) is a lightweight, ROS 2-inspired publish-subscribe software framework written in **Python**. Designed for WPI's RBE 300X (Software Design for Robotics) curriculum, the framework enables distributed, multithreaded robotic control. It features custom node registries, thread-safe message queues, a request-reply service model, and a custom Behavior Tree and Finite State Machine execution engine. The framework interfaces with the **CoppeliaSim** robotics simulator via a ZeroMQ-based bridge, allowing students to implement complex autonomous behaviors, such as Trémaux's maze-solving algorithm, on simulated differential-drive platforms.
 
 ***
 
@@ -20,7 +20,7 @@ To coordinate complex autonomous behaviors, the framework implements several lay
 
 * **Synchronous Service Calls**: In addition to asynchronous topics, `mini_ros` supports a request-response communication pattern managed by a `ServiceRegistry`. A `ServiceClient` can send a request message to a registered `Service` and block until a response callback is executed by the service-providing node.
 
-* **Behavior Tree & State Machine Engines**: For high-level decision making, the framework features a custom Behavior Tree (BT) implementation based on a composite vertex hierarchy (`VertexStatus`: SUCCESS, FAILURE, RUNNING). It supports control flow nodes such as sequences, selectors (fallbacks), and parallel execution nodes. It also includes a Finite State Machine (FSM) engine that executes enter, update, and exit actions based on state transition tables.
+* **Behavior Tree & State Machine Engines**: For high-level decision-making, the framework features a custom Behavior Tree (BT) implementation based on a composite vertex hierarchy (`VertexStatus`: SUCCESS, FAILURE, RUNNING). It supports control flow nodes such as sequences, selectors (fallbacks), and parallel execution nodes. It also includes a Finite State Machine (FSM) engine that executes enter, update, and exit actions based on state transition tables.
 
 * **CoppeliaSim Simulation Bridge**: To connect the software nodes to simulated hardware, the framework includes a `CoppeliaSimBridge` utilizing the ZeroMQ Remote API. This bridge serializes requests from multiple Python node threads into a single ZMQ communication thread, preventing concurrency conflicts when querying laser scanner readings or setting wheel speeds.
 

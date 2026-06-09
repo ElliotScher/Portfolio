@@ -81,13 +81,6 @@ export const projects: Project[] = [
         markdownFile: "../data/projects/incubator/Incubator_until_cam_looks.md",
     },
     {
-        id: "FRC2025KitBot",
-        title: "2025 FRC KitBot",
-        summary: "Base robot code for FRC 2025 competition season",
-        technologies: ["Java", "C++", "Python", "LabVIEW", "WPILib"],
-        markdownFile: "../data/projects/2025FRCKitBot.md",
-    },
-    {
         id: "FRC1902024Codebase",
         title: "FRC 190 2024 Codebase",
         summary: "Robot Codebase for FRC 190 2024 competition season",

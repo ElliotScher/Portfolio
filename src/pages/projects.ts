@@ -3,14 +3,14 @@ import type { Project } from "../data/projects";
 import { createProjectList } from "../components/projectList";
 import { createProjectDetail } from "../components/projectDetail";
 
-export function renderProjects(initialProject?: Project): HTMLElement {
+export function renderProjects(initialProject?: Project, showDetailOnMobile = false): HTMLElement {
     const page = document.createElement("div");
     // Ensure the page doesn't exceed the container height
     page.style.height = "100%";
     page.style.overflow = "hidden";
 
     const layout = document.createElement("div");
-    layout.className = "projects-page-layout show-list";
+    layout.className = `projects-page-layout ${showDetailOnMobile ? "show-detail" : "show-list"}`;
     layout.style.display = "flex";
     layout.style.height = "100%";
     layout.style.overflow = "hidden"; // Prevent layout from expanding

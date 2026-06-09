@@ -17,21 +17,3 @@ WPICal aggregates these relative transformations across all processed frames to 
 * **Parameterization:** The variables in the optimization are the 3D positions ($x, y, z$) and rotations (represented as quaternions to avoid gimbal lock) of the unpinned tags.
 * **Objective Function:** The solver minimizes the reprojection error: the distance between the observed 2D corners of the tags in the video frames and the projected 3D positions of the tags based on the current solver parameters.
 * **Solver Execution:** The Ceres Solver library performs Levenberg-Marquardt optimization iterations. It adjusts the tag poses until the overall error converges to a local minimum, effectively finding the tag positions that best fit the multi-view visual evidence.
-
-```mermaid
-graph TD
-    %% Node Styling
-    classDef step fill:#4F46E5,stroke:#312E81,stroke-width:2px,color:#fff;
-    classDef math fill:#10B981,stroke:#065F46,stroke-width:2px,color:#fff;
-
-    %% Workflow
-    Frames[Video Frames] -->|AprilTag C Library| Detect[Detect 2D Tag Corners]
-    Detect -->|PnP Solver & camera_matrix| Pose[Compute Camera-to-Tag Poses]
-    Pose -->|Extract Relative Multi-View Constraints| Graph[Assemble Optimization Constraints]
-    Graph -->|Levenberg-Marquardt Solver| Ceres[Ceres Solver Optimization]
-    Ceres -->|Minimize Reprojection Error| Final[Output Calibrated Tag Poses]
-
-    %% Assign Styles
-    class Frames,Detect,Pose step;
-    class Graph,Ceres,Final math;
-```

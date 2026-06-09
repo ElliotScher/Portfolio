@@ -4,6 +4,7 @@ import { createProcessDiagram } from "./processDiagram";
 import { createTechStack } from "./techStack";
 import { createFutureAdditions } from "./futureAdditions";
 import { createMediaGallery } from "./mediaGallery";
+import { parseHash, scrollToAnchor } from "../utils/hash";
 
 
 const githubIcon = `
@@ -35,26 +36,23 @@ export function createProjectDetail(initial: Project): HTMLElement {
         const link = (e.target as HTMLElement).closest("a");
         if (link) {
             const href = link.getAttribute("href");
-            if (href && href.startsWith("#")) {
+            if (href && href.startsWith("#") && !href.startsWith("#/")) {
                 const targetId = decodeURIComponent(href.substring(1));
                 const targetElem = container.querySelector(`[id="${targetId}"]`);
                 if (targetElem) {
+                    e.preventDefault();
                     let parent = targetElem.parentElement;
-                    let openedDetails = false;
                     while (parent && parent !== container) {
                         if (parent.tagName === "DETAILS" && !(parent as HTMLDetailsElement).open) {
                             (parent as HTMLDetailsElement).open = true;
-                            openedDetails = true;
                         }
                         parent = parent.parentElement;
                     }
-                    if (openedDetails) {
-                        e.preventDefault();
-                        setTimeout(() => {
-                            targetElem.scrollIntoView({ behavior: "smooth" });
-                            history.pushState(null, "", href);
-                        }, 50);
-                    }
+                    const projectId = container.getAttribute("data-project-id") || "";
+                    window.location.hash = `#/projects/${projectId}#${targetId}`;
+                    setTimeout(() => {
+                        targetElem.scrollIntoView({ behavior: "smooth" });
+                    }, 50);
                 }
             }
         }
@@ -79,6 +77,7 @@ const markdownFiles = import.meta.glob('../data/projects/**/*.md', { query: '?ra
 
 async function render(container: HTMLElement, project: Project) {
     const currentRenderId = ++renderId;
+    container.setAttribute("data-project-id", project.id);
 
     container.innerHTML = `
         <div class="project-detail-layout">
@@ -113,11 +112,7 @@ async function render(container: HTMLElement, project: Project) {
 
     const backBtn = container.querySelector(".back-to-projects-btn");
     backBtn?.addEventListener("click", () => {
-        const layoutElement = container.closest(".projects-page-layout");
-        if (layoutElement) {
-            layoutElement.classList.remove("show-detail");
-            layoutElement.classList.add("show-list");
-        }
+        window.location.hash = "#/projects";
     });
 
     const contentContainer = container.querySelector("#project-projects-content");
@@ -168,6 +163,12 @@ async function render(container: HTMLElement, project: Project) {
                     if ((window as any).MathJax) {
                         (window as any).MathJax.typesetClear([contentContainer]);
                         (window as any).MathJax.typesetPromise([contentContainer]);
+                    }
+
+                    // Auto-scroll to anchor if present in hash on render completion
+                    const { anchor } = parseHash();
+                    if (anchor) {
+                        scrollToAnchor(anchor);
                     }
                 }
             } else {
