@@ -1,12 +1,12 @@
 ## Summary
 
-**FRC Shared Codebase Design & Execution** is a highly modular, single-codebase multi-robot architecture designed and implemented for FRC Team 190. Unlike typical FRC development workflows where iterations or prototype designs are split across branch forks or multiple repositories, this architecture allows Team 190 to concurrently develop, test, and deploy code for multiple full, ground-up robot redesigns (such as prototype V0, intermediate V1, and final V2 competition robots) within a single unified repository. By combining a compile-time SSH safety check during deployment with a runtime configuration router, the codebase prevents hardware-mismatch failures and enables a seamless, concurrent software development cycle for multiple physical robots.
+**FRC Shared Codebase Design & Execution** is a highly modular, single-codebase multi-robot architecture designed and implemented for FRC Team 190. Unlike typical FRC development workflows where different robots are split across branch forks or multiple repositories, this architecture allows Team 190 to concurrently develop, test, and deploy code for multiple completely separate, ground-up robot builds (such as the V1, V2, and V3 competition robots) within a single unified repository. By combining a compile-time SSH safety check during deployment with a runtime configuration router, the codebase prevents hardware-mismatch failures and enables a seamless, concurrent software development cycle for multiple physical robots.
 
 ***
 
 ## Context & Challenge
 
-Throughout a single competition season, FRC Team 190 builds multiple iterations of their robot. The intermediate iterations (V1) and final versions (V2) are full, ground-up mechanical redesigns that both compete at events. Because these robots represent completely different physical architectures, they possess distinct wiring schematics, motor controller configurations, port mappings, and mechanical capabilities.
+Throughout a single competition season, FRC Team 190 builds multiple distinct robots. Rather than typical iterative prototypes, these are completely separate, ground-up mechanical builds (such as V1 and V2) that are deployed and competed with in parallel at different events. Because these robots represent completely different physical architectures, they possess distinct wiring schematics, motor controller configurations, port mappings, and mechanical capabilities.
 
 Maintaining separate codebases or branches for each physical robot creates significant software fragmentation:
 * Bug fixes made on one branch must be manually ported and merged into others.
@@ -64,12 +64,12 @@ At the application layer, the target configuration is declared inside a centrali
 
 ```java
 public final class RobotConfig {
-  public static final RobotType ROBOT = RobotType.V2_COMPETITION_2;
+  public static final RobotType ROBOT = RobotType.V2_ROBOT;
 
   public enum RobotType {
-    V0_PROTOTYPE,
-    V1_COMPETITION_1,
-    V2_COMPETITION_2;
+    V1_ROBOT,
+    V2_ROBOT,
+    V3_ROBOT;
   }
 }
 ```
@@ -78,9 +78,9 @@ During initialization inside `Robot.java`, the main robot entry point instantiat
 
 ```java
 robotContainer = switch (RobotConfig.ROBOT) {
-  case V0_PROTOTYPE -> new V0_RobotContainer();
-  case V1_REDESIGN -> new V1_RobotContainer();
-  case V2_COMPETITION -> new V2_RobotContainer();
+  case V1_ROBOT -> new V1_RobotContainer();
+  case V2_ROBOT -> new V2_RobotContainer();
+  case V3_ROBOT -> new V3_RobotContainer();
   default -> new RobotContainer() {};
 };
 ```
