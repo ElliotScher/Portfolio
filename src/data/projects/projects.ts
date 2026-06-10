@@ -64,7 +64,7 @@ export const projects: Project[] = [
         id: "RBE1001",
         title: "Autonomous Mobile Manipulator",
         summary: "An autonomous fruit harvesting and classifying mobile robot programmed in VEX V5 Python",
-        technologies: ["Python", "VEX V5 Brain"],
+        technologies: ["Python", "VEX"],
         markdownFile: "../data/projects/rbe1001/RBE1001.md",
         resumeTexFile: ProjectTexKey.Rbe1001,
         mediaData: rbe1001Media,

@@ -29,7 +29,6 @@ export const technologyIcons: Record<string, string> = {
     "Nvidia": nvidiaLogo,
     "Ffmpeg": ffmpegLogo,
     "VEX": vexLogo,
-    "VEX V5 Brain": vexLogo,
     "Ubuntu": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ubuntu/ubuntu-original.svg",
     "Nixos": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nixos/nixos-original.svg",
     "Tensorflow": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tensorflow/tensorflow-original.svg",
