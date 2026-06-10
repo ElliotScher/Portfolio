@@ -24,3 +24,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Generated resumes
+src/data/resume/generated/
+public/resumes/
