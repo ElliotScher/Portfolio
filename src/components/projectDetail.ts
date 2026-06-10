@@ -1,4 +1,4 @@
-import type { Project } from "../data/projects";
+import type { Project } from "../data/projects/projects.ts";
 import { markdownConverter } from "../utils/markdown";
 import { createProcessDiagram } from "./processDiagram";
 import { createTechStack } from "./techStack";

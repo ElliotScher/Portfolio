@@ -1,4 +1,4 @@
-import type {Project} from "../data/projects";
+import type {Project} from "../data/projects/projects.ts";
 import { technologyIcons } from "../assets/logos/technologyIcons.ts";
 
 export function createProjectList(projects: Project[], activeProject?: Project): HTMLElement {

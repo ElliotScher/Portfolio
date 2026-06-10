@@ -2,7 +2,7 @@ import { parseHash, scrollToAnchor } from "./utils/hash";
 import { renderHome } from "./pages/home";
 import { renderProjects } from "./pages/projects";
 import { renderAboutMe } from "./pages/aboutme";
-import { projects } from "./data/projects";
+import { projects } from "./data/projects/projects.ts";
 import { setActiveProject } from "./components/projectDetail";
 
 export function navigate(page: HTMLElement) {

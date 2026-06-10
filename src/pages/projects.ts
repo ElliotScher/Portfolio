@@ -1,5 +1,5 @@
-import { projects } from "../data/projects";
-import type { Project } from "../data/projects";
+import { projects } from "../data/projects/projects.ts";
+import type { Project } from "../data/projects/projects.ts";
 import { createProjectList } from "../components/projectList";
 import { createProjectDetail } from "../components/projectDetail";
 

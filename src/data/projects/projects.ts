@@ -1,17 +1,17 @@
-import type { ProcessNode } from "../components/processDiagram";
-import type { FutureAddition } from "../components/futureAdditions";
-import type { MediaItem } from "../components/mediaGallery";
+import type { ProcessNode } from "../../components/processDiagram.ts";
+import type { FutureAddition } from "../../components/futureAdditions.ts";
+import type { MediaItem } from "../../components/mediaGallery.ts";
 
-import { gompeiVisionProcessData } from "./projects/gompeivision/gompeiVisionProcess";
-import { gompeiVisionAdditionsData } from "./projects/gompeivision/gompeiVisionAdditions";
-import { gompeiVisionMedia } from "./projects/gompeivision/gompeiVisionMedia";
-import { wpiCalAdditionsData } from "./projects/wpical/wpiCalAdditions";
-import { wpiCalProcessData } from "./projects/wpical/wpiCalProcess";
-import { rbe3001Media } from "./projects/rbe3001/rbe3001Media";
-import { frc2025Media } from "./projects/frc2025/frc2025Media";
-import { frc2024Media } from "./projects/frc2024/frc2024Media";
-import { rbe1001Media } from "./projects/rbe1001/rbe1001Media";
-import { frc2026Media } from "./projects/frc2026/frc2026Media";
+import { gompeiVisionProcessData } from "./gompeivision/gompeiVisionProcess.ts";
+import { gompeiVisionAdditionsData } from "./gompeivision/gompeiVisionAdditions.ts";
+import { gompeiVisionMedia } from "./gompeivision/gompeiVisionMedia.ts";
+import { wpiCalAdditionsData } from "./wpical/wpiCalAdditions.ts";
+import { wpiCalProcessData } from "./wpical/wpiCalProcess.ts";
+import { rbe3001Media } from "./rbe3001/rbe3001Media.ts";
+import { frc2025Media } from "./frc2025/frc2025Media.ts";
+import { frc2024Media } from "./frc2024/frc2024Media.ts";
+import { rbe1001Media } from "./rbe1001/rbe1001Media.ts";
+import { frc2026Media } from "./frc2026/frc2026Media.ts";
 
 export interface Project {
     id: string;
