@@ -1,0 +1,24 @@
+contact:
+  - full
+education:
+  - wpi
+skills:
+  - software
+  - cad
+  - lab
+experience:
+  - wpi_rrc
+  - private_contract
+  - first_hq
+  - stem_for_kids
+projects:
+  - robot_arm
+  - robot_navigation
+  - ros_platform
+  - incubator
+  - gompeivision
+  - gompeilib
+  - wpical
+  - kitbot
+  - first_mentor
+  - software_knowledge_base
