@@ -122,5 +122,14 @@ if __name__ == '__main__':
         # Build all resumes
         build_all_resumes(output_directory)
 
+    # Automatically copy to public/resumes for the Vite dev server/build if it exists
+    public_resumes_dir = os.path.join('..', '..', '..', 'public', 'resumes')
+    if os.path.exists(public_resumes_dir):
+        import shutil
+        for filename in os.listdir(output_directory):
+            if filename.startswith('Resume_') and filename.endswith('.pdf'):
+                shutil.copy(os.path.join(output_directory, filename), os.path.join(public_resumes_dir, filename))
+                print(f"Copied {filename} to public/resumes/")
+
     if os.path.exists('build.tex'):
         os.remove('build.tex')

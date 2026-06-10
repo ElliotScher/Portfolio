@@ -5,6 +5,7 @@
 /* Pages */
 @import "./pages/home.css";
 @import "./pages/aboutme.css";
+@import "./pages/resume.css";
 
 /* Components */
 @import "./components/contactLinks.css";

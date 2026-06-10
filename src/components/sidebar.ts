@@ -24,6 +24,10 @@ export function createSidebar(): HTMLElement {
                 <button id="about-button">
                     About
                 </button>
+                
+                <button id="resume-button">
+                    Resume
+                </button>
             </nav>
         </div>
         
@@ -60,6 +64,12 @@ export function createSidebar(): HTMLElement {
     sidebar.querySelector("#about-button")
         ?.addEventListener("click", () => {
             window.location.hash = "#/about";
+            closeMobileSidebar();
+        });
+
+    sidebar.querySelector("#resume-button")
+        ?.addEventListener("click", () => {
+            window.location.hash = "#/resume";
             closeMobileSidebar();
         });
 

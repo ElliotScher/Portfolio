@@ -1,4 +1,4 @@
-import type { MediaItem } from "../../../components/mediaGallery";
+import type { MediaItem } from "../../../../components/mediaGallery.ts";
 
 export const frc2026Media: MediaItem[] = [
     {
