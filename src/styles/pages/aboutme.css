@@ -1,44 +1,223 @@
-/* Resume / About Me page */
-.resume {
+.page-about-me {
+    padding: var(--space-4);
     display: flex;
     flex-direction: column;
-    height: 100%;
+    gap: var(--space-4);
 }
 
-.resume-container {
+.about-me-hero {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    gap: var(--space-2);
 }
 
-.resume-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: var(--space-3);
-}
-
-.resume-header h2 {
+.about-me-hero h1 {
     margin: 0;
 }
 
-.resume-viewer {
-    flex: 1;
+.about-me-hero .subtitle {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin-bottom: var(--space-1);
+}
+
+.context-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    border-top: 1px solid var(--border);
+    padding-top: var(--space-4);
+}
+
+.context-section:first-of-type {
+    border-top: none;
+    padding-top: 0;
+}
+
+.context-section h2 {
+    margin: 0 0 var(--space-1) 0;
+    font-size: 28px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* WPI Context Panel */
+.wpi-context-panel {
+    background: linear-gradient(135deg, var(--panel), #382222);
+    border: 1px solid rgba(204, 51, 51, 0.25);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    box-shadow: 0 4px 20px rgba(204, 51, 51, 0.05);
+}
+
+.wpi-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.wpi-column h3 {
+    margin: 0;
+    font-size: 21px;
+    color: #ff4d4d;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wpi-column p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.wpi-column p strong {
+    color: var(--text);
+}
+
+/* FIRST Context Panel */
+.first-context-panel {
+    background: linear-gradient(135deg, var(--panel), #1a3322);
+    border: 1px solid rgba(46, 204, 113, 0.25);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    box-shadow: 0 4px 20px rgba(46, 204, 113, 0.05);
+}
+
+.first-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.first-column h3 {
+    margin: 0;
+    font-size: 21px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.first-column p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.first-column p strong {
+    color: var(--text);
+}
+
+.first-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+}
+
+.first-info-card {
+    background: var(--panel);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    overflow: hidden;
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease;
 }
 
-.download-btn {
-    text-decoration: none;
+.first-info-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(46, 204, 113, 0.4);
+}
+
+.first-info-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--accent);
+}
+
+.first-info-card-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--text);
+}
+
+.first-info-card p {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.6;
+}
+
+.first-info-card p strong {
+    color: var(--text);
+}
+
+/* Mentorship Context Panel */
+.mentorship-context-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+}
+
+.mentorship-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.mentorship-column h3 {
+    margin: 0;
+    font-size: 21px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mentorship-column p {
+    margin: 0;
     font-size: 16px;
-    display: inline-block;
+    line-height: 1.6;
 }
 
+.about-me-skills-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    border-top: 1px solid var(--border);
+    padding-top: var(--space-4);
+}
+
+/* Responsive adjustments */
 @media (max-width: 1024px) {
-    .resume-header {
-        flex-direction: column;
-        align-items: flex-start;
+    .page-about-me {
+        padding: var(--space-3) var(--space-2);
+        gap: var(--space-3);
+    }
+    
+    .wpi-context-panel,
+    .first-context-panel,
+    .mentorship-context-panel {
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+    }
+    
+    .first-info-grid {
+        grid-template-columns: 1fr;
         gap: var(--space-2);
     }
 }

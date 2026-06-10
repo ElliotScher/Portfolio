@@ -22,6 +22,9 @@ function getTechFileName(tech: string): string {
 export function createTechStack(technologies: string[], projectId?: string, markdownFile?: string): HTMLElement {
     const container = document.createElement("div");
     container.className = "tech-stack-widget";
+    if (!projectId) {
+        container.classList.add("floating-mode");
+    }
 
     const N = technologies.length;
     if (N === 0) {
@@ -29,74 +32,137 @@ export function createTechStack(technologies: string[], projectId?: string, mark
         return container;
     }
 
-    // Geometry parameters for 360x360px viewport
-    const size = 360;
+    // Geometry parameters for viewport
+    const size = !projectId ? 400 : 360;
     const cx = size / 2;
     const cy = size / 2;
     const R = 120; // Radius of polygon vertices
     const circleRadius = 32; // Half of 64px diameter
 
     // Calculate coordinates for each technology
-    const points: { x: number; y: number; tech: string }[] = [];
-    for (let i = 0; i < N; i++) {
-        const theta = (2 * Math.PI * i) / N - Math.PI / 2;
-        const x = cx + R * Math.cos(theta);
-        const y = cy + R * Math.sin(theta);
-        points.push({ x, y, tech: technologies[i] });
+    const points: { x: number; y: number; scale?: number; tech: string }[] = [];
+    if (!projectId) {
+        // Pre-calculated highly scattered asymmetrical coordinates with varying sizes
+        const coords = [
+            { x: 50, y: 55, scale: 1.15 },
+            { x: 145, y: 110, scale: 0.8 },
+            { x: 235, y: 50, scale: 1.0 },
+            { x: 345, y: 80, scale: 0.8 },
+            { x: 65, y: 195, scale: 0.8 },
+            { x: 185, y: 175, scale: 1.2 },
+            { x: 285, y: 210, scale: 0.8 },
+            { x: 355, y: 170, scale: 1.05 },
+            { x: 55, y: 335, scale: 1.0 },
+            { x: 155, y: 345, scale: 0.8 },
+            { x: 255, y: 315, scale: 1.25 },
+            { x: 345, y: 325, scale: 0.85 }
+        ];
+
+        // Shuffle the coordinates array using Fisher-Yates shuffle
+        for (let i = coords.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [coords[i], coords[j]] = [coords[j], coords[i]];
+        }
+
+        for (let i = 0; i < N; i++) {
+            const coord = coords[i] || { x: cx, y: cy, scale: 1.0 };
+            points.push({ x: coord.x, y: coord.y, scale: coord.scale, tech: technologies[i] });
+        }
+    } else {
+        for (let i = 0; i < N; i++) {
+            const theta = (2 * Math.PI * i) / N - Math.PI / 2;
+            const x = cx + R * Math.cos(theta);
+            const y = cy + R * Math.sin(theta);
+            points.push({ x, y, tech: technologies[i] });
+        }
     }
 
-    // Generate SVG path points
+    // Generate SVG path points for geometric mode
     let pointsString = points.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
     
     // Create HTML structure
-    container.innerHTML = `
-        <div class="tech-stack-wheel-pane">
-            <div class="tech-stack-wheel-container">
-                <!-- SVG lines behind circles -->
-                <svg class="tech-stack-svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
-                    <!-- Outer reference circle -->
-                    <circle cx="${cx}" cy="${cy}" r="${R}" class="tech-stack-ref-circle" />
-                    
-                    <!-- Dynamic Geometric Shape Polygon -->
-                    ${N >= 3 ? `<polygon points="${pointsString}" class="tech-stack-polygon" />` : ""}
-                    ${N === 2 ? `<line x1="${points[0].x}" y1="${points[0].y}" x2="${points[1].x}" y2="${points[1].y}" class="tech-stack-polygon" />` : ""}
-                    
-                    <!-- Center lines for 3+ vertices -->
-                    ${N >= 3 ? points.map(p => `<line x1="${cx}" y1="${cy}" x2="${p.x}" y2="${p.y}" class="tech-stack-center-line" />`).join("") : ""}
-                </svg>
-                
-                <!-- Clickable Circles -->
-                <div class="tech-stack-circles-container">
-                    ${points.map((p) => {
-                        const iconUrl = technologyIcons[p.tech];
-                        const displayContent = iconUrl 
-                            ? `<img class="tech-circle-icon" src="${iconUrl}" alt="${p.tech}" />`
-                            : `<span class="tech-circle-text">${p.tech.substring(0, 3)}</span>`;
-                        
-                        return `
-                            <button class="tech-circle" data-tech="${p.tech}">
-                                ${displayContent}
-                                <span class="tech-circle-tooltip">${p.tech}</span>
-                            </button>
-                        `;
-                    }).join("")}
-                    
-                    <!-- Central active text/logo -->
-                    <div class="tech-stack-center-label">
-                        <span class="center-tech-name">Select Tech</span>
+    if (!projectId) {
+        // Floating mode (no SVGs, no center labels, just dispersed tech circles of varying sizes)
+        container.innerHTML = `
+            <div class="tech-stack-wheel-pane">
+                <div class="tech-stack-wheel-container">
+                    <div class="tech-stack-circles-container">
+                        ${points.map((p) => {
+                            const iconUrl = technologyIcons[p.tech];
+                            const displayContent = iconUrl 
+                                ? `<img class="tech-circle-icon" src="${iconUrl}" alt="${p.tech}" />`
+                                : `<span class="tech-circle-text">${p.tech.substring(0, 3)}</span>`;
+                            
+                            return `
+                                <button class="tech-circle" data-tech="${p.tech}">
+                                    ${displayContent}
+                                    <span class="tech-circle-tooltip">${p.tech}</span>
+                                </button>
+                            `;
+                        }).join("")}
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="tech-stack-detail-pane">
-            <div class="tech-stack-detail-content">
-                <div class="tech-stack-welcome-state">
-                    <h3>Project Technology Stack</h3>
-                    <p>Click on any technology circle in the geometric diagram to view detailed reasons why it was selected for this project.</p>
+            <div class="tech-stack-detail-pane">
+                <div class="tech-stack-detail-content">
+                    <div class="tech-stack-welcome-state">
+                        <h3>Core Expertise</h3>
+                        <p>Click on any technology bubble to view detailed information about my experience and its usage across my projects.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    `;
+        `;
+    } else {
+        // Geometric wheel mode (connected lines, SVGs, center labels)
+        container.innerHTML = `
+            <div class="tech-stack-wheel-pane">
+                <div class="tech-stack-wheel-container">
+                    <!-- SVG lines behind circles -->
+                    <svg class="tech-stack-svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+                        <!-- Outer reference circle -->
+                        <circle cx="${cx}" cy="${cy}" r="${R}" class="tech-stack-ref-circle" />
+                        
+                        <!-- Dynamic Geometric Shape Polygon -->
+                        ${N >= 3 ? `<polygon points="${pointsString}" class="tech-stack-polygon" />` : ""}
+                        ${N === 2 ? `<line x1="${points[0].x}" y1="${points[0].y}" x2="${points[1].x}" y2="${points[1].y}" class="tech-stack-polygon" />` : ""}
+                        
+                        <!-- Center lines for 3+ vertices -->
+                        ${N >= 3 ? points.map(p => `<line x1="${cx}" y1="${cy}" x2="${p.x}" y2="${p.y}" class="tech-stack-center-line" />`).join("") : ""}
+                    </svg>
+                    
+                    <!-- Clickable Circles -->
+                    <div class="tech-stack-circles-container">
+                        ${points.map((p) => {
+                            const iconUrl = technologyIcons[p.tech];
+                            const displayContent = iconUrl 
+                                ? `<img class="tech-circle-icon" src="${iconUrl}" alt="${p.tech}" />`
+                                : `<span class="tech-circle-text">${p.tech.substring(0, 3)}</span>`;
+                            
+                            return `
+                                <button class="tech-circle" data-tech="${p.tech}">
+                                    ${displayContent}
+                                    <span class="tech-circle-tooltip">${p.tech}</span>
+                                </button>
+                            `;
+                        }).join("")}
+                        
+                        <!-- Central active text/logo -->
+                        <div class="tech-stack-center-label">
+                            <span class="center-tech-name">Select Tech</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tech-stack-detail-pane">
+                <div class="tech-stack-detail-content">
+                    <div class="tech-stack-welcome-state">
+                        <h3>Project Technology Stack</h3>
+                        <p>Click on any technology circle in the geometric diagram to view detailed reasons why it was selected for this project.</p>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
 
     const detailContent = container.querySelector(".tech-stack-detail-content") as HTMLElement;
     const centerLabel = container.querySelector(".center-tech-name") as HTMLElement;
@@ -185,6 +251,9 @@ export function createTechStack(technologies: string[], projectId?: string, mark
         const p = points[i];
         (circle as HTMLElement).style.left = `${(p.x - circleRadius).toFixed(1)}px`;
         (circle as HTMLElement).style.top = `${(p.y - circleRadius).toFixed(1)}px`;
+        if (p.scale) {
+            (circle as HTMLElement).style.setProperty("--base-scale", p.scale.toString());
+        }
     });
 
     const centerLabelContainer = container.querySelector(".tech-stack-center-label") as HTMLElement;

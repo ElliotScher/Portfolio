@@ -36,7 +36,7 @@ function updateSidebarHighlight(page: HTMLElement) {
     } else if (page.querySelector(".projects-page-layout")) {
         sidebar.querySelector("#projects-button")?.classList.add("active");
     } else if (page.classList.contains("page-about-me")) {
-        sidebar.querySelector("#about-me-button")?.classList.add("active");
+        sidebar.querySelector("#about-button")?.classList.add("active");
     }
 }
 
@@ -53,7 +53,7 @@ function handleRoute() {
         if (anchor) {
             scrollToAnchor(anchor);
         }
-    } else if (path === "/about-me") {
+    } else if (path === "/about") {
         navigate(renderAboutMe());
         if (anchor) {
             scrollToAnchor(anchor);

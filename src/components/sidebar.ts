@@ -21,8 +21,8 @@ export function createSidebar(): HTMLElement {
                     Projects
                 </button>
                 
-                <button id="about-me-button">
-                    About Me
+                <button id="about-button">
+                    About
                 </button>
             </nav>
         </div>
@@ -57,9 +57,9 @@ export function createSidebar(): HTMLElement {
             closeMobileSidebar();
         });
 
-    sidebar.querySelector("#about-me-button")
+    sidebar.querySelector("#about-button")
         ?.addEventListener("click", () => {
-            window.location.hash = "#/about-me";
+            window.location.hash = "#/about";
             closeMobileSidebar();
         });
 

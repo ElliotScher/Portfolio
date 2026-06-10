@@ -93,7 +93,7 @@
                 border-color 0.3s ease, 
                 box-shadow 0.3s ease, 
                 background-color 0.3s ease;
-    transform: translateZ(0);
+    transform: scale(var(--base-scale, 1)) translateZ(0);
     backface-visibility: hidden;
 }
 
@@ -133,7 +133,7 @@
 }
 
 .tech-circle:hover {
-    transform: scale(1.15);
+    transform: scale(calc(var(--base-scale, 1) * 1.15)) translateZ(0);
     border-color: var(--accent);
     box-shadow: 0 0 16px rgba(46, 204, 113, 0.4);
     background: rgba(45, 60, 50, 0.95);
@@ -151,6 +151,7 @@
 
 /* Active circle highlight */
 .tech-circle.active {
+    transform: scale(calc(var(--base-scale, 1) * 1.15)) translateZ(0);
     background: rgba(46, 204, 113, 0.15);
     border-color: var(--accent);
     box-shadow: 0 0 24px rgba(46, 204, 113, 0.6), inset 0 0 8px rgba(46, 204, 113, 0.2);
@@ -297,4 +298,9 @@
     overflow-x: visible;
 }
 
-
+/* Floating randomized bubble mode */
+.tech-stack-widget.floating-mode .tech-stack-wheel-pane {
+    width: 440px;
+    padding: var(--space-2);
+    background: radial-gradient(circle at center, rgba(46, 204, 113, 0.04) 0%, transparent 75%);
+}
