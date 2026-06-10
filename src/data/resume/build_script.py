@@ -98,9 +98,10 @@ def build_all_resumes(output_dir='.'):
             name = filename.replace('config_', '').replace('.yml', '')
             build_single_resume(name, output_dir)
 
-if __name__ == '__main__':
+def main(args=None):
+    if args is None:
+        args = sys.argv[1:]
     output_directory = '.'
-    args = sys.argv[1:]
 
     if '--output-dir' in args:
         try:
@@ -133,3 +134,6 @@ if __name__ == '__main__':
 
     if os.path.exists('build.tex'):
         os.remove('build.tex')
+
+if __name__ == '__main__':
+    main()

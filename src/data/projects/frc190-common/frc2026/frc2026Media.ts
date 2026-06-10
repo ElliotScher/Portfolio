@@ -4,7 +4,7 @@ export const frc2026Media: MediaItem[] = [
     {
         src: "assets/projects/frc2026/DoomSpiralShooting.mp4",
         title: "V1 (DoomSpiral) Hub Shooting",
-        caption: "V1 (DoomSpiral) executing stationary shooting tests, scoring high-density foam fuel balls into the Hub target."
+        caption: "V1 (DoomSpiral) executing stationary shooting test, scoring high-density foam fuel balls into the Hub target."
     },
     {
         src: "assets/projects/frc2026/DoomSpiralShooting2.mp4",

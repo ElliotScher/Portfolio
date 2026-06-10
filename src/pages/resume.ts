@@ -12,31 +12,7 @@ import privateContractTex from "../data/resume/resume/experience/private_contrac
 import stemForKidsTex from "../data/resume/resume/experience/stem_for_kids.tex?raw";
 
 // Project LaTeX raw imports
-import gompeiVisionTex from "../data/projects/gompeivision/gompeivision.tex?raw";
-import gompeiLibTex from "../data/projects/gompeilib/gompeilib.tex?raw";
-import wpicalTex from "../data/projects/wpical/wpical.tex?raw";
-import rbe1001Tex from "../data/projects/rbe1001/rbe1001.tex?raw";
-import robotArmTex from "../data/projects/rbe3001/robot_arm.tex?raw";
-import robotNavigationTex from "../data/projects/rbe3002/robot_navigation.tex?raw";
-import rosPlatformTex from "../data/projects/rbe300x/ros_platform.tex?raw";
-import firstMentorTex from "../data/projects/frc190-common/first_mentor.tex?raw";
-import kitbotTex from "../data/projects/kitbot2025/kitbot.tex?raw";
-import softwareKnowledgeBaseTex from "../data/projects/software_knowledge_base/software_knowledge_base.tex?raw";
-import incubatorTex from "../data/projects/incubator/incubator.tex?raw";
-
-const projectTexMap: Record<string, string> = {
-    gompeivision: gompeiVisionTex,
-    gompeilib: gompeiLibTex,
-    wpical: wpicalTex,
-    rbe1001: rbe1001Tex,
-    robot_arm: robotArmTex,
-    robot_navigation: robotNavigationTex,
-    ros_platform: rosPlatformTex,
-    first_mentor: firstMentorTex,
-    kitbot: kitbotTex,
-    software_knowledge_base: softwareKnowledgeBaseTex,
-    incubator: incubatorTex
-};
+import { projectTexMap, ProjectTexKey } from "../data/projects/projectTexMap";
 
 function formatInline(text: string): string {
     let clean = text
@@ -164,7 +140,7 @@ export function renderResume(): HTMLElement {
 
         // Parse projects
         const projectsHtml = topProjects.map(key => {
-            const tex = projectTexMap[key];
+            const tex = projectTexMap[key as ProjectTexKey];
             if (!tex) return "";
             return `<div class="resume-item">${parseTexToHtml(tex)}</div>`;
         }).join("\n");
@@ -207,7 +183,6 @@ export function renderResume(): HTMLElement {
         <section class="resume-header no-print">
             <div class="resume-header-left">
                 <h1>Resume</h1>
-                <p class="subtitle">Curriculum Vitae containing technical skills, experience, and academic projects.</p>
             </div>
             <button id="btn-print-resume" class="btn btn-primary">
                 ${printIcon} Print / Save PDF

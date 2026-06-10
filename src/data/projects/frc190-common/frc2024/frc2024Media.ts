@@ -15,7 +15,7 @@ export const frc2024Media: MediaItem[] = [
     {
         src: "assets/projects/frc2024/WhiplashPractice2.mp4",
         title: "V2 (Whiplash) Practice Session (View 2)",
-        caption: "Drivers practice to see how the new robot behaves and tests the close shots, farther shots were not tuned."
+        caption: "Drivers practice to see how the new robot behaves and test the close shots, farther shots were not tuned."
     },
     {
         src: "assets/projects/frc2024/2024auto.mp4",

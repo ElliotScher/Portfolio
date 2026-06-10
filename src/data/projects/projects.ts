@@ -1,6 +1,7 @@
 import type { ProcessNode } from "../../components/processDiagram.ts";
 import type { FutureAddition } from "../../components/futureAdditions.ts";
 import type { MediaItem } from "../../components/mediaGallery.ts";
+import { ProjectTexKey } from "./projectTexMap";
 
 import { gompeiVisionProcessData } from "./gompeivision/gompeiVisionProcess.ts";
 import { gompeiVisionAdditionsData } from "./gompeivision/gompeiVisionAdditions.ts";
@@ -19,7 +20,7 @@ export interface Project {
     summary: string;
     technologies: string[];
     markdownFile: string;
-    resumeTexFile: string;
+    resumeTexFile: ProjectTexKey;
     githubUrl?: string;
     processData?: ProcessNode[];
     futureAdditionsData?: FutureAddition[];
@@ -33,7 +34,7 @@ export const projects: Project[] = [
         summary: "Vision-based robot localization and real-time positioning framework",
         technologies: ["OpenCV", "C++", "CMake", "Docker", "Linux", "WPILib"],
         markdownFile: "../data/projects/gompeivision/GompeiVision.md",
-        resumeTexFile: "gompeivision.tex",
+        resumeTexFile: ProjectTexKey.GompeiVision,
         githubUrl: "https://github.com/Team-190/GompeiVision",
         processData: gompeiVisionProcessData,
         futureAdditionsData: gompeiVisionAdditionsData,
@@ -45,7 +46,7 @@ export const projects: Project[] = [
         summary: "A library of reusable components, subsystems, IO, and utilities for use on FRC teams",
         technologies: ["Java", "Gradle", "Junit", "WPILib"],
         markdownFile: "../data/projects/gompeilib/GompeiLib.md",
-        resumeTexFile: "gompeilib.tex",
+        resumeTexFile: ProjectTexKey.GompeiLib,
         githubUrl: "https://github.com/Team-190/GompeiLib",
     },
     {
@@ -54,7 +55,7 @@ export const projects: Project[] = [
         summary: "Camera and field calibration tool for generating AprilTag maps via least squares optimization",
         technologies: ["C++", "CMake", "OpenCV", "WPILib"],
         markdownFile: "../data/projects/wpical/WPICal.md",
-        resumeTexFile: "wpical.tex",
+        resumeTexFile: ProjectTexKey.WpiCal,
         githubUrl: "https://github.com/ElliotScher/WPICal-wpical",
         processData: wpiCalProcessData,
         futureAdditionsData: wpiCalAdditionsData,
@@ -65,7 +66,7 @@ export const projects: Project[] = [
         summary: "An autonomous fruit harvesting and classifying mobile robot programmed in VEX V5 Python",
         technologies: ["Python", "VEX V5 Brain"],
         markdownFile: "../data/projects/rbe1001/RBE1001.md",
-        resumeTexFile: "rbe1001.tex",
+        resumeTexFile: ProjectTexKey.Rbe1001,
         mediaData: rbe1001Media,
     },
     {
@@ -74,7 +75,7 @@ export const projects: Project[] = [
         summary: "4-dof robotic arm and vision system implemented in MATLAB",
         technologies: ["MATLAB", "Linux"],
         markdownFile: "../data/projects/rbe3001/RBE3001.md",
-        resumeTexFile: "robot_arm.tex",
+        resumeTexFile: ProjectTexKey.RobotArm,
         mediaData: rbe3001Media,
     },
     {
@@ -83,7 +84,7 @@ export const projects: Project[] = [
         summary: "ROS-based SLAM, monte-carlo localization, and frontier exploration, and path planning for autonomous maze solving",
         technologies: ["Python", "ROS 2"],
         markdownFile: "../data/projects/rbe3002/RBE3002.md",
-        resumeTexFile: "robot_navigation.tex",
+        resumeTexFile: ProjectTexKey.RobotNavigation,
     },
     {
         id: "RBE300X",
@@ -91,7 +92,7 @@ export const projects: Project[] = [
         summary: "ROS 2-inspired publish-subscribe architecture for distributed robotic software systems",
         technologies: ["Python", "Anaconda", "Pytest"],
         markdownFile: "../data/projects/rbe300x/RBE300X.md",
-        resumeTexFile: "ros_platform.tex",
+        resumeTexFile: ProjectTexKey.RosPlatform,
     },
     {
         id: "FRCSharedCodebase",
@@ -99,7 +100,7 @@ export const projects: Project[] = [
         summary: "Single-codebase multi-robot architecture for FRC teams",
         technologies: ["Java", "Gradle", "Linux", "WPILib"],
         markdownFile: "../data/projects/frc190-common/frcsharedcodebase/FRCSharedCodebase.md",
-        resumeTexFile: "first_mentor.tex",
+        resumeTexFile: ProjectTexKey.FirstMentor,
         githubUrl: "https://github.com/Team-190/2k26-Robot-Code",
     },
     {
@@ -108,7 +109,7 @@ export const projects: Project[] = [
         summary: "Robot Codebase for FRC 190 2024 competition season",
         technologies: ["Java", "Gradle", "Linux", "WPILib"],
         markdownFile: "../data/projects/frc190-common/frc2024/FRC2024.md",
-        resumeTexFile: "first_mentor.tex",
+        resumeTexFile: ProjectTexKey.FirstMentor,
         githubUrl: "https://github.com/Team-190/2k24-Robot-Code",
         mediaData: frc2024Media,
     },
@@ -118,7 +119,7 @@ export const projects: Project[] = [
         summary: "Robot Codebase for FRC 190 2025 competition season",
         technologies: ["Java", "Gradle", "Linux", "WPILib"],
         markdownFile: "../data/projects/frc190-common/frc2025/FRC2025.md",
-        resumeTexFile: "first_mentor.tex",
+        resumeTexFile: ProjectTexKey.FirstMentor,
         githubUrl: "https://github.com/Team-190/2k25-Robot-Code",
         mediaData: frc2025Media,
     },
@@ -128,7 +129,7 @@ export const projects: Project[] = [
         summary: "Robot Codebase for FRC 190 2026 competition season",
         technologies: ["Java", "Gradle", "Linux", "WPILib"],
         markdownFile: "../data/projects/frc190-common/frc2026/FRC2026.md",
-        resumeTexFile: "first_mentor.tex",
+        resumeTexFile: ProjectTexKey.FirstMentor,
         githubUrl: "https://github.com/Team-190/2k26-Robot-Code",
         mediaData: frc2026Media,
     }
