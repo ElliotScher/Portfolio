@@ -22,17 +22,8 @@ function getLazyVideoObserver(): IntersectionObserver {
         lazyVideoObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 const video = entry.target as HTMLVideoElement;
-                if (entry.isIntersecting) {
-                    if (!video.src && video.dataset.src) {
-                        video.src = video.dataset.src;
-                        video.load();
-                    }
-                } else {
-                    if (video.src) {
-                        video.pause();
-                        video.removeAttribute('src');
-                        video.load();
-                    }
+                if (!entry.isIntersecting) {
+                    video.pause();
                 }
             });
         }, {
@@ -265,6 +256,33 @@ function createCustomVideoPlayer(video: HTMLVideoElement, item: MediaItem): HTML
             video.pause();
         }
     });
+
+    let interactionTimeout: number | null = null;
+    
+    const resetInteractionTimeout = () => {
+        wrapper.classList.remove('controls-hidden');
+        if (interactionTimeout) {
+            window.clearTimeout(interactionTimeout);
+        }
+        interactionTimeout = window.setTimeout(() => {
+            wrapper.classList.add('controls-hidden');
+        }, 5000);
+    };
+
+    wrapper.addEventListener('mouseenter', resetInteractionTimeout);
+    wrapper.addEventListener('mousemove', resetInteractionTimeout);
+    wrapper.addEventListener('click', resetInteractionTimeout);
+    wrapper.addEventListener('touchstart', resetInteractionTimeout);
+    wrapper.addEventListener('focusin', resetInteractionTimeout);
+    wrapper.addEventListener('keydown', resetInteractionTimeout);
+
+    wrapper.addEventListener('mouseleave', () => {
+        if (interactionTimeout) {
+            window.clearTimeout(interactionTimeout);
+            interactionTimeout = null;
+        }
+        wrapper.classList.remove('controls-hidden');
+    });
     
     return wrapper;
 }
@@ -322,6 +340,7 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
         if (isVideo(item.src)) {
             const video = document.createElement('video');
             video.className = 'media-card-image';
+            video.src = srcPath;
             video.dataset.src = srcPath;
             video.muted = true;
             video.playsInline = true;
@@ -329,7 +348,7 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
             video.setAttribute('muted', '');
             video.setAttribute('playsinline', '');
             video.setAttribute('loop', '');
-            video.preload = 'none';
+            video.preload = 'auto';
 
             applyVideoCrop(video, item);
 
@@ -338,10 +357,6 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
 
             // Play video on hover for rich, premium feedback
             card.addEventListener('mouseenter', () => {
-                if (!video.src && video.dataset.src) {
-                    video.src = video.dataset.src;
-                    video.load();
-                }
                 video.play().catch(err => console.log("Video autoplay blocked on hover:", err));
             });
             card.addEventListener('mouseleave', () => {
@@ -415,8 +430,30 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
     function openLightbox(startIndex: number) {
         let currentIndex = startIndex;
 
+        const gridVideos = container.querySelectorAll('video') as NodeListOf<HTMLVideoElement>;
+
+        const pauseBackgroundVideosLoading = () => {
+            gridVideos.forEach(v => {
+                if (v.src) {
+                    v.dataset.pausedSrc = v.src;
+                    v.removeAttribute('src');
+                    v.load();
+                }
+            });
+        };
+
+        const resumeBackgroundVideosLoading = () => {
+            gridVideos.forEach(v => {
+                const pausedSrc = v.dataset.pausedSrc;
+                if (pausedSrc && !v.src) {
+                    v.src = pausedSrc;
+                    v.load();
+                    delete v.dataset.pausedSrc;
+                }
+            });
+        };
+
         // Pause and reset all playing preview videos in the grid
-        const gridVideos = container.querySelectorAll('video');
         gridVideos.forEach(v => {
             v.pause();
             if (v.src && v.readyState > 0) {
@@ -592,6 +629,16 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
                     mediaContainer.appendChild(loader);
                     mediaContainer.appendChild(player);
 
+                    // Pause background videos while this video loads
+                    pauseBackgroundVideosLoading();
+
+                    const onVideoReady = () => {
+                        resumeBackgroundVideosLoading();
+                    };
+                    activeVideo.addEventListener('canplaythrough', onVideoReady, { once: true });
+                    activeVideo.addEventListener('canplay', onVideoReady, { once: true });
+                    activeVideo.addEventListener('loadeddata', onVideoReady, { once: true });
+
                     activeVideo.addEventListener('loadedmetadata', () => {
                         const aspect = activeVideo.videoWidth / activeVideo.videoHeight;
                         if (aspect < 1) {
@@ -629,6 +676,9 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
                     `;
                     mediaContainer.appendChild(loader);
                     mediaContainer.appendChild(activeImg);
+
+                    // Since we navigated to an image, resume any background video downloads
+                    resumeBackgroundVideosLoading();
                     
                     activeImg.onload = () => {
                         loader.style.transition = 'opacity 0.2s ease';
@@ -655,6 +705,7 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
                 infoTitle.style.display = 'none';
             }
 
+            // Populate caption details
             if (currentItem.caption) {
                 infoCaption.textContent = currentItem.caption;
                 infoCaption.style.display = 'block';
@@ -682,6 +733,9 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
                 activeVideo.removeAttribute('src');
                 activeVideo.load();
             }
+
+            // Resume all background video preloads when closing
+            resumeBackgroundVideosLoading();
 
             lightbox.classList.add('closing');
             document.body.style.overflow = originalOverflow;

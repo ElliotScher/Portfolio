@@ -381,6 +381,12 @@ video.media-card-image {
     pointer-events: auto;
 }
 
+.custom-video-player.controls-hidden .custom-video-controls {
+    opacity: 0;
+    transform: translateX(-50%) translateY(8px);
+    pointer-events: none;
+}
+
 .control-btn {
     background: none;
     border: none;
