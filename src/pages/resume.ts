@@ -1,3 +1,4 @@
+import QRCode from "qrcode";
 import { getTopProjectsForResume } from "../utils/analytics";
 
 // LaTeX raw imports
@@ -13,6 +14,7 @@ import stemForKidsTex from "../data/resume/resume/experience/stem_for_kids.tex?r
 
 // Project LaTeX raw imports
 import { projectTexMap, ProjectTexKey } from "../data/projects/projectTexMap";
+import { projects } from "../data/projects/projects";
 
 function formatInline(text: string): string {
     let clean = text
@@ -112,10 +114,16 @@ export function renderResume(): HTMLElement {
     function buildResumeHtml() {
         const topProjects = getTopProjectsForResume();
 
-        // Parse contact details from redacted.tex
-        const contactLines = contactRedactedTex.split("\n")
+        // Parse contact details from redacted.tex (only keep the left minipage content)
+        const leftMinipageTex = contactRedactedTex.split("\\end{minipage}")[0] || contactRedactedTex;
+        const contactLines = leftMinipageTex.split("\n")
             .map(line => line.trim())
-            .filter(line => line && !line.includes("begin{center}") && !line.includes("end{center}"));
+            .filter(line => {
+                if (!line) return false;
+                if (line.includes("begin{center}") || line.includes("end{center}")) return false;
+                if (line.includes("minipage") || line.includes("noindent") || line.includes("vspace") || line.includes("hfill") || line.includes("includegraphics")) return false;
+                return true;
+            });
         
         const nameLine = contactLines.find(l => l.includes("Elliot Scher"));
         const nameMatch = nameLine ? nameLine.match(/\\textbf\{([^}]+)\}/) : null;
@@ -142,14 +150,62 @@ export function renderResume(): HTMLElement {
         const projectsHtml = topProjects.map(key => {
             const tex = projectTexMap[key as ProjectTexKey];
             if (!tex) return "";
-            return `<div class="resume-item">${parseTexToHtml(tex)}</div>`;
+            const parsed = parseTexToHtml(tex);
+
+            const matchedProject = projects.find(p => p.resumeTexFile === key);
+            const url = matchedProject
+                ? `https://elliotscher.net/#/projects/${matchedProject.id}`
+                : "https://elliotscher.net";
+
+            return `
+                <div class="resume-item project-item-layout">
+                    <div class="project-item-left-pane">
+                        ${parsed}
+                    </div>
+                    <div class="project-item-right-pane">
+                        <a href="${url}" target="_blank" rel="noopener noreferrer" title="Click to view project details">
+<!--                            <div class="project-qrcode qr-container-target" data-url="${url}"></div>-->
+                        </a>
+                    </div>
+                </div>
+            `;
         }).join("\n");
 
         return `
             <div class="paper-page">
-                <div class="resume-header-center">
-                    <h1 class="resume-name">${name}</h1>
-                    <div class="resume-contact">${contactHtml}</div>
+                <div class="resume-header-layout">
+                    <div class="resume-header-left-pane">
+                        <h1 class="resume-name">${name}</h1>
+                        <div class="resume-contact">${contactHtml}</div>
+                    </div>
+                    <div class="resume-header-right-pane">
+                        <div class="qr-grid">
+                            <div class="qr-item">
+                                <a href="https://github.com/ElliotScher" target="_blank" rel="noopener noreferrer" title="Click to visit GitHub">
+                                    <div class="resume-qrcode qr-container-target" data-url="https://github.com/ElliotScher"></div>
+                                </a>
+                                <span class="qr-label">GitHub</span>
+                            </div>
+                            <div class="qr-item">
+                                <a href="https://linkedin.com/in/elliotscher" target="_blank" rel="noopener noreferrer" title="Click to visit LinkedIn">
+                                    <div class="resume-qrcode qr-container-target" data-url="https://linkedin.com/in/elliotscher"></div>
+                                </a>
+                                <span class="qr-label">LinkedIn</span>
+                            </div>
+                            <div class="qr-item">
+                                <a href="mailto:ecscher@wpi.edu" target="_blank" rel="noopener noreferrer" title="Click to email via Outlook">
+                                    <div class="resume-qrcode qr-container-target" data-url="mailto:ecscher@wpi.edu"></div>
+                                </a>
+                                <span class="qr-label">Outlook</span>
+                            </div>
+                            <div class="qr-item">
+                                <a href="https://elliotscher.net" target="_blank" rel="noopener noreferrer" title="Click to view interactive Portfolio">
+                                    <div class="resume-qrcode qr-container-target" data-url="https://elliotscher.net"></div>
+                                </a>
+                                <span class="qr-label">Portfolio</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="resume-section">
@@ -200,6 +256,43 @@ export function renderResume(): HTMLElement {
     btnPrint.addEventListener("click", () => {
         window.print();
     });
+
+    // Render the QR codes client-side
+    page.querySelectorAll(".qr-container-target").forEach(async container => {
+        const url = container.getAttribute("data-url");
+        if (url) {
+            try {
+                const svgString = await QRCode.toString(url, {
+                    type: "svg",
+                    margin: 0,
+                    color: {
+                        dark: "#1a252c", // Match resume text color
+                        light: "#ffffff"
+                    }
+                });
+                container.innerHTML = svgString;
+            } catch (err) {
+                console.error("Failed to generate QR code", err);
+            }
+        }
+    });
+
+    // Check height and apply tighter spacing if it exceeds 11in (1056px at 96 DPI)
+    // requestAnimationFrame(() => {
+    //     const paperPage = page.querySelector(".paper-page") as HTMLElement;
+    //     if (paperPage) {
+    //         if (paperPage.scrollHeight > 1056) {
+    //             console.warn(`Resume height (${paperPage.scrollHeight}px) exceeds 1 page (1056px)! Applying tighter spacing class.`);
+    //             paperPage.classList.add("tighter-spacing");
+    //
+    //             // If it still overflows after tighter spacing, apply extra tighter spacing
+    //             if (paperPage.scrollHeight > 1056) {
+    //                 console.warn(`Resume height (${paperPage.scrollHeight}px) still exceeds 1 page! Applying extra-tighter spacing class.`);
+    //                 paperPage.classList.add("extra-tighter-spacing");
+    //             }
+    //         }
+    //     }
+    // });
 
     return page;
 }

@@ -83,9 +83,64 @@
 }
 
 /* Resume Document Content Formatting */
-.resume-header-center {
-    text-align: center;
+.resume-header-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: 12px;
+}
+
+.resume-header-left-pane {
+    text-align: left;
+}
+
+.resume-header-right-pane {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.qr-grid {
+    display: flex;
+    gap: 8px;
+}
+
+.qr-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.resume-qrcode {
+    width: 0.65in;
+    height: 0.65in;
+    display: block;
+    border: 1px solid #e5e7eb;
+    border-radius: 3px;
+    padding: 1.5px;
+    background: #ffffff;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.resume-qrcode svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.resume-qrcode:hover {
+    transform: scale(1.18);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border-color: var(--accent);
+}
+
+.qr-label {
+    font-size: 6.5pt;
+    color: #4b5563;
+    font-weight: 500;
 }
 
 .resume-name {
@@ -179,6 +234,50 @@
     color: #374151;
 }
 
+.project-item-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.project-item-left-pane {
+    flex: 1;
+}
+
+.project-item-right-pane {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    margin-left: 12px;
+    flex-shrink: 0;
+}
+
+.project-qrcode {
+    width: 0.45in;
+    height: 0.45in;
+    display: block;
+    border: 1px solid #e5e7eb;
+    border-radius: 2px;
+    padding: 1.5px;
+    background: #ffffff;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.project-qrcode svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.project-qrcode:hover {
+    transform: scale(1.25);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border-color: var(--accent);
+}
+
 /* PRINT MEDIA RULES */
 @media print {
     /* Hide ALL layout chrome, sidebars, headers, and backdrop */
@@ -252,6 +351,77 @@
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
+
+    .resume-qrcode,
+    .project-qrcode {
+        border: none !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        transform: none !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .qr-label {
+        color: #1a252c !important;
+    }
+}
+
+/* Tighter spacing classes to guarantee single-page fit on print and screen */
+.paper-page.tighter-spacing {
+    padding: 0.4in 0.5in !important;
+    font-size: 9pt !important;
+}
+.paper-page.tighter-spacing .resume-header-layout {
+    margin-bottom: 8px !important;
+}
+.paper-page.tighter-spacing .resume-section {
+    margin-top: 4px !important;
+}
+.paper-page.tighter-spacing .resume-section-divider {
+    margin-bottom: 4px !important;
+}
+.paper-page.tighter-spacing .resume-item {
+    margin-bottom: 6px !important;
+}
+.paper-page.tighter-spacing .resume-bullets li {
+    margin-bottom: 1.5px !important;
+}
+.paper-page.tighter-spacing .resume-row {
+    font-size: 9pt !important;
+    margin-bottom: 1.5px !important;
+}
+.paper-page.tighter-spacing .resume-skills-container {
+    font-size: 9pt !important;
+    gap: 2px !important;
+}
+.paper-page.tighter-spacing .project-item-layout {
+    margin-bottom: 6px !important;
+}
+
+.paper-page.extra-tighter-spacing {
+    padding: 0.35in 0.45in !important;
+    font-size: 8.5pt !important;
+}
+.paper-page.extra-tighter-spacing .resume-header-layout {
+    margin-bottom: 6px !important;
+}
+.paper-page.extra-tighter-spacing .resume-item {
+    margin-bottom: 4px !important;
+}
+.paper-page.extra-tighter-spacing .resume-bullets li {
+    margin-bottom: 1px !important;
+}
+.paper-page.extra-tighter-spacing .resume-row {
+    font-size: 8.5pt !important;
+    margin-bottom: 1px !important;
+}
+.paper-page.extra-tighter-spacing .resume-skills-container {
+    font-size: 8.5pt !important;
+    gap: 1px !important;
+}
+.paper-page.extra-tighter-spacing .project-item-layout {
+    margin-bottom: 4px !important;
 }
 
 /* Screen Responsive Styles */
