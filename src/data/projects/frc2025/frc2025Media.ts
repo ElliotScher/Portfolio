@@ -27,7 +27,7 @@ export const frc2025Media: MediaItem[] = [
         caption: "Competition footage highlighting the V2 robot executing high-speed cycles, scoring Reef coral, and collecting algae on the playfield."
     },
     {
-        src: "assets/projects/frc2025/RedundancyMatch2.MOV",
+        src: "assets/projects/frc2025/RedundancyMatch2.mp4",
         title: "V2 (Redundancy) Competition Match (View 2)",
         caption: "A secondary match video showcasing the robustness of the swerve drivetrain and reliability of the state-machine-controlled superstructure."
     },
@@ -53,19 +53,19 @@ export const frc2025Media: MediaItem[] = [
         endTime: 28
     },
     {
-        src: "assets/projects/frc2025/PootMatch3.MOV",
+        src: "assets/projects/frc2025/PootMatch3.mp4",
         title: "V3 (Poot) Competition Match (View 1)",
         caption: "Match play of the V3 (Poot) robot demonstrating high-speed cycles and rapid scoring sequences during competition.",
         startTime: 62
     },
     {
-        src: "assets/projects/frc2025/PootMatch2.MOV",
+        src: "assets/projects/frc2025/PootMatch2.mp4",
         title: "V3 (Poot) Competition Match (View 2)",
         caption: "A secondary match video showcasing the V3 robot's intake efficiency and agility.",
         startTime: 30
     },
     {
-        src: "assets/projects/frc2025/PootMatch1.MOV",
+        src: "assets/projects/frc2025/PootMatch1.mp4",
         title: "V3 (Poot) Competition Match (View 3)",
         caption: "Direct footage of the V3 robot scoring coral and executing the endgame climb and securing critical ranking points.",
         startTime: 48

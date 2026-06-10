@@ -7,7 +7,7 @@ export const frc2024Media: MediaItem[] = [
         caption: "Practice session with V2 (Whiplash) to test shooting and amp scoring sequences."
     },
     {
-        src: "assets/projects/frc2024/WhiplashPractice.MOV",
+        src: "assets/projects/frc2024/WhiplashPractice.mp4",
         title: "V2 (Whiplash) Practice Session (View 1)",
         caption: "Practice session to test scoring accuracy, it wasn't so good in this video.",
         endTime: 30

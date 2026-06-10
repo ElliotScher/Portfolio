@@ -15,6 +15,19 @@ function isVideo(src: string): boolean {
            cleanSrc.toLowerCase().endsWith('.mov');
 }
 
+function isSlowConnection(): boolean {
+    if (typeof navigator === 'undefined') return false;
+    const conn = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection;
+    if (conn) {
+        if (conn.saveData) return true;
+        const type = conn.type;
+        if (type === 'cellular') return true;
+        const effectiveType = conn.effectiveType;
+        if (effectiveType === '2g' || effectiveType === '3g') return true;
+    }
+    return false;
+}
+
 let lazyVideoObserver: IntersectionObserver | null = null;
 
 function getLazyVideoObserver(): IntersectionObserver {
@@ -22,7 +35,16 @@ function getLazyVideoObserver(): IntersectionObserver {
         lazyVideoObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 const video = entry.target as HTMLVideoElement;
-                if (!entry.isIntersecting) {
+                if (entry.isIntersecting) {
+                    if (!video.src && video.dataset.src) {
+                        const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                        if (!isMobile && !isSlowConnection()) {
+                            video.preload = 'metadata';
+                            video.src = video.dataset.src;
+                            video.load();
+                        }
+                    }
+                } else {
                     video.pause();
                 }
             });
@@ -340,7 +362,7 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
         if (isVideo(item.src)) {
             const video = document.createElement('video');
             video.className = 'media-card-image';
-            video.src = srcPath;
+            // Do NOT set src immediately to avoid preloading
             video.dataset.src = srcPath;
             video.muted = true;
             video.playsInline = true;
@@ -348,7 +370,7 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
             video.setAttribute('muted', '');
             video.setAttribute('playsinline', '');
             video.setAttribute('loop', '');
-            video.preload = 'auto';
+            video.preload = 'none';
 
             applyVideoCrop(video, item);
 
@@ -357,9 +379,20 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
 
             // Play video on hover for rich, premium feedback
             card.addEventListener('mouseenter', () => {
+                const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                if (isMobile) return; // Disable hover play on mobile/touch devices
+
+                if (!video.src && video.dataset.src) {
+                    video.src = video.dataset.src;
+                    video.preload = 'auto';
+                    video.load();
+                }
                 video.play().catch(err => console.log("Video autoplay blocked on hover:", err));
             });
             card.addEventListener('mouseleave', () => {
+                const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                if (isMobile) return;
+
                 video.pause();
                 if (video.src && video.readyState > 0) {
                     video.currentTime = item.startTime !== undefined ? item.startTime : 0;
@@ -577,7 +610,8 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
             mediaContainer.innerHTML = '';
 
             // Prefetch next media (especially videos) to warm up the browser cache
-            if (mediaItems.length > 1) {
+            const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+            if (mediaItems.length > 1 && !isMobile && !isSlowConnection()) {
                 const nextIndex = (currentIndex + 1) % mediaItems.length;
                 const nextItem = mediaItems[nextIndex];
                 if (nextItem) {
