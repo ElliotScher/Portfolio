@@ -206,7 +206,7 @@
         background: #ffffff !important;
         color: #000000 !important;
         width: 100% !important;
-        height: 100% !important;
+        height: auto !important; /* Changed from 100% to auto to prevent height clamping */
         display: block !important;
         overflow: visible !important;
         position: static !important;
@@ -217,6 +217,12 @@
         margin: 0 !important;
         width: 100% !important;
         display: block !important;
+    }
+
+    /* Style links to ensure PDF engines preserve them and they are visually clear */
+    .resume-contact a {
+        color: #1a252c !important;
+        text-decoration: underline !important;
     }
 
     /* Print page setup to remove default headers and footers */
