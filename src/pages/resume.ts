@@ -250,63 +250,65 @@ export function renderResume(queryParams?: Record<string, string>): HTMLElement 
 
         return `
             <div class="paper-page">
-                <div class="resume-header-layout">
-                    <div class="resume-header-left-pane">
-                        <h1 class="resume-name">${name}</h1>
-                        <div class="resume-contact">${contactHtml}</div>
-                    </div>
-                    <div class="resume-header-right-pane">
-                        <div class="qr-grid">
-                            <div class="qr-item">
-                                <a href="https://github.com/ElliotScher" target="_blank" rel="noopener noreferrer" title="Click to visit GitHub">
-                                    <div class="resume-qrcode qr-container-target" data-url="https://github.com/ElliotScher"></div>
-                                </a>
-                                <span class="qr-label">GitHub</span>
-                            </div>
-                            <div class="qr-item">
-                                <a href="https://linkedin.com/in/elliotscher" target="_blank" rel="noopener noreferrer" title="Click to visit LinkedIn">
-                                    <div class="resume-qrcode qr-container-target" data-url="https://linkedin.com/in/elliotscher"></div>
-                                </a>
-                                <span class="qr-label">LinkedIn</span>
-                            </div>
-                            <div class="qr-item">
-                                <a href="mailto:ecscher@wpi.edu" target="_blank" rel="noopener noreferrer" title="Click to email via Outlook">
-                                    <div class="resume-qrcode qr-container-target" data-url="mailto:ecscher@wpi.edu"></div>
-                                </a>
-                                <span class="qr-label">Outlook</span>
-                            </div>
-                            <div class="qr-item">
-                                <a href="https://elliotscher.net" target="_blank" rel="noopener noreferrer" title="Click to view interactive Portfolio">
-                                    <div class="resume-qrcode qr-container-target" data-url="https://elliotscher.net"></div>
-                                </a>
-                                <span class="qr-label">Portfolio</span>
+                <div class="resume-content-wrapper">
+                    <div class="resume-header-layout">
+                        <div class="resume-header-left-pane">
+                            <h1 class="resume-name">${name}</h1>
+                            <div class="resume-contact">${contactHtml}</div>
+                        </div>
+                        <div class="resume-header-right-pane">
+                            <div class="qr-grid">
+                                <div class="qr-item">
+                                    <a href="https://github.com/ElliotScher" target="_blank" rel="noopener noreferrer" title="Click to visit GitHub">
+                                        <div class="resume-qrcode qr-container-target" data-url="https://github.com/ElliotScher"></div>
+                                    </a>
+                                    <span class="qr-label">GitHub</span>
+                                </div>
+                                <div class="qr-item">
+                                    <a href="https://linkedin.com/in/elliotscher" target="_blank" rel="noopener noreferrer" title="Click to visit LinkedIn">
+                                        <div class="resume-qrcode qr-container-target" data-url="https://linkedin.com/in/elliotscher"></div>
+                                    </a>
+                                    <span class="qr-label">LinkedIn</span>
+                                </div>
+                                <div class="qr-item">
+                                    <a href="mailto:ecscher@wpi.edu" target="_blank" rel="noopener noreferrer" title="Click to email via Outlook">
+                                        <div class="resume-qrcode qr-container-target" data-url="mailto:ecscher@wpi.edu"></div>
+                                    </a>
+                                    <span class="qr-label">Outlook</span>
+                                </div>
+                                <div class="qr-item">
+                                    <a href="https://elliotscher.net" target="_blank" rel="noopener noreferrer" title="Click to view interactive Portfolio">
+                                        <div class="resume-qrcode qr-container-target" data-url="https://elliotscher.net"></div>
+                                    </a>
+                                    <span class="qr-label">Portfolio</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="resume-section">
-                    <h2 class="resume-section-title">Education</h2>
-                    <div class="resume-section-divider"></div>
-                    ${educationHtml}
-                </div>
+                    <div class="resume-section">
+                        <h2 class="resume-section-title">Education</h2>
+                        <div class="resume-section-divider"></div>
+                        ${educationHtml}
+                    </div>
 
-                <div class="resume-section">
-                    <h2 class="resume-section-title">Technical Skills</h2>
-                    <div class="resume-section-divider"></div>
-                    <div class="resume-skills-container">${skillsHtml}</div>
-                </div>
+                    <div class="resume-section">
+                        <h2 class="resume-section-title">Technical Skills</h2>
+                        <div class="resume-section-divider"></div>
+                        <div class="resume-skills-container">${skillsHtml}</div>
+                    </div>
 
-                <div class="resume-section">
-                    <h2 class="resume-section-title">Experience</h2>
-                    <div class="resume-section-divider"></div>
-                    ${experienceHtml}
-                </div>
+                    <div class="resume-section">
+                        <h2 class="resume-section-title">Experience</h2>
+                        <div class="resume-section-divider"></div>
+                        ${experienceHtml}
+                    </div>
 
-                <div class="resume-section">
-                    <h2 class="resume-section-title">Projects & Leadership</h2>
-                    <div class="resume-section-divider"></div>
-                    ${projectsHtml}
+                    <div class="resume-section">
+                        <h2 class="resume-section-title">Projects & Leadership</h2>
+                        <div class="resume-section-divider"></div>
+                        ${projectsHtml}
+                    </div>
                 </div>
             </div>
         `;
@@ -354,22 +356,158 @@ export function renderResume(queryParams?: Record<string, string>): HTMLElement 
         }
     });
 
-    // Check height and apply tighter spacing if it exceeds 11in (1056px at 96 DPI)
-    // requestAnimationFrame(() => {
-    //     const paperPage = page.querySelector(".paper-page") as HTMLElement;
-    //     if (paperPage) {
-    //         if (paperPage.scrollHeight > 1056) {
-    //             console.warn(`Resume height (${paperPage.scrollHeight}px) exceeds 1 page (1056px)! Applying tighter spacing class.`);
-    //             paperPage.classList.add("tighter-spacing");
-    //
-    //             // If it still overflows after tighter spacing, apply extra tighter spacing
-    //             if (paperPage.scrollHeight > 1056) {
-    //                 console.warn(`Resume height (${paperPage.scrollHeight}px) still exceeds 1 page! Applying extra-tighter spacing class.`);
-    //                 paperPage.classList.add("extra-tighter-spacing");
-    //             }
-    //         }
-    //     }
-    // });
+    // Handle print layout adjustments on the fly
+    const handleBeforePrint = () => {
+        const paperPage = page.querySelector(".paper-page") as HTMLElement;
+        const contentWrapper = page.querySelector(".resume-content-wrapper") as HTMLElement;
+        if (!paperPage || !contentWrapper) {
+            window.removeEventListener("beforeprint", handleBeforePrint);
+            window.removeEventListener("afterprint", handleAfterPrint);
+            return;
+        }
+
+        // Save original style properties to restore later
+        (window as any)._originalResumeStyle = paperPage.getAttribute("style");
+
+        // Optimal spacing t in [0, 2.0]
+        // t = 0: normal/default spacing
+        // t = 1.0: original maximum spacing compression
+        // t = 2.0: extra tightness spacing compression
+        const lerp = (start: number, end: number, t: number) => start + (end - start) * t;
+
+        const getPaddingYPx = (t: number, scaleFactor: number = 1.0) => {
+            const paddingYIn = Math.max(0.12, lerp(0.5, 0.25, t)) * scaleFactor;
+            return paddingYIn * 2 * 96; // top and bottom padding combined
+        };
+
+        const applySpacing = (t: number, scaleFactor: number = 1.0) => {
+            const paddingY = Math.max(0.12, lerp(0.5, 0.25, t)) * scaleFactor;
+            const paddingX = Math.max(0.35, lerp(0.6, 0.45, t)) * scaleFactor;
+            const fontSize = Math.max(6.5, lerp(9.5, 8.0, t)) * scaleFactor;
+            const lineHeight = Math.max(1.02, lerp(1.35, 1.12, t)) * scaleFactor;
+            const headerMargin = Math.max(1, lerp(12, 4, t)) * scaleFactor;
+            const sectionMargin = Math.max(1, lerp(10, 2, t)) * scaleFactor;
+            const dividerMargin = Math.max(1, lerp(6, 2, t)) * scaleFactor;
+            const itemMargin = Math.max(0, lerp(8, 1, t)) * scaleFactor;
+            const bulletMargin = Math.max(0, lerp(2, 0.2, t)) * scaleFactor;
+            const rowMargin = Math.max(0, lerp(2, 0.2, t)) * scaleFactor;
+            const skillsGap = Math.max(0, lerp(3, 0.5, t)) * scaleFactor;
+            const projectMargin = Math.max(0, lerp(8, 1, t)) * scaleFactor;
+
+            const nameFontSize = Math.max(12, lerp(20, 15, t)) * scaleFactor;
+            const contactFontSize = Math.max(6.5, lerp(9, 7.5, t)) * scaleFactor;
+            const sectionTitleFontSize = Math.max(8.0, lerp(11, 9.0, t)) * scaleFactor;
+
+            const qrSize = Math.max(0.30, lerp(0.65, 0.45, t)) * scaleFactor;
+            const projectQrSize = Math.max(0.20, lerp(0.45, 0.3, t)) * scaleFactor;
+
+            paperPage.style.setProperty("--page-padding-y", `${paddingY}in`);
+            paperPage.style.setProperty("--page-padding-x", `${paddingX}in`);
+            paperPage.style.setProperty("--resume-font-size", `${fontSize}pt`);
+            paperPage.style.setProperty("--resume-line-height", `${lineHeight}`);
+            paperPage.style.setProperty("--header-margin-bottom", `${headerMargin}px`);
+            paperPage.style.setProperty("--section-margin-top", `${sectionMargin}px`);
+            paperPage.style.setProperty("--divider-margin-bottom", `${dividerMargin}px`);
+            paperPage.style.setProperty("--item-margin-bottom", `${itemMargin}px`);
+            paperPage.style.setProperty("--bullet-margin-bottom", `${bulletMargin}px`);
+            paperPage.style.setProperty("--row-margin-bottom", `${rowMargin}px`);
+            paperPage.style.setProperty("--skills-gap", `${skillsGap}px`);
+            paperPage.style.setProperty("--project-margin-bottom", `${projectMargin}px`);
+
+            paperPage.style.setProperty("--name-font-size", `${nameFontSize}pt`);
+            paperPage.style.setProperty("--contact-font-size", `${contactFontSize}pt`);
+            paperPage.style.setProperty("--section-title-font-size", `${sectionTitleFontSize}pt`);
+            paperPage.style.setProperty("--qr-size", `${qrSize}in`);
+            paperPage.style.setProperty("--project-qr-size", `${projectQrSize}in`);
+        };
+
+        const targetHeight = 1048; // Leave a minor 8px safety buffer to prevent browser layout engine rounding pagination
+
+        // Step 1: Check if content fits with standard spacing (t = 0)
+        applySpacing(0);
+        const heightAtZero = contentWrapper.offsetHeight + getPaddingYPx(0);
+        console.log(`heightAtZero: ${heightAtZero}px, targetHeight: ${targetHeight}px`);
+
+        if (heightAtZero <= targetHeight) {
+            // Fits perfectly on 1 page with no compression
+            console.log("Resume fits perfectly with default spacing.");
+        } else {
+            // Step 2: Check if content fits with maximum compression (t = 2.0)
+            applySpacing(2.0);
+            const heightAtMax = contentWrapper.offsetHeight + getPaddingYPx(2.0);
+            console.log(`heightAtMax (t=2.0): ${heightAtMax}px`);
+
+            if (heightAtMax > targetHeight) {
+                // Even at max compression, it overflows. Scale spacing and fonts down to fit perfectly.
+                let scaleFactor = (targetHeight / heightAtMax) * 0.98;
+                console.log(`Content exceeds 1 page at max compression. Applying scaleFactor: ${scaleFactor}`);
+                applySpacing(2.0, scaleFactor);
+
+                // Safe micro-adjust if text-wrapping discrete boundaries still cause minor overflow
+                const finalHeight = contentWrapper.offsetHeight + getPaddingYPx(2.0, scaleFactor);
+                if (finalHeight > targetHeight) {
+                    scaleFactor *= (targetHeight / finalHeight) * 0.98;
+                    applySpacing(2.0, scaleFactor);
+                }
+            } else {
+                // Step 3: Binary search for the optimal spacing 't' in [0, 2.0]
+                let low = 0;
+                let high = 2.0;
+                let optimalT = 2.0;
+
+                for (let i = 0; i < 10; i++) {
+                    const mid = (low + high) / 2;
+                    applySpacing(mid);
+                    const height = contentWrapper.offsetHeight + getPaddingYPx(mid);
+
+                    if (height <= targetHeight) {
+                        // Mid fits! Try to make it looser (smaller t) to minimize white space
+                        high = mid;
+                        optimalT = mid;
+                    } else {
+                        // Mid overflows! Must make it tighter (larger t)
+                        low = mid;
+                    }
+                }
+                console.log(`Optimized resume spacing t to: ${optimalT}`);
+                applySpacing(optimalT);
+            }
+        }
+    };
+
+    const handleAfterPrint = () => {
+        const paperPage = page.querySelector(".paper-page") as HTMLElement;
+        if (!paperPage) {
+            window.removeEventListener("beforeprint", handleBeforePrint);
+            window.removeEventListener("afterprint", handleAfterPrint);
+            return;
+        }
+
+        const originalStyle = (window as any)._originalResumeStyle;
+        if (originalStyle !== undefined) {
+            if (originalStyle !== null) {
+                paperPage.setAttribute("style", originalStyle);
+            } else {
+                paperPage.removeAttribute("style");
+            }
+            delete (window as any)._originalResumeStyle;
+        }
+    };
+
+    if (typeof window !== "undefined" && typeof window.addEventListener === "function") {
+        if ((window as any)._handleBeforePrint) {
+            window.removeEventListener("beforeprint", (window as any)._handleBeforePrint);
+        }
+        if ((window as any)._handleAfterPrint) {
+            window.removeEventListener("afterprint", (window as any)._handleAfterPrint);
+        }
+
+        (window as any)._handleBeforePrint = handleBeforePrint;
+        (window as any)._handleAfterPrint = handleAfterPrint;
+
+        window.addEventListener("beforeprint", handleBeforePrint);
+        window.addEventListener("afterprint", handleAfterPrint);
+    }
 
     return page;
 }
