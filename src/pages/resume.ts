@@ -1,22 +1,77 @@
 import QRCode from "qrcode";
 import { getTopProjectsForResume } from "../utils/analytics";
 
-// LaTeX raw imports
-import contactRedactedTex from "../data/resume/resume/contact/redacted.tex?raw";
-import wpiTex from "../data/resume/resume/education/wpi.tex?raw";
-import softwareTex from "../data/resume/resume/skills/software.tex?raw";
-import cadTex from "../data/resume/resume/skills/cad.tex?raw";
-import labTex from "../data/resume/resume/skills/lab.tex?raw";
-import wpiRrcTex from "../data/resume/resume/experience/wpi_rrc.tex?raw";
-import firstHqTex from "../data/resume/resume/experience/first_hq.tex?raw";
-import privateContractTex from "../data/resume/resume/experience/private_contract.tex?raw";
-import stemForKidsTex from "../data/resume/resume/experience/stem_for_kids.tex?raw";
+// YAML raw imports
+import configFullYaml from "../data/resume/configs/config_full.yml?raw";
+import configRedactedYaml from "../data/resume/configs/config_redacted.yml?raw";
 
 // Project LaTeX raw imports
 import { projectTexMap, ProjectTexKey } from "../data/projects/projectTexMap";
 import { projects } from "../data/projects/projects";
 
-function formatInline(text: string): string {
+// Dynamically glob all modular resume LaTeX fragments
+const resumeTexFiles = import.meta.glob("../data/resume/resume/**/*.tex", {
+    query: "?raw",
+    import: "default",
+    eager: true
+}) as Record<string, string>;
+
+function getTexContent(section: string, name: string): string {
+    const targetSuffix = `/${section}/${name}.tex`;
+    for (const [filePath, content] of Object.entries(resumeTexFiles)) {
+        if (filePath.endsWith(targetSuffix)) {
+            return content;
+        }
+    }
+    return "";
+}
+
+interface ResumeConfig {
+    contact: string[];
+    education: string[];
+    skills: string[];
+    experience: string[];
+    projects: string[];
+}
+
+export function parseYaml(yamlText: string): ResumeConfig {
+    const lines = yamlText.split("\n");
+    const config: ResumeConfig = {
+        contact: [],
+        education: [],
+        skills: [],
+        experience: [],
+        projects: []
+    };
+    let currentKey: keyof ResumeConfig | null = null;
+
+    for (let line of lines) {
+        // Strip comments
+        const commentIndex = line.indexOf("#");
+        if (commentIndex !== -1) {
+            line = line.substring(0, commentIndex);
+        }
+        line = line.trim();
+        if (!line) continue;
+
+        if (line.endsWith(":")) {
+            const key = line.slice(0, -1).trim() as keyof ResumeConfig;
+            if (["contact", "education", "skills", "experience", "projects"].includes(key)) {
+                currentKey = key;
+            } else {
+                currentKey = null;
+            }
+        } else if (line.startsWith("-") && currentKey) {
+            const value = line.substring(1).trim();
+            if (value) {
+                config[currentKey].push(value);
+            }
+        }
+    }
+    return config;
+}
+
+export function formatInline(text: string): string {
     let clean = text
         .replace(/\\+\[[^\]]*\]/g, "") // remove \\[2pt] etc first
         .replace(/\\\\$/g, "") // remove trailing \\
@@ -52,7 +107,7 @@ function formatInline(text: string): string {
     return clean.trim();
 }
 
-function parseTexToHtml(tex: string): string {
+export function parseTexToHtml(tex: string): string {
     const lines = tex.split("\n");
     let html = "";
 
@@ -99,7 +154,7 @@ function parseTexToHtml(tex: string): string {
     return html;
 }
 
-export function renderResume(): HTMLElement {
+export function renderResume(queryParams?: Record<string, string>): HTMLElement {
     const page = document.createElement("div");
     page.className = "page resume-page animate-fade-in";
 
@@ -112,10 +167,22 @@ export function renderResume(): HTMLElement {
     `;
 
     function buildResumeHtml() {
+        const configName = queryParams?.config;
+        let activeConfig: ResumeConfig | null = null;
+        if (configName === "full") {
+            activeConfig = parseYaml(configFullYaml);
+        } else if (configName === "redacted") {
+            activeConfig = parseYaml(configRedactedYaml);
+        }
+
         const topProjects = getTopProjectsForResume();
 
-        // Parse contact details from redacted.tex (only keep the left minipage content)
-        const leftMinipageTex = contactRedactedTex.split("\\end{minipage}")[0] || contactRedactedTex;
+        // Contact
+        const contactType = activeConfig ? activeConfig.contact[0] : "redacted";
+        const contactTex = getTexContent("contact", contactType) || getTexContent("contact", "redacted");
+
+        // Parse contact details (only keep the left minipage content if it exists, or the whole file)
+        const leftMinipageTex = contactTex.split("\\end{minipage}")[0] || contactTex;
         const contactLines = leftMinipageTex.split("\n")
             .map(line => line.trim())
             .filter(line => {
@@ -133,21 +200,31 @@ export function renderResume(): HTMLElement {
         const contactHtml = contactDetailsLines.map(line => formatInline(line)).join("<br/>\n");
 
         // Parse education
-        const educationHtml = `<div class="resume-item">${parseTexToHtml(wpiTex)}</div>`;
+        const educationKeys = activeConfig ? activeConfig.education : ["wpi"];
+        const educationHtml = educationKeys.map(key => {
+            const tex = getTexContent("education", key);
+            return tex ? `<div class="resume-item">${parseTexToHtml(tex)}</div>` : "";
+        }).join("\n");
 
         // Parse skills
-        const skillsHtml = [softwareTex, cadTex, labTex].map(tex => {
+        const skillsKeys = activeConfig ? activeConfig.skills : ["software", "cad", "lab"];
+        const skillsHtml = skillsKeys.map(key => {
+            const tex = getTexContent("skills", key);
+            if (!tex) return "";
             const formatted = formatInline(tex.trim());
             return `<div class="skill-line">${formatted}</div>`;
         }).join("\n");
 
         // Parse experience
-        const experienceHtml = [wpiRrcTex, firstHqTex, privateContractTex, stemForKidsTex].map(tex => {
-            return `<div class="resume-item">${parseTexToHtml(tex)}</div>`;
+        const experienceKeys = activeConfig ? activeConfig.experience : ["wpi_rrc", "first_hq", "private_contract", "stem_for_kids"];
+        const experienceHtml = experienceKeys.map(key => {
+            const tex = getTexContent("experience", key);
+            return tex ? `<div class="resume-item">${parseTexToHtml(tex)}</div>` : "";
         }).join("\n");
 
         // Parse projects
-        const projectsHtml = topProjects.map(key => {
+        const projectsList = activeConfig ? activeConfig.projects : topProjects;
+        const projectsHtml = projectsList.map(key => {
             const tex = projectTexMap[key as ProjectTexKey];
             if (!tex) return "";
             const parsed = parseTexToHtml(tex);

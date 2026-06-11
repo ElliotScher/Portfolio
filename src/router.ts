@@ -83,7 +83,7 @@ export function initRouter() {
 }
 
 function handleRoute() {
-    const { path, anchor } = parseHash();
+    const { path, queryParams, anchor } = parseHash();
 
     // Record time spent on previous project if leaving it
     if (currentProjectId) {
@@ -103,7 +103,7 @@ function handleRoute() {
             scrollToAnchor(anchor);
         }
     } else if (path === "/resume") {
-        navigate(renderResume());
+        navigate(renderResume(queryParams));
         if (anchor) {
             scrollToAnchor(anchor);
         }
