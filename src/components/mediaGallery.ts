@@ -5,6 +5,7 @@ export interface MediaItem {
     alt?: string;
     startTime?: number;
     endTime?: number;
+    poster?: string;
 }
 
 function isVideo(src: string): boolean {
@@ -37,12 +38,10 @@ function getLazyVideoObserver(): IntersectionObserver {
                 const video = entry.target as HTMLVideoElement;
                 if (entry.isIntersecting) {
                     if (!video.src && video.dataset.src) {
-                        const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-                        if (!isMobile && !isSlowConnection()) {
-                            video.preload = 'metadata';
-                            video.src = video.dataset.src;
-                            video.load();
-                        }
+                        // Load metadata on all devices (including mobile/slow connections) to render the thumbnail/first frame
+                        video.preload = 'metadata';
+                        video.src = video.dataset.src;
+                        video.load();
                     }
                 } else {
                     video.pause();
@@ -356,6 +355,9 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
             const startVal = item.startTime !== undefined ? item.startTime : '';
             const endVal = item.endTime !== undefined ? item.endTime : '';
             fragment = `#t=${startVal},${endVal}`;
+        } else {
+            // Append #t=0.001 to force browsers (especially iOS Safari) to render the first frame
+            fragment = '#t=0.001';
         }
         const srcPath = baseSrcPath + fragment;
 
@@ -364,6 +366,13 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
             video.className = 'media-card-image';
             // Do NOT set src immediately to avoid preloading
             video.dataset.src = srcPath;
+            if (item.poster) {
+                const basePosterPath = item.poster.startsWith('http://') || item.poster.startsWith('https://') || item.poster.startsWith('/')
+                    ? item.poster
+                    : `${import.meta.env.BASE_URL}${item.poster}`;
+                video.poster = basePosterPath;
+                video.setAttribute('poster', basePosterPath);
+            }
             video.muted = true;
             video.playsInline = true;
             video.loop = true;
@@ -386,6 +395,8 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
                     video.src = video.dataset.src;
                     video.preload = 'auto';
                     video.load();
+                } else if (video.preload !== 'auto') {
+                    video.preload = 'auto';
                 }
                 video.play().catch(err => console.log("Video autoplay blocked on hover:", err));
             });
@@ -643,6 +654,14 @@ export function createMediaGallery(container: HTMLElement, items: MediaItem[]) {
                     activeVideo.setAttribute('playsinline', '');
                     activeVideo.setAttribute('autoplay', '');
                     activeVideo.src = srcPath;
+                    
+                    if (currentItem.poster) {
+                        const basePosterPath = currentItem.poster.startsWith('http://') || currentItem.poster.startsWith('https://') || currentItem.poster.startsWith('/')
+                            ? currentItem.poster
+                            : `${import.meta.env.BASE_URL}${currentItem.poster}`;
+                        activeVideo.poster = basePosterPath;
+                        activeVideo.setAttribute('poster', basePosterPath);
+                    }
                     
                     applyVideoCrop(activeVideo, currentItem);
                     

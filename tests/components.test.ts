@@ -191,4 +191,45 @@ describe("MediaGallery Component", () => {
         lightbox?.dispatchEvent(new Event("animationend"));
         expect(document.body.querySelector(".media-lightbox-overlay")).toBeFalsy();
     });
+
+    it("should set poster attribute and append #t=0.001 time-fragment when appropriate", async () => {
+        const mockMedia: MediaItem[] = [
+            { src: "assets/vid1.mp4", title: "Video 1", poster: "assets/poster1.jpg" },
+            { src: "assets/vid2.mp4", title: "Video 2" }
+        ];
+
+        const container = document.createElement("div");
+        createMediaGallery(container, mockMedia);
+
+        const videos = container.querySelectorAll("video");
+        expect(videos.length).toBe(2);
+
+        // Check if poster is set correctly on the first video card
+        expect(videos[0].getAttribute("poster")).toContain("assets/poster1.jpg");
+        expect(videos[1].getAttribute("poster")).toBeNull();
+
+        // Check if #t=0.001 is appended to dataset.src since startTime/endTime are undefined
+        expect(videos[0].dataset.src).toContain("#t=0.001");
+        expect(videos[1].dataset.src).toContain("#t=0.001");
+
+        // Trigger lightbox on the first video item to test poster inside lightbox
+        const cards = container.querySelectorAll(".media-gallery-card");
+        cards[0].dispatchEvent(new Event("click"));
+
+        const lightbox = document.body.querySelector(".media-lightbox-overlay");
+        expect(lightbox).toBeTruthy();
+
+        // We wait a tiny bit since lightbox renders video inside setTimeout
+        await new Promise(resolve => setTimeout(resolve, 60));
+
+        const lightboxVideo = lightbox?.querySelector("video");
+        expect(lightboxVideo).toBeTruthy();
+        expect(lightboxVideo?.getAttribute("poster")).toContain("assets/poster1.jpg");
+
+        // Close lightbox
+        const closeBtn = lightbox?.querySelector(".lightbox-close-btn");
+        closeBtn?.dispatchEvent(new Event("click"));
+        lightbox?.dispatchEvent(new Event("animationend"));
+    });
 });
+
