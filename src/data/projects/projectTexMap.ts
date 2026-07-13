@@ -10,6 +10,7 @@ import firstMentorTex from "./frc190-common/first_mentor.tex?raw";
 import kitbotTex from "./kitbot2025/kitbot.tex?raw";
 import softwareKnowledgeBaseTex from "./software_knowledge_base/software_knowledge_base.tex?raw";
 import incubatorTex from "./incubator/incubator.tex?raw";
+import nixHubTex from "./nixhub/nixhub.tex?raw";
 
 export const ProjectTexKey = {
     GompeiVision: "gompeivision",
@@ -22,7 +23,8 @@ export const ProjectTexKey = {
     FirstMentor: "first_mentor",
     Kitbot: "kitbot",
     SoftwareKnowledgeBase: "software_knowledge_base",
-    Incubator: "incubator"
+    Incubator: "incubator",
+    NixHub: "nixhub"
 } as const;
 
 export type ProjectTexKey = typeof ProjectTexKey[keyof typeof ProjectTexKey];
@@ -38,5 +40,6 @@ export const projectTexMap: Record<ProjectTexKey, string> = {
     [ProjectTexKey.FirstMentor]: firstMentorTex,
     [ProjectTexKey.Kitbot]: kitbotTex,
     [ProjectTexKey.SoftwareKnowledgeBase]: softwareKnowledgeBaseTex,
-    [ProjectTexKey.Incubator]: incubatorTex
+    [ProjectTexKey.Incubator]: incubatorTex,
+    [ProjectTexKey.NixHub]: nixHubTex
 };

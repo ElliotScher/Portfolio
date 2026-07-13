@@ -1,0 +1,6 @@
+\textbf{NixHub Multi-Machine NixOS Infrastructure}
+\begin{itemize}
+  \item Architected a single Nix flake providing fully declarative, reproducible NixOS system and Home Manager configuration across multiple physical machines.
+  \item Designed a layered common/user/host configuration model using Nix's module priority system to let individual machines override shared defaults without conflicts or duplication.
+  \item Built automated machine bootstrapping and a multi-stage CI pipeline, including full system closure builds and a booted VM smoke test, to continuously validate the entire infrastructure.
+\end{itemize}
