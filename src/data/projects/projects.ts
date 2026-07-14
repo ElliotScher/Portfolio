@@ -8,6 +8,8 @@ import { gompeiVisionAdditionsData } from "./gompeivision/gompeiVisionAdditions.
 import { gompeiVisionMedia } from "./gompeivision/gompeiVisionMedia.ts";
 import { wpiCalAdditionsData } from "./wpical/wpiCalAdditions.ts";
 import { wpiCalProcessData } from "./wpical/wpiCalProcess.ts";
+import { nixHubAdditionsData } from "./nixhub/nixHubAdditions.ts";
+import { nixHubProcessData } from "./nixhub/nixHubProcess.ts";
 import { rbe3001Media } from "./rbe3001/rbe3001Media.ts";
 import { frc2025Media } from "./frc190-common/frc2025/frc2025Media.ts";
 import { frc2024Media } from "./frc190-common/frc2024/frc2024Media.ts";
@@ -132,5 +134,16 @@ export const projects: Project[] = [
         resumeTexFile: ProjectTexKey.FirstMentor,
         githubUrl: "https://github.com/Team-190/2k26-Robot-Code",
         mediaData: frc2026Media,
+    },
+    {
+        id: "NixHub",
+        title: "NixHub",
+        summary: "Single Nix flake providing fully declarative, reproducible NixOS system and Home Manager configuration across multiple machines",
+        technologies: ["Nixos", "Bash", "GitHub Actions", "Git"],
+        markdownFile: "../data/projects/nixhub/NixHub.md",
+        resumeTexFile: ProjectTexKey.NixHub,
+        githubUrl: "https://github.com/ElliotScher/NixHub",
+        processData: nixHubProcessData,
+        futureAdditionsData: nixHubAdditionsData,
     }
 ];
