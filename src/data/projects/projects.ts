@@ -138,7 +138,7 @@ export const projects: Project[] = [
     {
         id: "NixHub",
         title: "NixHub",
-        summary: "Single Nix flake providing fully declarative, reproducible NixOS system and Home Manager configuration across multiple machines",
+        summary: "A complete system for managing and reproducing NixOS setups across multiple computers",
         technologies: ["Nixos", "Bash", "GitHub Actions", "Git"],
         markdownFile: "../data/projects/nixhub/NixHub.md",
         resumeTexFile: ProjectTexKey.NixHub,

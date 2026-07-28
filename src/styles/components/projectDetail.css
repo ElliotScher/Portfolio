@@ -20,6 +20,8 @@
     padding: var(--space-4);
     overflow-y: auto;
     min-width: 0;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 #project-nav-menu {
