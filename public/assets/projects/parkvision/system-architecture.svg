@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 520" width="100%" style="max-width: 860px; height: auto; display: block; margin: 20px auto; background: #16231c; border-radius: 8px; border: 1px solid rgba(79, 169, 107, 0.25); font-family: system-ui, -apple-system, sans-serif;">
+  <defs>
+    <marker id="pv-arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#4fa96b" />
+    </marker>
+    <marker id="pv-arrow-muted" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#8fae9b" />
+    </marker>
+    <marker id="pv-arrow-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#e8a33d" />
+    </marker>
+  </defs>
+
+  <!-- Trail Camera Media -->
+  <rect x="280" y="20" width="300" height="50" rx="8" fill="#241c10" stroke="#e8a33d" stroke-width="2" />
+  <text x="430" y="40" fill="#f6ede0" font-size="13" font-weight="bold" text-anchor="middle">Trail Camera Media</text>
+  <text x="430" y="58" fill="#cbb98f" font-size="11" text-anchor="middle">Photos &amp; video from Acadia National Park</text>
+
+  <path d="M 430 70 L 430 93" stroke="#e8a33d" stroke-width="2" marker-end="url(#pv-arrow-amber)" />
+
+  <!-- Detection -->
+  <rect x="230" y="95" width="400" height="55" rx="8" fill="#1c261f" stroke="#4fa96b" stroke-width="2" />
+  <text x="430" y="118" fill="#eef6ef" font-size="13" font-weight="bold" text-anchor="middle">YOLO Detection</text>
+  <text x="430" y="136" fill="#a3c2ad" font-size="11" text-anchor="middle">person &#183; bicycle &#183; vehicle &#183; license plate</text>
+
+  <!-- Fan-out arrows to 4 modules -->
+  <path d="M 430 150 L 115 178" stroke="#4fa96b" stroke-width="1.75" marker-end="url(#pv-arrow)" />
+  <path d="M 430 150 L 325 178" stroke="#4fa96b" stroke-width="1.75" marker-end="url(#pv-arrow)" />
+  <path d="M 430 150 L 535 178" stroke="#4fa96b" stroke-width="1.75" marker-end="url(#pv-arrow)" />
+  <path d="M 430 150 L 745 178" stroke="#4fa96b" stroke-width="1.75" marker-end="url(#pv-arrow)" />
+
+  <!-- Four parallel analysis modules -->
+  <rect x="20" y="180" width="190" height="78" rx="8" fill="#1c261f" stroke="rgba(79, 169, 107, 0.6)" stroke-width="1.5" />
+  <text x="115" y="209" fill="#eef6ef" font-size="12" font-weight="bold" text-anchor="middle">Entity Tracking</text>
+  <text x="115" y="226" fill="#eef6ef" font-size="12" font-weight="bold" text-anchor="middle">&amp; Grouping</text>
+  <text x="115" y="245" fill="#a3c2ad" font-size="10" text-anchor="middle">IOU tracking, clusters,</text>
+  <text x="115" y="258" fill="#a3c2ad" font-size="10" text-anchor="middle">bike-rider merge</text>
+
+  <rect x="230" y="180" width="190" height="78" rx="8" fill="#1c261f" stroke="rgba(79, 169, 107, 0.6)" stroke-width="1.5" />
+  <text x="325" y="209" fill="#eef6ef" font-size="12" font-weight="bold" text-anchor="middle">Direction</text>
+  <text x="325" y="226" fill="#eef6ef" font-size="12" font-weight="bold" text-anchor="middle">&amp; Speed</text>
+  <text x="325" y="245" fill="#a3c2ad" font-size="10" text-anchor="middle">Pose keypoints,</text>
+  <text x="325" y="258" fill="#a3c2ad" font-size="10" text-anchor="middle">calibrated mph</text>
+
+  <rect x="440" y="180" width="190" height="78" rx="8" fill="#1c261f" stroke="rgba(79, 169, 107, 0.6)" stroke-width="1.5" />
+  <text x="535" y="209" fill="#eef6ef" font-size="12" font-weight="bold" text-anchor="middle">License Plate OCR</text>
+  <text x="535" y="226" fill="#eef6ef" font-size="12" font-weight="bold" text-anchor="middle">&amp; Dwell Time</text>
+  <text x="535" y="245" fill="#a3c2ad" font-size="10" text-anchor="middle">fast-plate-ocr,</text>
+  <text x="535" y="258" fill="#a3c2ad" font-size="10" text-anchor="middle">fuzzy plate matching</text>
+
+  <rect x="650" y="180" width="190" height="78" rx="8" fill="#1c261f" stroke="rgba(79, 169, 107, 0.6)" stroke-width="1.5" />
+  <text x="745" y="209" fill="#eef6ef" font-size="12" font-weight="bold" text-anchor="middle">Occupancy</text>
+  <text x="745" y="226" fill="#eef6ef" font-size="12" font-weight="bold" text-anchor="middle">Re-Identification</text>
+  <text x="745" y="245" fill="#a3c2ad" font-size="10" text-anchor="middle">ResNet-50 + GeM</text>
+  <text x="745" y="258" fill="#a3c2ad" font-size="10" text-anchor="middle">feature matching</text>
+
+  <!-- Converge arrows to database -->
+  <path d="M 115 258 L 400 298" stroke="#8fae9b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#pv-arrow-muted)" />
+  <path d="M 325 258 L 415 298" stroke="#8fae9b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#pv-arrow-muted)" />
+  <path d="M 535 258 L 445 298" stroke="#8fae9b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#pv-arrow-muted)" />
+  <path d="M 745 258 L 460 298" stroke="#8fae9b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#pv-arrow-muted)" />
+
+  <!-- SQLite sidecar database -->
+  <rect x="230" y="300" width="400" height="50" rx="8" fill="#1c2126" stroke="#6fa8dc" stroke-width="2" />
+  <text x="430" y="320" fill="#e6eef6" font-size="13" font-weight="bold" text-anchor="middle">SQLite Sidecar Database</text>
+  <text x="430" y="338" fill="#a9c2d6" font-size="11" text-anchor="middle">one photos.db / videos.db per imported folder</text>
+
+  <!-- Bidirectional to desktop app -->
+  <path d="M 430 350 L 430 378" stroke="#6fa8dc" stroke-width="2" marker-end="url(#pv-arrow)" marker-start="url(#pv-arrow)" />
+  <text x="450" y="368" fill="#a9c2d6" font-size="10" text-anchor="start">read / write</text>
+
+  <!-- Desktop app -->
+  <rect x="230" y="380" width="400" height="50" rx="8" fill="#1c261f" stroke="#4fa96b" stroke-width="2" />
+  <text x="430" y="400" fill="#eef6ef" font-size="13" font-weight="bold" text-anchor="middle">PySide6 Desktop Application</text>
+  <text x="430" y="418" fill="#a3c2ad" font-size="11" text-anchor="middle">gallery, filters, analysis dialogs, progress tracking</text>
+
+  <path d="M 430 430 L 430 453" stroke="#4fa96b" stroke-width="2" marker-end="url(#pv-arrow)" />
+
+  <!-- CSV export -->
+  <rect x="280" y="455" width="300" height="50" rx="8" fill="#241c10" stroke="#e8a33d" stroke-width="2" />
+  <text x="430" y="475" fill="#f6ede0" font-size="13" font-weight="bold" text-anchor="middle">CSV Export</text>
+  <text x="430" y="493" fill="#cbb98f" font-size="11" text-anchor="middle">per image &#183; per entity &#183; per cluster &#183; per interval</text>
+</svg>

@@ -1,0 +1,7 @@
+### Why Qt (PySide6)
+
+Qt, via its official PySide6 Python bindings, is what makes Park Vision a downloadable desktop app rather than a hosted web service — a deliberate choice given who actually uses it:
+
+- **A Real Installed App, Not a Web Page**: Park rangers work with trail-camera archives that live on field laptops, sometimes without reliable internet access. PySide6 lets the whole analysis pipeline — model weights included — ship as one self-contained, double-clickable application for Windows, macOS, and Linux from a single codebase, rather than requiring a hosted backend and a browser.
+- **A Responsive UI During Multi-Minute Batch Jobs**: Running YOLO across a folder of thousands of images or a two-hour video is not instant. An `Async(QtCore.QThread)` wrapper and a singleton `ThreadTracker` push every long-running analysis onto background Qt threads and report progress back to a live status bar and progress bar, so the UI never freezes mid-analysis — a plain scripting-only tool couldn't offer that.
+- **Widgets Built for Browsing Thousands of Photos**: A trail camera can produce tens of thousands of images per season. The gallery views use `QAbstractListModel` with lazy pagination (fetching 300 rows and thumbnails at a time) and `QGraphicsView` for the zoomable, pannable bounding-box viewer — native, GPU-composited widgets that stay smooth at a scale a simpler UI toolkit would struggle with.

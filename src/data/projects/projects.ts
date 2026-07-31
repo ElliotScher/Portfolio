@@ -10,6 +10,9 @@ import { wpiCalAdditionsData } from "./wpical/wpiCalAdditions.ts";
 import { wpiCalProcessData } from "./wpical/wpiCalProcess.ts";
 import { nixHubAdditionsData } from "./nixhub/nixHubAdditions.ts";
 import { nixHubProcessData } from "./nixhub/nixHubProcess.ts";
+import { parkVisionAdditionsData } from "./parkvision/parkVisionAdditions.ts";
+import { parkVisionProcessData } from "./parkvision/parkVisionProcess.ts";
+import { parkVisionMedia } from "./parkvision/parkVisionMedia.ts";
 import { rbe3001Media } from "./rbe3001/rbe3001Media.ts";
 import { frc2025Media } from "./frc190-common/frc2025/frc2025Media.ts";
 import { frc2024Media } from "./frc190-common/frc2024/frc2024Media.ts";
@@ -27,6 +30,7 @@ export interface Project {
     processData?: ProcessNode[];
     futureAdditionsData?: FutureAddition[];
     mediaData?: MediaItem[];
+    teamProject?: boolean;
 }
 
 export const projects: Project[] = [
@@ -50,6 +54,7 @@ export const projects: Project[] = [
         markdownFile: "../data/projects/gompeilib/GompeiLib.md",
         resumeTexFile: ProjectTexKey.GompeiLib,
         githubUrl: "https://github.com/Team-190/GompeiLib",
+        teamProject: true,
     },
     {
         id: "WPICal",
@@ -70,6 +75,7 @@ export const projects: Project[] = [
         markdownFile: "../data/projects/rbe1001/RBE1001.md",
         resumeTexFile: ProjectTexKey.Rbe1001,
         mediaData: rbe1001Media,
+        teamProject: true,
     },
     {
         id: "RBE3001",
@@ -79,6 +85,7 @@ export const projects: Project[] = [
         markdownFile: "../data/projects/rbe3001/RBE3001.md",
         resumeTexFile: ProjectTexKey.RobotArm,
         mediaData: rbe3001Media,
+        teamProject: true,
     },
     {
         id: "RBE3002",
@@ -87,6 +94,7 @@ export const projects: Project[] = [
         technologies: ["Python", "ROS 2"],
         markdownFile: "../data/projects/rbe3002/RBE3002.md",
         resumeTexFile: ProjectTexKey.RobotNavigation,
+        teamProject: true,
     },
     {
         id: "RBE300X",
@@ -95,6 +103,7 @@ export const projects: Project[] = [
         technologies: ["Python", "Anaconda", "Pytest"],
         markdownFile: "../data/projects/rbe300x/RBE300X.md",
         resumeTexFile: ProjectTexKey.RosPlatform,
+        teamProject: true,
     },
     {
         id: "FRCSharedCodebase",
@@ -104,6 +113,7 @@ export const projects: Project[] = [
         markdownFile: "../data/projects/frc190-common/frcsharedcodebase/FRCSharedCodebase.md",
         resumeTexFile: ProjectTexKey.FirstMentor,
         githubUrl: "https://github.com/Team-190/2k26-Robot-Code",
+        teamProject: true,
     },
     {
         id: "FRC1902024Codebase",
@@ -114,6 +124,7 @@ export const projects: Project[] = [
         resumeTexFile: ProjectTexKey.FirstMentor,
         githubUrl: "https://github.com/Team-190/2k24-Robot-Code",
         mediaData: frc2024Media,
+        teamProject: true,
     },
     {
         id: "FRC1902025Codebase",
@@ -124,6 +135,7 @@ export const projects: Project[] = [
         resumeTexFile: ProjectTexKey.FirstMentor,
         githubUrl: "https://github.com/Team-190/2k25-Robot-Code",
         mediaData: frc2025Media,
+        teamProject: true,
     },
     {
         id: "FRC1902026Codebase",
@@ -134,16 +146,30 @@ export const projects: Project[] = [
         resumeTexFile: ProjectTexKey.FirstMentor,
         githubUrl: "https://github.com/Team-190/2k26-Robot-Code",
         mediaData: frc2026Media,
+        teamProject: true,
     },
     {
         id: "NixHub",
         title: "NixHub",
         summary: "A complete system for managing and reproducing NixOS setups across multiple computers",
-        technologies: ["Nixos", "Bash", "GitHub Actions", "Git"],
+        technologies: ["Nixos", "Bash"],
         markdownFile: "../data/projects/nixhub/NixHub.md",
         resumeTexFile: ProjectTexKey.NixHub,
         githubUrl: "https://github.com/ElliotScher/NixHub",
         processData: nixHubProcessData,
         futureAdditionsData: nixHubAdditionsData,
+    },
+    {
+        id: "ParkVision",
+        title: "Park Vision",
+        summary: "Computer vision desktop app that automates National Park Service visitor-use monitoring from trail camera photos and video",
+        technologies: ["Python", "PyTorch", "OpenCV", "Qt", "SQLAlchemy", "Pytest"],
+        markdownFile: "../data/projects/parkvision/ParkVision.md",
+        resumeTexFile: ProjectTexKey.ParkVision,
+        githubUrl: "https://github.com/ElliotScher/Acadia-AI-E26",
+        processData: parkVisionProcessData,
+        futureAdditionsData: parkVisionAdditionsData,
+        mediaData: parkVisionMedia,
+        teamProject: true,
     }
 ];

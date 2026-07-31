@@ -1,0 +1,7 @@
+### Why Python
+
+Park Vision is really three things stacked on top of each other — standalone CLI research scripts, a desktop GUI, and a CI/build pipeline — and Python is the one language that comfortably spans all three without any language-boundary friction:
+
+- **One Language, Every Layer**: The detection/processing/utility CLI tools, the SQLAlchemy database layer, and the PySide6 desktop application are all plain Python calling into each other directly — the GUI's `AnalyzeDialog` imports and calls the exact same `process_images`/`process_videos` functions the command-line tools use, so there's no separate "GUI version" of the pipeline to keep in sync with the "real" one.
+- **A Time-Boxed Academic Project**: This was built over a seven-week WPI Interactive Qualifying Project. Python's low ceremony and huge library surface (`ultralytics`, `opencv-python`, `sqlalchemy`, `pyside6`, `fast-plate-ocr`, `pytesseract` all installed and working together via one `uv sync`) mattered more here than raw performance — the goal was going from research question to working prototype fast, repeatedly, across five distinct CV subsystems.
+- **CPU-Only, No-GPU Deployment**: The end users are park rangers running a downloaded desktop app on ordinary laptops, not researchers with CUDA GPUs. `pyproject.toml` pins `torch`/`torchvision` to PyTorch's CPU-only wheel index specifically so `uv sync` never pulls a multi-gigabyte CUDA toolkit onto a machine that doesn't need or want one.

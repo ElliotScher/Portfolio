@@ -21,6 +21,26 @@ const githubIcon = `
 </svg>
 `;
 
+const teamIcon = `
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="team-badge-icon"
+    width="13"
+    height="13"
+>
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+    <circle cx="9" cy="7" r="4"></circle>
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+</svg>
+`;
+
 let currentDetail: HTMLElement | null = null;
 let renderId = 0;
 
@@ -91,7 +111,16 @@ async function render(container: HTMLElement, project: Project) {
                     Back to Projects
                 </button>
                 <div class="project-detail-title-row">
-                    <h1>${project.title}</h1>
+                    <div class="project-detail-title-group">
+                        <h1>${project.title}</h1>
+                        ${project.teamProject
+                            ? `<span class="project-team-badge" title="Built collaboratively as part of a team">
+                                ${teamIcon}
+                                <span>Team Project</span>
+                               </span>`
+                            : ""
+                        }
+                    </div>
                     ${project.githubUrl
                         ? `<a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="project-github-btn" aria-label="View source code on GitHub">
                             ${githubIcon}

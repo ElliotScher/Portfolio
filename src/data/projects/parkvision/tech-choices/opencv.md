@@ -1,0 +1,7 @@
+### Why OpenCV
+
+OpenCV is the workhorse for everything in Park Vision that isn't a neural network — decoding footage, drawing results, and a handful of classical computer-vision techniques that are a better fit than a learned model:
+
+- **Format-Agnostic Video Decoding**: `cv2.VideoCapture` reads whatever container format a given trail camera happens to produce (`.mp4/.avi/.mov/.mkv/.webm`) through one consistent frame-by-frame interface, so the detection and plate-extraction pipelines don't need format-specific code paths.
+- **Classical CV Where a Neural Net Would Be Overkill**: "Which frame of this entity is the sharpest?" is answered with the variance of the Laplacian of the grayscale crop (`cv2.Laplacian`) — a decades-old, essentially free focus-measure — rather than training a quality-estimation model. Occupancy re-identification similarly blends a learned feature embedding with a classical normalized HSV color histogram (compared via Bhattacharyya distance) and the still-image entity crops themselves are found with a strict BGR color-mask plus contour extraction (`cv2.findContours`) around the pipeline's own green annotation boxes.
+- **Drawing and QA Output**: Every "show your work" artifact — annotated detection boxes, cluster group outlines with count labels, the desktop app's live bounding-box viewer — is drawn with OpenCV's `cv2.rectangle`/`cv2.putText`, keeping visualization and the detection math in the same library instead of round-tripping through a separate imaging package.

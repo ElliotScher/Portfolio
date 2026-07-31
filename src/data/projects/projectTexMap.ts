@@ -11,6 +11,7 @@ import kitbotTex from "./kitbot2025/kitbot.tex?raw";
 import softwareKnowledgeBaseTex from "./software_knowledge_base/software_knowledge_base.tex?raw";
 import incubatorTex from "./incubator/incubator.tex?raw";
 import nixHubTex from "./nixhub/nixhub.tex?raw";
+import parkVisionTex from "./parkvision/parkvision.tex?raw";
 
 export const ProjectTexKey = {
     GompeiVision: "gompeivision",
@@ -24,7 +25,8 @@ export const ProjectTexKey = {
     Kitbot: "kitbot",
     SoftwareKnowledgeBase: "software_knowledge_base",
     Incubator: "incubator",
-    NixHub: "nixhub"
+    NixHub: "nixhub",
+    ParkVision: "parkvision"
 } as const;
 
 export type ProjectTexKey = typeof ProjectTexKey[keyof typeof ProjectTexKey];
@@ -41,5 +43,6 @@ export const projectTexMap: Record<ProjectTexKey, string> = {
     [ProjectTexKey.Kitbot]: kitbotTex,
     [ProjectTexKey.SoftwareKnowledgeBase]: softwareKnowledgeBaseTex,
     [ProjectTexKey.Incubator]: incubatorTex,
-    [ProjectTexKey.NixHub]: nixHubTex
+    [ProjectTexKey.NixHub]: nixHubTex,
+    [ProjectTexKey.ParkVision]: parkVisionTex
 };
