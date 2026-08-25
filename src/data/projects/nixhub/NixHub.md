@@ -10,15 +10,15 @@ Setting up computers by hand doesn't scale: a package installed here, a settings
 
 ### Shared Configuration, Per-Machine Overrides
 
-Configuration is organized into three layers: settings shared by every machine, settings shared by a given user across whichever machines they use, and settings specific to one physical machine. Shared settings apply everywhere by default, but any machine can override them without needing to touch or duplicate the shared files — so common setup stays centralized while still leaving room for machine-specific differences.
+Configuration is organized into three layers: settings shared by every machine, settings shared by a given user across whichever machines they use, and settings specific to one physical machine. Shared settings apply everywhere by default, but any machine can override them without needing to touch or duplicate the shared files - so common setup stays centralized while still leaving room for machine-specific differences.
 
 ### Adding a New Machine
 
-New machines are assigned a name automatically from a preset list the first time they're set up. A single bootstrap command handles the rest: it detects the hardware, scaffolds the new machine's configuration files, and prints the exact command to apply them — leaving a deliberate checkpoint to review or adjust settings before anything is actually applied.
+New machines are assigned a name automatically from a preset list the first time they're set up. A single bootstrap command handles the rest: it detects the hardware, scaffolds the new machine's configuration files, and prints the exact command to apply them - leaving a deliberate checkpoint to review or adjust settings before anything is actually applied.
 
 ### A Fully Declarative Desktop
 
-Configuration isn't limited to packages and dotfiles — the entire desktop environment is managed the same way, including installed extensions, keyboard and touchpad behavior, power settings, wallpaper, and app-specific preferences. That means restoring a machine also restores how it looks and feels, not just what's installed on it.
+Configuration isn't limited to packages and dotfiles - the entire desktop environment is managed the same way, including installed extensions, keyboard and touchpad behavior, power settings, wallpaper, and app-specific preferences. That means restoring a machine also restores how it looks and feels, not just what's installed on it.
 
 ## Tech Stack
 

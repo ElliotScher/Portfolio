@@ -1,6 +1,6 @@
 ### Disko-Based Disk Provisioning
 
-Bootstrapping a new machine today still assumes NixOS is already installed with partitions and filesystems set up by hand through the standard installer flow — `bootstrap.sh` picks up from there, generating `hardware-configuration.nix` and scaffolding the rest. The next step in closing that gap is folding disk partitioning itself into the flake using **disko**, so a brand-new machine can go from a bare NixOS installer ISO straight to a fully partitioned, formatted, and configured system without any manual `parted`, `mkfs`, or `mount` commands in between.
+Bootstrapping a new machine today still assumes NixOS is already installed with partitions and filesystems set up by hand through the standard installer flow - `bootstrap.sh` picks up from there, generating `hardware-configuration.nix` and scaffolding the rest. The next step in closing that gap is folding disk partitioning itself into the flake using **disko**, so a brand-new machine can go from a bare NixOS installer ISO straight to a fully partitioned, formatted, and configured system without any manual `parted`, `mkfs`, or `mount` commands in between.
 
 #### Goals
 - **Declarative Disk Layout:** Describe each host's partition table, filesystem types, and mount points as Nix configuration alongside everything else in `hosts/<name>/`, instead of as a one-time imperative sequence of commands that leaves no record behind.

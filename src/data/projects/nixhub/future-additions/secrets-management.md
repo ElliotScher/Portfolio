@@ -1,6 +1,6 @@
 ### Encrypted Secrets Management
 
-Right now, anything genuinely secret — API tokens, private SSH keys, Wi-Fi passwords — has to live outside the repository and be copied onto each machine by hand, which is exactly the kind of manual, undocumented step NixHub otherwise exists to eliminate. The next infrastructure addition is integrating a secrets tool built for the Nix module system, most likely **sops-nix**, so secrets can be committed to the repo encrypted-at-rest and only decrypted on the target host at activation time.
+Right now, anything genuinely secret - API tokens, private SSH keys, Wi-Fi passwords - has to live outside the repository and be copied onto each machine by hand, which is exactly the kind of manual, undocumented step NixHub otherwise exists to eliminate. The next infrastructure addition is integrating a secrets tool built for the Nix module system, most likely **sops-nix**, so secrets can be committed to the repo encrypted-at-rest and only decrypted on the target host at activation time.
 
 #### Goals
 - **Encrypted-at-Rest Secrets in Git:** Store secrets as `.enc.yaml`/`.enc.json` files directly in the repository, encrypted against each authorized host's SSH or age key, so the encrypted blob can be freely committed and diffed without exposing plaintext.

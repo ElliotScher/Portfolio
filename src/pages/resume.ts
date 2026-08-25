@@ -216,7 +216,7 @@ export function renderResume(queryParams?: Record<string, string>): HTMLElement 
         }).join("\n");
 
         // Parse experience
-        const experienceKeys = activeConfig ? activeConfig.experience : ["wpi_rrc", "first_hq", "private_contract", "stem_for_kids"];
+        const experienceKeys = activeConfig ? activeConfig.experience : ["wpi_rrc", "private_contract", "first_hq", "stem_for_kids"];
         const experienceHtml = experienceKeys.map(key => {
             const tex = getTexContent("experience", key);
             return tex ? `<div class="resume-item">${parseTexToHtml(tex)}</div>` : "";

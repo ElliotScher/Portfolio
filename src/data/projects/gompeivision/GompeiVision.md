@@ -22,7 +22,7 @@ To automate navigation and scoring, the robot must constantly track its coordina
     <p class="project-image-caption">An example of a 2D fiducial marker from the tag36h11 family, serving as a high-contrast visual landmark.</p>
 </div>
 
-* **The FRC Playing Field Map**: The competition field is a pre-defined coordinate space. Fixed AprilTags are placed at strategic, known 3D positions (such as scoring goals, loading zones, and field borders) before the match starts.
+* **The FRC Playing Field Map**: The competition field is a pre-defined coordinate space. Fixed AprilTags are placed at strategic, known 3D positions (such as scoring goals, loading zones, and field borders).
 * **AprilTag Fiducial Markers**: These high-contrast square markers act as physical landmarks. Because the system knows the exact dimensions and 3D coordinates of each unique marker ID, a camera detecting a marker can calculate the vector distance and relative rotation from the camera to the tag.
 
 By detecting one or more tags, GompeiVision solves the Perspective-n-Point (PnP) problem to translate pixel coordinates into 3D robot positions relative to the field origin.

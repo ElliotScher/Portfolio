@@ -27,7 +27,7 @@ export function renderAboutMe(): HTMLElement {
                         Much of my engineering and software development takes place at <strong>Worcester Polytechnic Institute (WPI)</strong>. WPI’s curriculum follows the <em>WPI Plan</em>, which emphasizes immersive, project-based education.
                     </p>
                     <p>
-                        Instead of relying solely on traditional classroom exams, students spend their academic careers solving real-world challenges through extensive team-based projects. This hands-on curriculum provides the direct context behind my academic projects, including <strong>RBE 1001</strong> (mobile manipulators), <strong>RBE 3001</strong> (robotic arm kinematics), and <strong>RBE 3002/300X</strong> (ROS-based autonomous navigation and systems).
+                        Instead of relying solely on traditional classroom exams, students spend their academic careers solving real-world challenges through extensive team-based projects. This hands-on curriculum provides the direct context behind my academic projects, including <strong>RBE 1001</strong> (mobile manipulators), <strong>RBE 3001</strong> (robotic arm kinematics), and <strong>RBE 3002/300X</strong> (ROS-based systems and autonomous navigation).
                     </p>
                 </div>
                 
@@ -40,7 +40,7 @@ export function renderAboutMe(): HTMLElement {
                         WPI Robotics Resource Center (RRC)
                     </h3>
                     <p>
-                        Beyond coursework, I collaborate with WPI’s <strong>Robotics Resource Center (RRC)</strong>. The RRC serves as a premier research and educational facility that supports student competitive teams and develops open-source software libraries.
+                        Beyond coursework, I collaborate with WPI’s <strong>Robotics Resource Center (RRC)</strong>. The RRC serves as an educational facility that supports student competitive teams and develops open-source software libraries.
                     </p>
                     <p>
                         Working with the RRC provided the operational context for my project <strong>GompeiVision</strong>, a custom camera coprocessor tracking solution designed to provide high-speed localization tools for teams in the WPI robotics community.
