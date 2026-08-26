@@ -1,4 +1,4 @@
-name: CI (Test Suites)
+name: CI/CD
 
 on:
   push:
@@ -23,4 +23,83 @@ jobs:
       - name: Run Vitest tests
         run: npm run test
 
+  release-resumes:
+    name: Release Resumes
+    needs: test-typescript
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and generate resumes
+        run: npm run build-resumes
+
+      - name: Get current date and time
+        id: datetime
+        run: echo "datetime=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.datetime.outputs.datetime }}
+          name: Release ${{ steps.datetime.outputs.datetime }}
+          body: |
+            Automated release of portfolio resumes.
+
+            This release contains the latest compiled resumes built from the source at commit ${{ github.sha }}.
+          draft: false
+          prerelease: false
+          files: |
+            src/data/resume/generated/*.pdf
+
+  build-site:
+    name: Build
+    needs: test-typescript
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+      - name: Build website
+        run: npm run build
+
+      - name: Upload Build Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy-site:
+    name: Deploy to GitHub Pages
+    needs: build-site
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
