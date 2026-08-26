@@ -113,6 +113,10 @@ async function run() {
         const page = await browser.newPage();
         page.on('console', msg => console.log('PAGE LOG:', msg.text()));
 
+        // Match the print media type up front so layout measurements below
+        // (and the eventual page.pdf() call) see the same @media print rules.
+        await page.emulateMediaType('print');
+
         const configsDir = path.join(__dirname, '../src/data/resume/configs');
         const configFiles = findConfigFiles(configsDir);
         const configs = configFiles.map(filePath => configNameFromFile(configsDir, filePath));
@@ -127,6 +131,14 @@ async function run() {
 
             // Give QR codes a moment to render
             await new Promise(r => setTimeout(r, 1000));
+
+            // The one-page auto-fit logic in resume.ts only runs on the
+            // browser's `beforeprint` event, which page.pdf() never fires
+            // on its own. Dispatch it manually so the same binary-search
+            // spacing/font compression that keeps the resume on one page
+            // during a manual "Print / Save PDF" also applies here.
+            console.log(`Applying print pagination fit for ${config}...`);
+            await page.evaluate(() => window.dispatchEvent(new Event('beforeprint')));
 
             const pdfName = `Resume_${configNameToPdfName(config)}.pdf`;
             const outputPath = path.join(outputDir, pdfName);
