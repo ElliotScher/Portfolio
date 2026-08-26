@@ -9,6 +9,41 @@ const __dirname = path.dirname(__filename);
 
 const PORT = 8089;
 
+// Recursively finds every .yml config file under a directory.
+function findConfigFiles(dir) {
+    const results = [];
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const fullPath = path.join(dir, entry.name);
+        if (entry.isDirectory()) {
+            results.push(...findConfigFiles(fullPath));
+        } else if (entry.isFile() && entry.name.endsWith('.yml')) {
+            results.push(fullPath);
+        }
+    }
+    return results;
+}
+
+// Derives the `?config=` name for a config file, mirroring src/pages/resume.ts,
+// e.g. "configs/config_full.yml" -> "full"
+// "configs/bostondynamics/config_fleet_operations.yml" -> "bostondynamics/fleet_operations"
+function configNameFromFile(configsDir, filePath) {
+    const relative = path.relative(configsDir, filePath).split(path.sep).join('/');
+    const segments = relative.replace(/\.yml$/, '').split('/');
+    segments[segments.length - 1] = segments[segments.length - 1].replace(/^config_/, '');
+    return segments.join('/');
+}
+
+// Turns a config name into a PDF-friendly PascalCase filename segment,
+// e.g. "bostondynamics/fleet_operations" -> "Bostondynamics_FleetOperations"
+function configNameToPdfName(configName) {
+    const pascalCase = (segment) => segment
+        .split('_')
+        .filter(Boolean)
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join('');
+    return configName.split('/').map(pascalCase).join('_');
+}
+
 // Simple static server for dist directory
 function createServer(port) {
     const distDir = path.join(__dirname, '..', 'dist');
@@ -78,19 +113,22 @@ async function run() {
         const page = await browser.newPage();
         page.on('console', msg => console.log('PAGE LOG:', msg.text()));
 
-        const configs = ['full', 'redacted'];
+        const configsDir = path.join(__dirname, '../src/data/resume/configs');
+        const configFiles = findConfigFiles(configsDir);
+        const configs = configFiles.map(filePath => configNameFromFile(configsDir, filePath));
+        console.log(`Discovered configs: ${configs.join(', ')}`);
 
         for (const config of configs) {
-            const url = `http://localhost:${PORT}/#/resume?config=${config}`;
+            const url = `http://localhost:${PORT}/#/resume?config=${encodeURIComponent(config)}`;
             console.log(`Navigating to: ${url}`);
-            
+
             // Go to page and wait for network to be idle
             await page.goto(url, { waitUntil: 'networkidle0' });
-            
+
             // Give QR codes a moment to render
             await new Promise(r => setTimeout(r, 1000));
 
-            const pdfName = `Resume_${config.charAt(0).toUpperCase() + config.slice(1)}.pdf`;
+            const pdfName = `Resume_${configNameToPdfName(config)}.pdf`;
             const outputPath = path.join(outputDir, pdfName);
             const publicPath = path.join(publicResumesDir, pdfName);
 

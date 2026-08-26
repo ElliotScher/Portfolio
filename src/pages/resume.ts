@@ -1,16 +1,20 @@
 import QRCode from "qrcode";
 import { getTopProjectsForResume } from "../utils/analytics";
 
-// YAML raw imports
-import configFullYaml from "../data/resume/configs/config_full.yml?raw";
-import configRedactedYaml from "../data/resume/configs/config_redacted.yml?raw";
-
 // Project LaTeX raw imports
 import { projectTexMap, ProjectTexKey } from "../data/projects/projectTexMap";
 import { projects } from "../data/projects/projects";
 
 // Dynamically glob all modular resume LaTeX fragments
 const resumeTexFiles = import.meta.glob("../data/resume/resume/**/*.tex", {
+    query: "?raw",
+    import: "default",
+    eager: true
+}) as Record<string, string>;
+
+// Dynamically glob all resume configs, recursively through any subdirectories
+// (e.g. company/role-specific configs nested under configs/<company>/)
+const resumeConfigFiles = import.meta.glob("../data/resume/configs/**/*.yml", {
     query: "?raw",
     import: "default",
     eager: true
@@ -24,6 +28,25 @@ function getTexContent(section: string, name: string): string {
         }
     }
     return "";
+}
+
+// Derives the `?config=` name for a globbed config file path, e.g.
+// ".../configs/config_full.yml" -> "full"
+// ".../configs/bostondynamics/config_fleet_operations.yml" -> "bostondynamics/fleet_operations"
+function configNameFromPath(filePath: string): string {
+    const relative = filePath.split("/configs/")[1] ?? filePath;
+    const segments = relative.replace(/\.yml$/, "").split("/");
+    segments[segments.length - 1] = segments[segments.length - 1].replace(/^config_/, "");
+    return segments.join("/");
+}
+
+function getConfigYaml(name: string): string | null {
+    for (const [filePath, content] of Object.entries(resumeConfigFiles)) {
+        if (configNameFromPath(filePath) === name) {
+            return content;
+        }
+    }
+    return null;
 }
 
 interface ResumeConfig {
@@ -168,12 +191,8 @@ export function renderResume(queryParams?: Record<string, string>): HTMLElement 
 
     function buildResumeHtml() {
         const configName = queryParams?.config;
-        let activeConfig: ResumeConfig | null = null;
-        if (configName === "full") {
-            activeConfig = parseYaml(configFullYaml);
-        } else if (configName === "redacted") {
-            activeConfig = parseYaml(configRedactedYaml);
-        }
+        const configYaml = configName ? getConfigYaml(configName) : null;
+        const activeConfig: ResumeConfig | null = configYaml ? parseYaml(configYaml) : null;
 
         const topProjects = getTopProjectsForResume();
 
