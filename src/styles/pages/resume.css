@@ -334,7 +334,7 @@
     .paper-page {
         box-shadow: none !important;
         border-radius: 0 !important;
-        padding: 0.5in 0.6in !important;
+        padding: var(--page-padding-y, 0.5in) var(--page-padding-x, 0.6in) !important;
         margin: 0 !important;
         width: 8.5in !important;
         min-height: 11in !important;
