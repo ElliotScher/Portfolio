@@ -15,7 +15,6 @@ projects:
   - robot_arm
   - robot_navigation
   - ros_platform
-  - incubator
   - gompeivision
   - gompeilib
   - wpical

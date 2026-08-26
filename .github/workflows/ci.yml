@@ -63,7 +63,7 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            src/data/resume/generated/*.pdf
+            release-assets/*
 
   build-site:
     name: Build

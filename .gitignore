@@ -29,6 +29,7 @@ coverage/
 # Generated resumes
 src/data/resume/generated/
 public/resumes/
+release-assets/
 
 # Python caching
 __pycache__/

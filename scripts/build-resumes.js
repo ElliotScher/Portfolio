@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import puppeteer from 'puppeteer';
+import archiver from 'archiver';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -42,6 +43,29 @@ function configNameToPdfName(configName) {
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join('');
     return configName.split('/').map(pascalCase).join('_');
+}
+
+// The subdirectory a config lives in under configs/, if any, e.g.
+// "bostondynamics/fleet_operations" -> "bostondynamics"; "full" -> null.
+function configGroup(configName) {
+    const slashIndex = configName.indexOf('/');
+    return slashIndex === -1 ? null : configName.slice(0, slashIndex);
+}
+
+// Zips a set of files into outputPath, flattening their names (no directory
+// structure inside the archive).
+function zipFiles(files, outputPath) {
+    return new Promise((resolve, reject) => {
+        const output = fs.createWriteStream(outputPath);
+        const archive = archiver('zip', { zlib: { level: 9 } });
+        output.on('close', resolve);
+        archive.on('error', reject);
+        archive.pipe(output);
+        for (const filePath of files) {
+            archive.file(filePath, { name: path.basename(filePath) });
+        }
+        archive.finalize();
+    });
 }
 
 // Simple static server for dist directory
@@ -103,6 +127,15 @@ async function run() {
         fs.mkdirSync(publicResumesDir, { recursive: true });
     }
 
+    // Assets staged here are what actually gets attached to the GitHub
+    // Release. GitHub Release assets are always a flat list (no folder
+    // structure), so configs that live in a configs/<company>/ subdirectory
+    // get bundled into one <company>.zip instead of being attached
+    // individually; top-level configs (full, redacted) are attached as-is.
+    const releaseAssetsDir = path.join(__dirname, '../release-assets');
+    fs.rmSync(releaseAssetsDir, { recursive: true, force: true });
+    fs.mkdirSync(releaseAssetsDir, { recursive: true });
+
     let browser;
     try {
         console.log('Launching headless browser...');
@@ -121,6 +154,10 @@ async function run() {
         const configFiles = findConfigFiles(configsDir);
         const configs = configFiles.map(filePath => configNameFromFile(configsDir, filePath));
         console.log(`Discovered configs: ${configs.join(', ')}`);
+
+        // Groups PDF output paths by their configs/<company>/ subdirectory,
+        // so they can be zipped together for the release afterward.
+        const groupedOutputPaths = new Map();
 
         for (const config of configs) {
             const url = `http://localhost:${PORT}/#/resume?config=${encodeURIComponent(config)}`;
@@ -162,6 +199,23 @@ async function run() {
             // Copy to public/resumes/
             fs.copyFileSync(outputPath, publicPath);
             console.log(`Copied PDF to ${publicPath}`);
+
+            const group = configGroup(config);
+            if (group === null) {
+                // Top-level config (e.g. full, redacted): attach as-is.
+                fs.copyFileSync(outputPath, path.join(releaseAssetsDir, pdfName));
+            } else {
+                if (!groupedOutputPaths.has(group)) {
+                    groupedOutputPaths.set(group, []);
+                }
+                groupedOutputPaths.get(group).push(outputPath);
+            }
+        }
+
+        for (const [group, paths] of groupedOutputPaths) {
+            const zipPath = path.join(releaseAssetsDir, `${group}.zip`);
+            console.log(`Packaging ${paths.length} resume(s) for ${group} into ${zipPath}...`);
+            await zipFiles(paths, zipPath);
         }
 
     } catch (err) {
