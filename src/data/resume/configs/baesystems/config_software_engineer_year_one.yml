@@ -12,8 +12,8 @@ experience:
   - first_hq
   - stem_for_kids
 projects:
-  - kitbot
-  - gompeivision
+  - robot_arm
+  - robot_navigation
   - ros_platform
-  - nixhub
+  - gompeivision
   - wpical
