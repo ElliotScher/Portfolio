@@ -13,5 +13,6 @@ experience:
   - private_contract
   - first_hq@wpical
 projects:
-  - robot_arm
-featured: robot_navigation
+  - robot_navigation
+  - nixhub
+featured: nps_parkvision@parkvision

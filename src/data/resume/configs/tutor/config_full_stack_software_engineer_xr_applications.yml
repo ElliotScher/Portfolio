@@ -13,5 +13,6 @@ experience:
   - private_contract
   - first_hq@wpical
 projects:
-  - robot_arm
-featured: robot_navigation
+  - ros_platform
+  - robot_navigation
+featured: wpi_rrc@gompeivision
