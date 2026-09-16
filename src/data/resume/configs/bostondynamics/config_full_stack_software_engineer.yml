@@ -12,5 +12,5 @@ experience:
   - private_contract
   - first_hq@wpical
 projects:
-  # (none)
+  - ros_platform
 featured: robot_navigation

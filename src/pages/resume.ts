@@ -385,9 +385,17 @@ export function renderResume(queryParams?: Record<string, string>): HTMLElement 
         // viewed project onward, already excluding the featured entry and
         // any job-affiliated project), split the same way.
         const PAGE1_PROJECT_COUNT = 3;
-        const page1OtherProjectKeys = activeConfig
+        let page1OtherProjectKeys = activeConfig
             ? activeConfig.projects.filter(key => key !== featuredProjectKey)
             : rankedProjects.slice(0, PAGE1_PROJECT_COUNT);
+
+        // A config with an empty (or fully-deduplicated) `projects:` list
+        // would otherwise render a "Projects & Leadership" header with
+        // nothing underneath it — always guarantee at least one entry.
+        if (page1OtherProjectKeys.length === 0) {
+            const fallback = ALL_CATALOG_PROJECT_KEYS.find(key => key !== featuredProjectKey);
+            if (fallback) page1OtherProjectKeys = [fallback];
+        }
 
         const page2Keys = activeConfig
             ? (() => {
