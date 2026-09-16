@@ -7,20 +7,11 @@ skills:
   - cad
   - lab
 experience:
-  - wpi_rrc
+  - nps_parkvision@parkvision
+  - wpi_rrc@gompeivision
   - private_contract
-  - first_hq
-  - stem_for_kids
+  - first_hq@wpical
 projects:
   - robot_arm
   - robot_navigation
-  - ros_platform
-  - gompeivision
-  - gompeilib
-  - wpical
-  - kitbot
-  - first_mentor
-  - software_knowledge_base
-  - rbe1001
-  - nixhub
-  - parkvision
+featured: wpi_rrc@gompeivision

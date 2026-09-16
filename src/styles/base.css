@@ -135,27 +135,23 @@ img {
 
 /* Custom Scrollbars */
 .project-list::-webkit-scrollbar,
-.project-detail::-webkit-scrollbar,
-#project-nav-menu::-webkit-scrollbar {
+.project-detail::-webkit-scrollbar {
     width: 8px;
 }
 
 .project-list::-webkit-scrollbar-track,
-.project-detail::-webkit-scrollbar-track,
-#project-nav-menu::-webkit-scrollbar-track {
+.project-detail::-webkit-scrollbar-track {
     background: transparent;
 }
 
 .project-list::-webkit-scrollbar-thumb,
-.project-detail::-webkit-scrollbar-thumb,
-#project-nav-menu::-webkit-scrollbar-thumb {
+.project-detail::-webkit-scrollbar-thumb {
     background: var(--border);
     border-radius: 4px;
 }
 
 .project-list::-webkit-scrollbar-thumb:hover,
-.project-detail::-webkit-scrollbar-thumb:hover,
-#project-nav-menu::-webkit-scrollbar-thumb:hover {
+.project-detail::-webkit-scrollbar-thumb:hover {
     background: var(--muted);
 }
 

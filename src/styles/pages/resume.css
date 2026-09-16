@@ -68,6 +68,13 @@
     width: 100%;
 }
 
+#resume-sheet-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4, 24px);
+}
+
 .paper-page {
     background: #ffffff;
     color: #1a252c;
@@ -316,6 +323,17 @@
         margin: 0 !important;
         width: 100% !important;
         display: block !important;
+    }
+
+    #resume-sheet-content {
+        display: block !important;
+        gap: 0 !important;
+    }
+
+    /* Force each page onto its own printed sheet */
+    .paper-page + .paper-page {
+        page-break-before: always;
+        break-before: page;
     }
 
     /* Style links to ensure PDF engines preserve them and they are visually clear */

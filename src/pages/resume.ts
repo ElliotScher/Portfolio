@@ -1,9 +1,29 @@
 import QRCode from "qrcode";
-import { getTopProjectsForResume } from "../utils/analytics";
+import { getRankedProjectsForResume, getFeaturedProjectForResume } from "../utils/analytics";
 
 // Project LaTeX raw imports
 import { projectTexMap, ProjectTexKey } from "../data/projects/projectTexMap";
 import { projects } from "../data/projects/projects";
+
+// The complete catalog of projects eligible for the Projects & Leadership
+// section (page 1's curated picks plus page 2's overflow), in display
+// order. Deliberately excludes:
+// - Incubator/"optical density" — see feedback memory: never surface that
+//   project in a resume.
+// - GompeiVision, WPICal, and Park Vision — each is always shown exclusively
+//   as part of its affiliated job entry in Experience (see
+//   `pairedJobForProject` below), never as its own standalone project entry.
+const ALL_CATALOG_PROJECT_KEYS: ProjectTexKey[] = [
+    ProjectTexKey.RobotArm,
+    ProjectTexKey.RobotNavigation,
+    ProjectTexKey.RosPlatform,
+    ProjectTexKey.GompeiLib,
+    ProjectTexKey.Kitbot,
+    ProjectTexKey.FirstMentor,
+    ProjectTexKey.SoftwareKnowledgeBase,
+    ProjectTexKey.Rbe1001,
+    ProjectTexKey.NixHub
+];
 
 // Dynamically glob all modular resume LaTeX fragments
 const resumeTexFiles = import.meta.glob("../data/resume/resume/**/*.tex", {
@@ -53,9 +73,21 @@ interface ResumeConfig {
     contact: string[];
     education: string[];
     skills: string[];
+    // Jobs only. Each entry is either a bare job key (resume/experience/*.tex)
+    // or a "jobKey@projectKey" pairing that renders the job's org/title/dates
+    // as the heading with the project's bullets underneath — i.e. a project
+    // built as part of that job. A paired project never gets its own entry
+    // in `projects` below.
     experience: string[];
+    // Non-job projects only, for the Projects & Leadership section.
     projects: string[];
+    // Must be a plain, non-job-affiliated project key (see `projects` above)
+    // — never a job or a job@project pairing.
+    featured: string | null;
 }
+
+const LIST_KEYS = ["contact", "education", "skills", "experience", "projects"] as const;
+type ResumeListKey = typeof LIST_KEYS[number];
 
 export function parseYaml(yamlText: string): ResumeConfig {
     const lines = yamlText.split("\n");
@@ -64,9 +96,10 @@ export function parseYaml(yamlText: string): ResumeConfig {
         education: [],
         skills: [],
         experience: [],
-        projects: []
+        projects: [],
+        featured: null
     };
-    let currentKey: keyof ResumeConfig | null = null;
+    let currentKey: ResumeListKey | null = null;
 
     for (let line of lines) {
         // Strip comments
@@ -77,10 +110,18 @@ export function parseYaml(yamlText: string): ResumeConfig {
         line = line.trim();
         if (!line) continue;
 
+        // Scalar "key: value" lines (currently just featured)
+        const scalarMatch = line.match(/^([a-z_]+):\s*(.+)$/);
+        if (scalarMatch && scalarMatch[1] === "featured") {
+            config.featured = scalarMatch[2].trim();
+            currentKey = null;
+            continue;
+        }
+
         if (line.endsWith(":")) {
-            const key = line.slice(0, -1).trim() as keyof ResumeConfig;
-            if (["contact", "education", "skills", "experience", "projects"].includes(key)) {
-                currentKey = key;
+            const key = line.slice(0, -1).trim();
+            if ((LIST_KEYS as readonly string[]).includes(key)) {
+                currentKey = key as ResumeListKey;
             } else {
                 currentKey = null;
             }
@@ -194,7 +235,7 @@ export function renderResume(queryParams?: Record<string, string>): HTMLElement 
         const configYaml = configName ? getConfigYaml(configName) : null;
         const activeConfig: ResumeConfig | null = configYaml ? parseYaml(configYaml) : null;
 
-        const topProjects = getTopProjectsForResume();
+        const rankedProjects = getRankedProjectsForResume();
 
         // Contact
         const contactType = activeConfig ? activeConfig.contact[0] : "redacted";
@@ -234,21 +275,51 @@ export function renderResume(queryParams?: Record<string, string>): HTMLElement 
             return `<div class="skill-line">${formatted}</div>`;
         }).join("\n");
 
-        // Parse experience
-        const experienceKeys = activeConfig ? activeConfig.experience : ["wpi_rrc", "private_contract", "first_hq", "stem_for_kids"];
-        const experienceHtml = experienceKeys.map(key => {
-            const tex = getTexContent("experience", key);
-            return tex ? `<div class="resume-item">${parseTexToHtml(tex)}</div>` : "";
-        }).join("\n");
+        // Experience: jobs only. Each entry is a bare job key, or a
+        // "jobKey@projectKey" pairing — a project built as part of that job,
+        // rendered under the job's own heading with the project's bullets
+        // (and the project's name promoted into the job's bold org line, so
+        // it's prominent without getting its own separate entry anywhere).
+        const splitTexHeaderAndBullets = (tex: string): { header: string; bullets: string } => {
+            const idx = tex.indexOf("\\begin{itemize}");
+            if (idx === -1) return { header: tex.trim(), bullets: "" };
+            return { header: tex.slice(0, idx).trim(), bullets: tex.slice(idx).trim() };
+        };
 
-        // Parse projects
-        const projectsList = activeConfig ? activeConfig.projects : topProjects;
-        const projectsHtml = projectsList.map(key => {
-            const tex = projectTexMap[key as ProjectTexKey];
+        const withProjectNameInOrgLine = (header: string, projectKey: string): string => {
+            const projectName = projects.find(p => p.resumeTexFile === projectKey)?.title;
+            if (!projectName) return header;
+            return header.replace(/\\textbf\{([^}]*)\}/, (_match, org) => `\\textbf{${org} — ${projectName}}`);
+        };
+
+        const renderJobEntry = (entry: string): string => {
+            const [jobKey, projectKey] = entry.includes("@")
+                ? entry.split("@").map(s => s.trim())
+                : [entry, null];
+
+            const jobTex = getTexContent("experience", jobKey);
+            if (!jobTex) return "";
+
+            if (projectKey) {
+                const projectTex = projectTexMap[projectKey as ProjectTexKey];
+                if (projectTex) {
+                    const { header } = splitTexHeaderAndBullets(jobTex);
+                    const { bullets } = splitTexHeaderAndBullets(projectTex);
+                    const namedHeader = withProjectNameInOrgLine(header, projectKey);
+                    return `<div class="resume-item">${parseTexToHtml(`${namedHeader}\n${bullets}`)}</div>`;
+                }
+            }
+
+            return `<div class="resume-item">${parseTexToHtml(jobTex)}</div>`;
+        };
+
+        // Projects & Leadership: non-job projects only. A single featured
+        // project is highlighted above Experience; a few more relevant ones
+        // follow it on page 1; the rest of the catalog spills onto page 2.
+        const renderProjectEntry = (projectKey: string): string => {
+            const tex = projectTexMap[projectKey as ProjectTexKey];
             if (!tex) return "";
-            const parsed = parseTexToHtml(tex);
-
-            const matchedProject = projects.find(p => p.resumeTexFile === key);
+            const matchedProject = projects.find(p => p.resumeTexFile === projectKey);
             const url = matchedProject
                 ? `https://elliotscher.net/#/projects/${matchedProject.id}`
                 : "https://elliotscher.net";
@@ -256,7 +327,7 @@ export function renderResume(queryParams?: Record<string, string>): HTMLElement 
             return `
                 <div class="resume-item project-item-layout">
                     <div class="project-item-left-pane">
-                        ${parsed}
+                        ${parseTexToHtml(tex)}
                     </div>
                     <div class="project-item-right-pane">
                         <a href="${url}" target="_blank" rel="noopener noreferrer" title="Click to view project details">
@@ -265,7 +336,69 @@ export function renderResume(queryParams?: Record<string, string>): HTMLElement 
                     </div>
                 </div>
             `;
-        }).join("\n");
+        };
+
+        // Reverse chronological: NPS (Summer 2026), WPI RRC & Private
+        // Contract (both Summer 2025), FIRST HQ (Summer 2024).
+        const defaultExperienceJobs = [
+            "nps_parkvision@parkvision",
+            "wpi_rrc@gompeivision",
+            "private_contract",
+            "first_hq@wpical"
+        ];
+
+        // Fixed 1:1 job/project pairings, used to convert an analytics-ranked
+        // bare project key (e.g. "gompeivision") into its paired form
+        // ("wpi_rrc@gompeivision") when it turns out to be the featured entry.
+        const pairedJobForProject: Partial<Record<string, string>> = {
+            [ProjectTexKey.GompeiVision]: "wpi_rrc",
+            [ProjectTexKey.WpiCal]: "first_hq",
+            [ProjectTexKey.ParkVision]: "nps_parkvision"
+        };
+        const entryForProjectKey = (projectKey: string): string => {
+            const jobKey = pairedJobForProject[projectKey];
+            return jobKey ? `${jobKey}@${projectKey}` : projectKey;
+        };
+
+        // The featured entry can be either a plain, non-job project or a
+        // "jobKey@projectKey" pairing (e.g. featuring GompeiVision surfaces
+        // its WPI Robotics Resource Center job, prominently, up top). Either
+        // way it's removed from wherever it'd otherwise appear — the
+        // Experience list stays reverse chronological for everyone else, and
+        // the Projects & Leadership picks stay deduplicated.
+        const featuredEntry = activeConfig
+            ? (activeConfig.featured ?? "wpi_rrc@gompeivision")
+            : entryForProjectKey(getFeaturedProjectForResume());
+
+        const featuredIsJob = featuredEntry.includes("@") || !!getTexContent("experience", featuredEntry);
+        const featuredProjectKey = featuredIsJob
+            ? (featuredEntry.includes("@") ? featuredEntry.split("@")[1]?.trim() ?? null : null)
+            : featuredEntry;
+
+        const experienceEntries = (activeConfig ? activeConfig.experience : defaultExperienceJobs)
+            .filter(entry => entry !== featuredEntry);
+        const experienceHtml = experienceEntries.map(renderJobEntry).join("\n");
+
+        // Page 1 gets a handful of projects; the rest overflow to page 2. For
+        // a static config that's its curated picks vs. the full catalog; for
+        // the live default view it's analytics-ranked instead (2nd-most-
+        // viewed project onward, already excluding the featured entry and
+        // any job-affiliated project), split the same way.
+        const PAGE1_PROJECT_COUNT = 3;
+        const page1OtherProjectKeys = activeConfig
+            ? activeConfig.projects.filter(key => key !== featuredProjectKey)
+            : rankedProjects.slice(0, PAGE1_PROJECT_COUNT);
+
+        const page2Keys = activeConfig
+            ? (() => {
+                const used = new Set([featuredProjectKey, ...page1OtherProjectKeys]);
+                return ALL_CATALOG_PROJECT_KEYS.filter(key => !used.has(key));
+            })()
+            : rankedProjects.slice(PAGE1_PROJECT_COUNT);
+
+        const featuredHtml = featuredIsJob ? renderJobEntry(featuredEntry) : renderProjectEntry(featuredEntry);
+        const page1ProjectsHtml = page1OtherProjectKeys.map(renderProjectEntry).join("\n");
+        const page2Html = page2Keys.map(renderProjectEntry).join("\n");
 
         return `
             <div class="paper-page">
@@ -318,6 +451,12 @@ export function renderResume(queryParams?: Record<string, string>): HTMLElement 
                     </div>
 
                     <div class="resume-section">
+                        <h2 class="resume-section-title">Featured Project</h2>
+                        <div class="resume-section-divider"></div>
+                        ${featuredHtml}
+                    </div>
+
+                    <div class="resume-section">
                         <h2 class="resume-section-title">Experience</h2>
                         <div class="resume-section-divider"></div>
                         ${experienceHtml}
@@ -326,7 +465,17 @@ export function renderResume(queryParams?: Record<string, string>): HTMLElement 
                     <div class="resume-section">
                         <h2 class="resume-section-title">Projects & Leadership</h2>
                         <div class="resume-section-divider"></div>
-                        ${projectsHtml}
+                        ${page1ProjectsHtml}
+                    </div>
+                </div>
+            </div>
+
+            <div class="paper-page">
+                <div class="resume-content-wrapper">
+                    <div class="resume-section">
+                        <h2 class="resume-section-title">Projects & Leadership (cont.)</h2>
+                        <div class="resume-section-divider"></div>
+                        ${page2Html}
                     </div>
                 </div>
             </div>
@@ -375,19 +524,13 @@ export function renderResume(queryParams?: Record<string, string>): HTMLElement 
         }
     });
 
-    // Handle print layout adjustments on the fly
-    const handleBeforePrint = () => {
-        const paperPage = page.querySelector(".paper-page") as HTMLElement;
-        const contentWrapper = page.querySelector(".resume-content-wrapper") as HTMLElement;
-        if (!paperPage || !contentWrapper) {
-            window.removeEventListener("beforeprint", handleBeforePrint);
-            window.removeEventListener("afterprint", handleAfterPrint);
-            return;
-        }
+    // Save/restore each page's original inline style across print, keyed by element
+    let originalPageStyles: Map<HTMLElement, string | null> | null = null;
 
-        // Save original style properties to restore later
-        (window as any)._originalResumeStyle = paperPage.getAttribute("style");
-
+    // Runs the single-page auto-fit binary search (shrink spacing/fonts until
+    // content fits one printed page) against one specific paper-page/content
+    // pair. Each page in a multi-page resume is fit independently.
+    const fitPageToOnePage = (paperPage: HTMLElement, contentWrapper: HTMLElement) => {
         // Optimal spacing t in [0, 2.0]
         // t = 0: normal/default spacing
         // t = 1.0: original maximum spacing compression
@@ -440,7 +583,12 @@ export function renderResume(queryParams?: Record<string, string>): HTMLElement 
             paperPage.style.setProperty("--project-qr-size", `${projectQrSize}in`);
         };
 
-        const targetHeight = 1048; // Leave a minor 8px safety buffer to prevent browser layout engine rounding pagination
+        // Leave extra headroom below the 1056px (11in) physical page height: the
+        // print/PDF rasterization pass measures slightly taller than this
+        // screen-mode offsetHeight pass (subpixel rounding compounding across many
+        // stacked project entries on a dense page), so a razor-thin buffer here
+        // can still spill a few trailing lines onto an extra page.
+        const targetHeight = 1010;
 
         // Step 1: Check if content fits with standard spacing (t = 0)
         applySpacing(0);
@@ -494,23 +642,39 @@ export function renderResume(queryParams?: Record<string, string>): HTMLElement 
         }
     };
 
-    const handleAfterPrint = () => {
-        const paperPage = page.querySelector(".paper-page") as HTMLElement;
-        if (!paperPage) {
+    const handleBeforePrint = () => {
+        const paperPages = Array.from(page.querySelectorAll(".paper-page")) as HTMLElement[];
+        if (paperPages.length === 0) {
             window.removeEventListener("beforeprint", handleBeforePrint);
             window.removeEventListener("afterprint", handleAfterPrint);
             return;
         }
 
-        const originalStyle = (window as any)._originalResumeStyle;
-        if (originalStyle !== undefined) {
+        originalPageStyles = new Map(paperPages.map(p => [p, p.getAttribute("style")]));
+
+        paperPages.forEach(paperPage => {
+            const contentWrapper = paperPage.querySelector(".resume-content-wrapper") as HTMLElement | null;
+            if (contentWrapper) {
+                fitPageToOnePage(paperPage, contentWrapper);
+            }
+        });
+    };
+
+    const handleAfterPrint = () => {
+        if (!originalPageStyles) {
+            window.removeEventListener("beforeprint", handleBeforePrint);
+            window.removeEventListener("afterprint", handleAfterPrint);
+            return;
+        }
+
+        originalPageStyles.forEach((originalStyle, paperPage) => {
             if (originalStyle !== null) {
                 paperPage.setAttribute("style", originalStyle);
             } else {
                 paperPage.removeAttribute("style");
             }
-            delete (window as any)._originalResumeStyle;
-        }
+        });
+        originalPageStyles = null;
     };
 
     if (typeof window !== "undefined" && typeof window.addEventListener === "function") {

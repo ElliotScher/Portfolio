@@ -121,6 +121,17 @@
     font-size: 1.05rem;
 }
 
+.future-additions-detail-content a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dashed transparent;
+    transition: border-bottom 0.2s ease;
+}
+
+.future-additions-detail-content a:hover {
+    border-bottom-color: var(--accent);
+}
+
 .future-additions-detail-content ul {
     margin-top: var(--space-1);
     margin-bottom: var(--space-2);

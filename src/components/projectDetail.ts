@@ -144,7 +144,6 @@ async function render(container: HTMLElement, project: Project) {
                     </div>
                 </div>
             </div>
-            <div id="project-nav-menu"></div>
         </div>
     `;
 
@@ -154,7 +153,6 @@ async function render(container: HTMLElement, project: Project) {
     });
 
     const contentContainer = container.querySelector("#project-projects-content");
-    const navMenuContainer = container.querySelector("#project-nav-menu");
 
     if (project.markdownFile) {
         try {
@@ -191,12 +189,6 @@ async function render(container: HTMLElement, project: Project) {
                         }
                     });
 
-                    // Extract headers and generate nav menu
-                    const headers = extractHeaders(htmlContent);
-                    if (navMenuContainer) {
-                        navMenuContainer.innerHTML = createNavMenu(headers);
-                    }
-
                     // Mount interactive components
                     if (contentContainer instanceof HTMLElement) {
                         mountInteractiveComponents(contentContainer, project);
@@ -228,43 +220,6 @@ async function render(container: HTMLElement, project: Project) {
             }
         }
     }
-}
-
-function extractHeaders(htmlContent: string): {level: number, text: string, id: string}[] {
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = htmlContent;
-    const headers: {level: number, text: string, id: string}[] = [];
-    tempDiv.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(header => {
-        headers.push({
-            level: parseInt(header.tagName.substring(1)),
-            text: header.textContent || '',
-            id: header.id
-        });
-    });
-    return headers;
-}
-
-function createNavMenu(headers: {level: number, text: string, id: string}[]): string {
-    if (headers.length === 0) {
-        return "";
-    }
-
-    const minLevel = headers.reduce((min, h) => Math.min(min, h.level), 6);
-
-    const navItems = headers.map(header => {
-        const indentation = (header.level - minLevel) * 1; // 1rem per level
-        return `
-        <li style="padding-left: ${indentation}rem;">
-            <a href="#${header.id}">${header.text}</a>
-        </li>
-    `}).join('');
-
-    return `
-        <div class="project-nav-menu-wrapper">
-            <h4>On this page</h4>
-            <ul>${navItems}</ul>
-        </div>
-    `;
 }
 
 function mountInteractiveComponents(container: HTMLElement, project: Project) {

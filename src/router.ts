@@ -36,15 +36,21 @@ function updateSidebarHighlight(page: HTMLElement) {
 
     sidebar.querySelectorAll("nav button").forEach(btn => btn.classList.remove("active"));
 
+    const isProjectsPage = !!page.querySelector(".projects-page-layout");
+
     if (page.classList.contains("home")) {
         sidebar.querySelector("#home-button")?.classList.add("active");
-    } else if (page.querySelector(".projects-page-layout")) {
+    } else if (isProjectsPage) {
         sidebar.querySelector("#projects-button")?.classList.add("active");
     } else if (page.classList.contains("page-about-me")) {
         sidebar.querySelector("#about-button")?.classList.add("active");
     } else if (page.classList.contains("resume-page")) {
         sidebar.querySelector("#resume-button")?.classList.add("active");
     }
+
+    // Collapse the main sidebar (photo + nav) on the Projects page so the
+    // project list/detail columns get more horizontal room.
+    document.querySelector(".layout")?.classList.toggle("sidebar-minimized", isProjectsPage);
 }
 
 export function initRouter() {

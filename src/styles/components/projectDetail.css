@@ -24,41 +24,17 @@
     backface-visibility: hidden;
 }
 
-#project-nav-menu {
-    width: 250px;
-    padding: var(--space-4) var(--space-3);
-    border-left: 1px solid var(--border);
-    overflow-y: auto;
-    flex-shrink: 0;
-}
-
-.project-nav-menu-wrapper h4 {
-    margin-top: 0;
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: var(--space-2);
-}
-
-.project-nav-menu-wrapper ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.project-nav-menu-wrapper li {
-    margin-bottom: var(--space-2);
-}
-
-.project-nav-menu-wrapper a {
-    text-decoration: none;
-    color: var(--muted);
-    font-size: 0.9rem;
-    transition: color 0.2s ease;
-}
-
-.project-nav-menu-wrapper a:hover {
+/* Markdown-rendered links otherwise fall back to the browser's default
+   blue, which doesn't contrast well against the dark theme background. */
+#project-projects-content a {
     color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dashed transparent;
+    transition: border-bottom 0.2s ease;
+}
+
+#project-projects-content a:hover {
+    border-bottom-color: var(--accent);
 }
 
 /* Title row and Github Button styles */
@@ -233,10 +209,6 @@
         background: var(--panel-2);
         border-color: var(--accent);
         color: var(--text);
-    }
-
-    #project-nav-menu {
-        display: none !important;
     }
 }
 

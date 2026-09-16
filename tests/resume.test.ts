@@ -56,20 +56,22 @@ skills:
   - cad
   - lab
 experience:
-  - wpi_rrc
+  - wpi_rrc@gompeivision
   - first_hq
 projects:
   - robot_arm
   - robot_navigation
+featured: robot_arm
         `;
 
         const config = parseYaml(mockYaml);
-        
+
         expect(config.contact).toEqual(["redacted"]);
         expect(config.education).toEqual(["wpi"]);
         expect(config.skills).toEqual(["software", "cad", "lab"]);
-        expect(config.experience).toEqual(["wpi_rrc", "first_hq"]);
+        expect(config.experience).toEqual(["wpi_rrc@gompeivision", "first_hq"]);
         expect(config.projects).toEqual(["robot_arm", "robot_navigation"]);
+        expect(config.featured).toBe("robot_arm");
     });
 
     it("should ignore comments and empty spaces", () => {

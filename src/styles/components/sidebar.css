@@ -6,6 +6,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    transition: width 0.25s ease, padding 0.25s ease;
+    overflow: hidden;
 }
 
 .sidebar-top {
@@ -28,6 +30,7 @@
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid var(--border);
+    transition: width 0.25s ease, height 0.25s ease;
 }
 
 .sidebar nav {
@@ -37,7 +40,11 @@
 }
 
 .sidebar button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     color: var(--muted);
+    white-space: nowrap;
 }
 
 .sidebar button:hover {
@@ -48,6 +55,45 @@
     background: var(--panel-2);
     color: var(--text);
     border: 1px solid rgba(46, 204, 113, 0.25);
+}
+
+.nav-icon {
+    flex-shrink: 0;
+}
+
+/* Sidebar collapses to an icon rail on the Projects page to give the
+   project list/detail columns more horizontal room. Desktop only — on
+   mobile the sidebar is an off-canvas drawer and should stay fully labeled. */
+@media (min-width: 1025px) {
+    .layout.sidebar-minimized .sidebar {
+        width: 68px;
+        padding: var(--space-3) var(--space-2);
+    }
+
+    .layout.sidebar-minimized .profile-photo {
+        width: 36px;
+        height: 36px;
+    }
+
+    .layout.sidebar-minimized .logo,
+    .layout.sidebar-minimized .nav-label {
+        display: none;
+    }
+
+    .layout.sidebar-minimized .sidebar-header {
+        margin-bottom: 0;
+    }
+
+    .layout.sidebar-minimized .sidebar button {
+        justify-content: center;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .layout.sidebar-minimized .sidebar-footer .contact-links {
+        justify-content: center;
+        gap: var(--space-2);
+    }
 }
 
 .sidebar-footer {

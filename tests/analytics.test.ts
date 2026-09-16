@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { recordProjectViewTime, getProjectViewTimes, getTopProjectsForResume, resetProjectViewTimes } from "../src/utils/analytics";
+import { recordProjectViewTime, getProjectViewTimes, getFeaturedProjectForResume, getRankedProjectsForResume, resetProjectViewTimes } from "../src/utils/analytics";
 import { ProjectTexKey } from "../src/data/projects/projectTexMap";
 
 describe("Analytics Module", () => {
@@ -34,32 +34,59 @@ describe("Analytics Module", () => {
         expect(times[ProjectTexKey.FirstMentor]).toBe(5000);
     });
 
-    it("should return the top projects sorted by view duration descending", () => {
-        // Set up durations: WpiCal = 20s, GompeiVision = 10s, GompeiLib = 5s
-        recordProjectViewTime("WPICal", 20000);
-        recordProjectViewTime("GompeiVision", 10000);
-        recordProjectViewTime("GompeiLib", 5000);
+    it("should default the featured project to GompeiVision when nothing is tracked", () => {
+        expect(getFeaturedProjectForResume()).toBe(ProjectTexKey.GompeiVision);
+    });
 
-        const top = getTopProjectsForResume();
-        expect(top).toEqual([
-            ProjectTexKey.WpiCal,
-            ProjectTexKey.GompeiVision,
-            ProjectTexKey.GompeiLib
+    it("should feature whichever project has the most view time, even if job-affiliated", () => {
+        recordProjectViewTime("ParkVision", 100000);
+        recordProjectViewTime("GompeiLib", 5000);
+        expect(getFeaturedProjectForResume()).toBe(ProjectTexKey.ParkVision);
+    });
+
+    it("should rank the remaining projects by view duration descending, excluding whichever is featured", () => {
+        // Set up durations: GompeiLib = 20s, NixHub = 10s, RBE3001 (RobotArm) = 5s.
+        // GompeiLib has the most view time, so it becomes the featured entry
+        // and is excluded from the ranked list — ranking starts at #2.
+        recordProjectViewTime("GompeiLib", 20000);
+        recordProjectViewTime("NixHub", 10000);
+        recordProjectViewTime("RBE3001", 5000);
+
+        expect(getFeaturedProjectForResume()).toBe(ProjectTexKey.GompeiLib);
+
+        const ranked = getRankedProjectsForResume();
+        expect(ranked).not.toContain(ProjectTexKey.GompeiLib);
+        expect(ranked.slice(0, 2)).toEqual([
+            ProjectTexKey.NixHub,
+            ProjectTexKey.RobotArm
         ]);
     });
 
-    it("should fall back to defaults if less than 3 projects are viewed", () => {
-        // View only GompeiLib (5s)
-        recordProjectViewTime("GompeiLib", 5000);
+    it("should never rank a job-affiliated project, whether or not it's featured", () => {
+        // GompeiVision becomes featured (most view time); WPICal and
+        // ParkVision are tracked but not featured — per the resume's rule,
+        // a job-affiliated project that isn't featured stays in Experience
+        // in reverse-chronological order, never entering the ranked list.
+        recordProjectViewTime("GompeiVision", 50000);
+        recordProjectViewTime("WPICal", 40000);
+        recordProjectViewTime("ParkVision", 30000);
+        recordProjectViewTime("NixHub", 1000);
 
-        const top = getTopProjectsForResume();
-        // Defaults: GompeiVision, WpiCal, FirstMentor.
-        // Since GompeiLib is the only viewed, it should be first, and the remaining 2 slots
-        // should be filled by defaults (preserving order: GompeiVision, WpiCal)
-        expect(top).toEqual([
-            ProjectTexKey.GompeiLib,
-            ProjectTexKey.GompeiVision,
-            ProjectTexKey.WpiCal
-        ]);
+        const ranked = getRankedProjectsForResume();
+        expect(ranked).not.toContain(ProjectTexKey.GompeiVision);
+        expect(ranked).not.toContain(ProjectTexKey.WpiCal);
+        expect(ranked).not.toContain(ProjectTexKey.ParkVision);
+        expect(ranked[0]).toBe(ProjectTexKey.NixHub);
+    });
+
+    it("should always sort portfolio-less resume fragments (Kitbot, Software Knowledge Base) last", () => {
+        recordProjectViewTime("NixHub", 1000);
+
+        const ranked = getRankedProjectsForResume();
+        const kitbotIndex = ranked.indexOf(ProjectTexKey.Kitbot);
+        const knowledgeBaseIndex = ranked.indexOf(ProjectTexKey.SoftwareKnowledgeBase);
+
+        expect(kitbotIndex).toBe(ranked.length - 2);
+        expect(knowledgeBaseIndex).toBe(ranked.length - 1);
     });
 });

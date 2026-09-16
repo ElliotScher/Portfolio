@@ -178,6 +178,17 @@
     margin-bottom: var(--space-2);
 }
 
+.process-detail-content a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dashed transparent;
+    transition: border-bottom 0.2s ease;
+}
+
+.process-detail-content a:hover {
+    border-bottom-color: var(--accent);
+}
+
 .process-detail-content h1 {
     font-size: 1.4rem;
     border-bottom: 1px solid var(--border);

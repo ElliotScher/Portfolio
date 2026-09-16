@@ -79,7 +79,7 @@ export const projects: Project[] = [
     },
     {
         id: "RBE3001",
-        title: "Robotic Arm",
+        title: "Robotic Arm Manipulation and Vision",
         summary: "4-dof robotic arm and vision system implemented in MATLAB",
         technologies: ["MATLAB", "Linux"],
         markdownFile: "../data/projects/rbe3001/RBE3001.md",
@@ -89,7 +89,7 @@ export const projects: Project[] = [
     },
     {
         id: "RBE3002",
-        title: "Robotic Navigation",
+        title: "Autonomous Mobile Robot Navigation",
         summary: "ROS-based SLAM, monte-carlo localization, and frontier exploration, and path planning for autonomous maze solving",
         technologies: ["Python", "ROS 2"],
         markdownFile: "../data/projects/rbe3002/RBE3002.md",
@@ -98,7 +98,7 @@ export const projects: Project[] = [
     },
     {
         id: "RBE300X",
-        title: "Generic Robotic Systems Framework",
+        title: "Robotics Systems Software Platform",
         summary: "ROS 2-inspired publish-subscribe architecture for distributed robotic software systems",
         technologies: ["Python", "Anaconda", "Pytest"],
         markdownFile: "../data/projects/rbe300x/RBE300X.md",
