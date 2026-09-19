@@ -52,17 +52,19 @@ function configGroup(configName) {
     return slashIndex === -1 ? null : configName.slice(0, slashIndex);
 }
 
-// Zips a set of files into outputPath, flattening their names (no directory
-// structure inside the archive).
-function zipFiles(files, outputPath) {
+// Zips a set of entries into outputPath. Each entry's `archivePath` controls
+// where it lands inside the archive, so callers can nest files into
+// subdirectories (e.g. "bostondynamics/Resume_Bostondynamics_Foo.pdf")
+// instead of flattening everything to the root.
+function zipFiles(entries, outputPath) {
     return new Promise((resolve, reject) => {
         const output = fs.createWriteStream(outputPath);
         const archive = archiver('zip', { zlib: { level: 9 } });
         output.on('close', resolve);
         archive.on('error', reject);
         archive.pipe(output);
-        for (const filePath of files) {
-            archive.file(filePath, { name: path.basename(filePath) });
+        for (const { filePath, archivePath } of entries) {
+            archive.file(filePath, { name: archivePath });
         }
         archive.finalize();
     });
@@ -128,10 +130,10 @@ async function run() {
     }
 
     // Assets staged here are what actually gets attached to the GitHub
-    // Release. GitHub Release assets are always a flat list (no folder
-    // structure), so configs that live in a configs/<company>/ subdirectory
-    // get bundled into one <company>.zip instead of being attached
-    // individually; top-level configs (full, redacted) are attached as-is.
+    // Release. Every generated resume is bundled into a single
+    // resumes.zip, organized into subdirectories that mirror the
+    // configs/<company>/ layout; top-level configs (full, redacted) sit at
+    // the zip's root.
     const releaseAssetsDir = path.join(__dirname, '../release-assets');
     fs.rmSync(releaseAssetsDir, { recursive: true, force: true });
     fs.mkdirSync(releaseAssetsDir, { recursive: true });
@@ -155,9 +157,9 @@ async function run() {
         const configs = configFiles.map(filePath => configNameFromFile(configsDir, filePath));
         console.log(`Discovered configs: ${configs.join(', ')}`);
 
-        // Groups PDF output paths by their configs/<company>/ subdirectory,
-        // so they can be zipped together for the release afterward.
-        const groupedOutputPaths = new Map();
+        // Every generated PDF's path within the final resumes.zip, so they
+        // can all be packaged together into one archive afterward.
+        const zipEntries = [];
 
         for (const config of configs) {
             const url = `http://localhost:${PORT}/#/resume?config=${encodeURIComponent(config)}`;
@@ -200,23 +202,16 @@ async function run() {
             fs.copyFileSync(outputPath, publicPath);
             console.log(`Copied PDF to ${publicPath}`);
 
+            // Top-level configs (e.g. full, redacted) sit at the zip's root;
+            // configs/<company>/ configs nest under a matching subdirectory.
             const group = configGroup(config);
-            if (group === null) {
-                // Top-level config (e.g. full, redacted): attach as-is.
-                fs.copyFileSync(outputPath, path.join(releaseAssetsDir, pdfName));
-            } else {
-                if (!groupedOutputPaths.has(group)) {
-                    groupedOutputPaths.set(group, []);
-                }
-                groupedOutputPaths.get(group).push(outputPath);
-            }
+            const archivePath = group === null ? pdfName : `${group}/${pdfName}`;
+            zipEntries.push({ filePath: outputPath, archivePath });
         }
 
-        for (const [group, paths] of groupedOutputPaths) {
-            const zipPath = path.join(releaseAssetsDir, `${group}.zip`);
-            console.log(`Packaging ${paths.length} resume(s) for ${group} into ${zipPath}...`);
-            await zipFiles(paths, zipPath);
-        }
+        const zipPath = path.join(releaseAssetsDir, 'resumes.zip');
+        console.log(`Packaging ${zipEntries.length} resume(s) into ${zipPath}...`);
+        await zipFiles(zipEntries, zipPath);
 
     } catch (err) {
         console.error('Error during PDF generation:', err);
