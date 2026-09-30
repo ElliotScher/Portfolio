@@ -1,0 +1,17 @@
+contact:
+  - full
+education:
+  - wpi
+skills:
+  - software
+  - agents
+  - cad
+  - lab
+experience:
+  - nps_parkvision@parkvision
+  - wpi_rrc@gompeivision
+  - private_contract
+  - first_hq@wpical
+projects:
+  - ros_platform
+featured: nps_parkvision@parkvision
