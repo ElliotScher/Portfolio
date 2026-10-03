@@ -52,8 +52,8 @@
 }
 
 .resume-header .btn-primary:hover {
-    background: #27ae60;
-    border-color: #27ae60;
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
     transform: translateY(-1px);
 }
 

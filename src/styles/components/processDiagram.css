@@ -77,7 +77,7 @@
     border-color: var(--accent);
     color: var(--text);
     transform: scale(1.1);
-    box-shadow: 0 0 12px rgba(46, 204, 113, 0.3);
+    box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.3);
 }
 
 .step-node:hover .step-label {
@@ -87,9 +87,9 @@
 .step-node.active .step-badge {
     background: var(--accent);
     border-color: var(--accent);
-    color: #07130c; /* High contrast text */
+    color: var(--on-accent);
     transform: scale(1.15);
-    box-shadow: 0 0 15px rgba(46, 204, 113, 0.5);
+    box-shadow: 0 0 15px rgba(var(--accent-rgb), 0.5);
 }
 
 .step-node.active .step-label {
@@ -151,8 +151,8 @@
 }
 
 .process-detail-card:hover {
-    border-color: rgba(46, 204, 113, 0.35);
-    box-shadow: 0 6px 24px rgba(46, 204, 113, 0.05);
+    border-color: rgba(var(--accent-rgb), 0.35);
+    box-shadow: 0 6px 24px rgba(var(--accent-rgb), 0.05);
 }
 
 /* Transition Area */
@@ -282,7 +282,7 @@
 
     .step-connector.active {
         background: var(--accent);
-        box-shadow: 0 0 8px rgba(46, 204, 113, 0.4);
+        box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.4);
     }
 
     /* Hide the SVG arrows inside vertical connectors since we use solid lines */
@@ -348,7 +348,7 @@
 .project-process-diagram.stacked-layout .step-connector.active,
 #gompei-vision-process-diagram.stacked-layout .step-connector.active {
     background: var(--accent);
-    box-shadow: 0 0 8px rgba(46, 204, 113, 0.4);
+    box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.4);
 }
 
 /* Hide the SVG arrows inside vertical connectors since we use solid lines */

@@ -44,7 +44,7 @@
 .menu-btn.active {
     color: var(--accent);
     font-weight: 700;
-    background: rgba(46, 204, 113, 0.04);
+    background: rgba(var(--accent-rgb), 0.04);
     border-left-color: var(--accent);
     transform: translateX(8px);
 }
@@ -87,8 +87,8 @@
 }
 
 .future-additions-content-card:hover {
-    border-color: rgba(46, 204, 113, 0.2);
-    box-shadow: 0 6px 24px rgba(46, 204, 113, 0.05);
+    border-color: rgba(var(--accent-rgb), 0.2);
+    box-shadow: 0 6px 24px rgba(var(--accent-rgb), 0.05);
 }
 
 .future-additions-detail-content {
@@ -176,7 +176,7 @@
 .future-additions-split-layout.stacked-layout .menu-btn.active {
     transform: none;
     border-color: var(--accent);
-    background: rgba(46, 204, 113, 0.08);
+    background: rgba(var(--accent-rgb), 0.08);
 }
 
 .future-additions-split-layout.stacked-layout .future-additions-content-card {

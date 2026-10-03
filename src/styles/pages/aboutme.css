@@ -83,13 +83,13 @@
 /* FIRST Context Panel */
 .first-context-panel {
     background: linear-gradient(135deg, var(--panel), #1a3322);
-    border: 1px solid rgba(46, 204, 113, 0.25);
+    border: 1px solid rgba(var(--accent-rgb), 0.25);
     border-radius: var(--radius);
     padding: var(--space-3);
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-4);
-    box-shadow: 0 4px 20px rgba(46, 204, 113, 0.05);
+    box-shadow: 0 4px 20px rgba(var(--accent-rgb), 0.05);
 }
 
 .first-column {
@@ -136,7 +136,7 @@
 
 .first-info-card:hover {
     transform: translateY(-4px);
-    border-color: rgba(46, 204, 113, 0.4);
+    border-color: rgba(var(--accent-rgb), 0.4);
 }
 
 .first-info-card-header {

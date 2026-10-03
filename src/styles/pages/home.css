@@ -58,14 +58,14 @@
 
 .hero-badge {
     display: inline-block;
-    background: rgba(46, 204, 113, 0.1);
+    background: rgba(var(--accent-rgb), 0.1);
     color: var(--accent);
     padding: 8px 18px;
     border-radius: 24px;
     font-size: 16px;
     font-weight: 600;
     margin-bottom: var(--space-3);
-    border: 1px solid rgba(46, 204, 113, 0.2);
+    border: 1px solid rgba(var(--accent-rgb), 0.2);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -92,7 +92,7 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(46, 204, 113, 0.05) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(var(--accent-rgb), 0.05) 0%, transparent 60%);
     pointer-events: none;
 }
 

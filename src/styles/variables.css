@@ -1,14 +1,27 @@
 :root {
-    --bg: #1c261f;        /* lighter near-black green tint */
-    --panel: #243028;     /* elevated surface */
-    --panel-2: #2d3b31;   /* hover / secondary */
+    --bg: #141619;        /* cool neutral graphite */
+    --panel: #1b1e22;     /* elevated surface */
+    --panel-end: #181a1e; /* sidebar / header gradient end */
+    --panel-2: #24282e;   /* hover / secondary */
 
-    --text: #e6eee8;      /* slightly greener white */
-    --muted: #a3b8aa;     /* lighter muted */
+    /* RGB channels for translucent surfaces: rgba(var(--panel-rgb), 0.8) */
+    --bg-rgb: 20, 22, 25;
+    --panel-rgb: 27, 30, 34;
+    --panel-2-rgb: 36, 40, 46;
 
-    --accent: #2ecc71;    /* main green accent */
+    --text: #e8eaed;      /* neutral off-white */
+    --muted: #9ba1aa;     /* neutral grey */
 
-    --border: rgba(46, 204, 113, 0.2); /* slightly more visible border */
+    --accent: #3ddc84;    /* signal green accent */
+    --accent-hover: #2fc472;
+    --accent-rgb: 61, 220, 132;
+    --on-accent: #06140c; /* text on accent backgrounds */
+    --code: #8ee6b1;      /* inline code text */
+
+    --media-bg: #0e0f11;  /* letterbox behind images / video */
+
+    --border: rgba(255, 255, 255, 0.08);       /* neutral hairline */
+    --border-strong: rgba(61, 220, 132, 0.35); /* accent-tinted, for active states */
 
     --radius: 10px;
 

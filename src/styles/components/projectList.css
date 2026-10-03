@@ -130,7 +130,7 @@
     background: var(--panel-2);
     border-color: var(--accent);
     transform: scale(1.08);
-    box-shadow: 0 4px 16px rgba(46, 204, 113, 0.25);
+    box-shadow: 0 4px 16px rgba(var(--accent-rgb), 0.25);
 }
 
 .project-sidebar-toggle svg {

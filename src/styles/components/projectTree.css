@@ -61,7 +61,7 @@
 }
 
 .tree-node-row.active {
-    background: rgba(46, 204, 113, 0.15);
+    background: rgba(var(--accent-rgb), 0.15);
     border-left: 2px solid var(--accent);
     color: var(--accent);
     padding-left: calc(var(--space-1) - 2px);

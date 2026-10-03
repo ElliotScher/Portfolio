@@ -40,7 +40,7 @@
         justify-content: space-between;
         height: 60px;
         padding: 0 var(--space-3);
-        background: linear-gradient(135deg, var(--panel), #202b23);
+        background: linear-gradient(135deg, var(--panel), var(--panel-end));
         border-bottom: 1px solid var(--border);
         flex-shrink: 0;
         z-index: 100;

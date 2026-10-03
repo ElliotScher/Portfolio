@@ -20,7 +20,7 @@
     justify-content: center;
     padding: var(--space-4);
     position: relative;
-    background: radial-gradient(circle at center, rgba(46, 204, 113, 0.05) 0%, transparent 70%);
+    background: radial-gradient(circle at center, rgba(var(--accent-rgb), 0.05) 0%, transparent 70%);
     flex-shrink: 0;
 }
 
@@ -43,7 +43,7 @@
 }
 
 .tech-stack-ref-circle {
-    stroke: rgba(46, 204, 113, 0.15);
+    stroke: rgba(var(--accent-rgb), 0.15);
     stroke-width: 1px;
     stroke-dasharray: 4, 4;
     animation: tech-dash-slow 20s linear infinite;
@@ -51,17 +51,17 @@
 }
 
 .tech-stack-polygon {
-    stroke: rgba(46, 204, 113, 0.4);
+    stroke: rgba(var(--accent-rgb), 0.4);
     stroke-width: 2px;
     fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
-    filter: drop-shadow(0 0 4px rgba(46, 204, 113, 0.2));
+    filter: drop-shadow(0 0 4px rgba(var(--accent-rgb), 0.2));
     transition: stroke 0.3s ease, stroke-width 0.3s ease;
 }
 
 .tech-stack-center-line {
-    stroke: rgba(46, 204, 113, 0.08);
+    stroke: rgba(var(--accent-rgb), 0.08);
     stroke-width: 1px;
     stroke-dasharray: 2, 2;
     fill: none;
@@ -82,7 +82,7 @@
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    background: rgba(36, 48, 40, 0.9);
+    background: rgba(var(--panel-rgb), 0.9);
     border: 1px solid var(--border);
     display: flex;
     align-items: center;
@@ -135,8 +135,8 @@
 .tech-circle:hover {
     transform: scale(calc(var(--base-scale, 1) * 1.15)) translateZ(0);
     border-color: var(--accent);
-    box-shadow: 0 0 16px rgba(46, 204, 113, 0.4);
-    background: rgba(45, 60, 50, 0.95);
+    box-shadow: 0 0 16px rgba(var(--accent-rgb), 0.4);
+    background: rgba(var(--panel-2-rgb), 0.95);
 }
 
 .tech-circle:hover .tech-circle-icon {
@@ -152,9 +152,9 @@
 /* Active circle highlight */
 .tech-circle.active {
     transform: scale(calc(var(--base-scale, 1) * 1.15)) translateZ(0);
-    background: rgba(46, 204, 113, 0.15);
+    background: rgba(var(--accent-rgb), 0.15);
     border-color: var(--accent);
-    box-shadow: 0 0 24px rgba(46, 204, 113, 0.6), inset 0 0 8px rgba(46, 204, 113, 0.2);
+    box-shadow: 0 0 24px rgba(var(--accent-rgb), 0.6), inset 0 0 8px rgba(var(--accent-rgb), 0.2);
 }
 
 .tech-circle.active .tech-circle-icon {
@@ -187,7 +187,7 @@
 .center-tech-name.active {
     color: var(--accent);
     opacity: 1;
-    text-shadow: 0 0 8px rgba(46, 204, 113, 0.3);
+    text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.3);
 }
 
 /* Tech Stack Detail Pane */
@@ -199,7 +199,7 @@
     overflow-x: hidden;
     word-break: break-word;
     min-width: 260px; /* Safeguard to prevent squishing text in row mode */
-    background: rgba(28, 38, 31, 0.2);
+    background: rgba(var(--bg-rgb), 0.2);
     display: flex;
     flex-direction: column;
 }
@@ -302,5 +302,5 @@
 .tech-stack-widget.floating-mode .tech-stack-wheel-pane {
     width: 440px;
     padding: var(--space-2);
-    background: radial-gradient(circle at center, rgba(46, 204, 113, 0.04) 0%, transparent 75%);
+    background: radial-gradient(circle at center, rgba(var(--accent-rgb), 0.04) 0%, transparent 75%);
 }
