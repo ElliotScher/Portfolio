@@ -13,5 +13,6 @@ experience:
   - private_contract
   - first_hq@wpical
 projects:
+  - bomberman_ai
   - robot_navigation
 featured: ros_platform

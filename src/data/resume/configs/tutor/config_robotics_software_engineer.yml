@@ -13,6 +13,6 @@ experience:
   - private_contract
   - first_hq@wpical
 projects:
-  - kitbot
+  - robotic_grasping
   - ros_platform
 featured: wpi_rrc@gompeivision

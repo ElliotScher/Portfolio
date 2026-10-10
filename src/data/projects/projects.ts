@@ -14,6 +14,8 @@ import { parkVisionAdditionsData } from "./parkvision/parkVisionAdditions.ts";
 import { parkVisionProcessData } from "./parkvision/parkVisionProcess.ts";
 import { parkVisionMedia } from "./parkvision/parkVisionMedia.ts";
 import { rbe3001Media } from "./rbe3001/rbe3001Media.ts";
+import { rbe4540Media } from "./rbe4540/rbe4540Media.ts";
+import { rbe4701Media } from "./rbe4701/rbe4701Media.ts";
 import { frc2025Media } from "./frc190-common/frc2025/frc2025Media.ts";
 import { frc2024Media } from "./frc190-common/frc2024/frc2024Media.ts";
 import { rbe1001Media } from "./rbe1001/rbe1001Media.ts";
@@ -103,6 +105,28 @@ export const projects: Project[] = [
         technologies: ["Python", "Anaconda", "Pytest"],
         markdownFile: "../data/projects/rbe300x/RBE300X.md",
         resumeTexFile: ProjectTexKey.RosPlatform,
+        teamProject: true,
+    },
+    {
+        id: "RBE4540",
+        title: "Vision-Based Robotic Grasping",
+        summary: "Multi-view point cloud perception and analytic grasp synthesis for autonomous pick-up on a Kinova Gen3 lite arm",
+        technologies: ["C++", "Python", "ROS 2", "CMake", "Linux"],
+        markdownFile: "../data/projects/rbe4540/RBE4540.md",
+        resumeTexFile: ProjectTexKey.RoboticGrasping,
+        githubUrl: "https://github.com/ElliotScher/WPI-RBE-4540",
+        mediaData: rbe4540Media,
+        teamProject: true,
+    },
+    {
+        id: "RBE4701",
+        title: "Bomberman AI: Planning & Reinforcement Learning",
+        summary: "Game-playing agents using A*, MDP value iteration, and approximate Q-learning to escape monsters and bomb through walls",
+        technologies: ["Python", "Pytest", "GitHub Actions"],
+        markdownFile: "../data/projects/rbe4701/RBE4701.md",
+        resumeTexFile: ProjectTexKey.BombermanAi,
+        githubUrl: "https://github.com/ElliotScher/WPI-RBE-4701",
+        mediaData: rbe4701Media,
         teamProject: true,
     },
     {

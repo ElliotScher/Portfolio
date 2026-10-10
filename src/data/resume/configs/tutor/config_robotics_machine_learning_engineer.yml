@@ -13,6 +13,6 @@ experience:
   - private_contract
   - first_hq@wpical
 projects:
-  - robot_navigation
-  - nixhub
+  - robotic_grasping
+  - bomberman_ai
 featured: nps_parkvision@parkvision

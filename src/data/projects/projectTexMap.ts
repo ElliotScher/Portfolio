@@ -5,6 +5,8 @@ import wpicalTex from "./wpical/wpical.tex?raw";
 import rbe1001Tex from "./rbe1001/rbe1001.tex?raw";
 import robotArmTex from "./rbe3001/robot_arm.tex?raw";
 import robotNavigationTex from "./rbe3002/robot_navigation.tex?raw";
+import roboticGraspingTex from "./rbe4540/robotic_grasping.tex?raw";
+import bombermanAiTex from "./rbe4701/bomberman_ai.tex?raw";
 import rosPlatformTex from "./rbe300x/ros_platform.tex?raw";
 import firstMentorTex from "./frc190-common/first_mentor.tex?raw";
 import kitbotTex from "./kitbot2025/kitbot.tex?raw";
@@ -20,6 +22,8 @@ export const ProjectTexKey = {
     Rbe1001: "rbe1001",
     RobotArm: "robot_arm",
     RobotNavigation: "robot_navigation",
+    RoboticGrasping: "robotic_grasping",
+    BombermanAi: "bomberman_ai",
     RosPlatform: "ros_platform",
     FirstMentor: "first_mentor",
     Kitbot: "kitbot",
@@ -38,6 +42,8 @@ export const projectTexMap: Record<ProjectTexKey, string> = {
     [ProjectTexKey.Rbe1001]: rbe1001Tex,
     [ProjectTexKey.RobotArm]: robotArmTex,
     [ProjectTexKey.RobotNavigation]: robotNavigationTex,
+    [ProjectTexKey.RoboticGrasping]: roboticGraspingTex,
+    [ProjectTexKey.BombermanAi]: bombermanAiTex,
     [ProjectTexKey.RosPlatform]: rosPlatformTex,
     [ProjectTexKey.FirstMentor]: firstMentorTex,
     [ProjectTexKey.Kitbot]: kitbotTex,

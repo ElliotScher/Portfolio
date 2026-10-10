@@ -13,5 +13,6 @@ experience:
   - private_contract
   - first_hq@wpical
 projects:
+  - robotic_grasping
   - robot_navigation
 featured: ros_platform
